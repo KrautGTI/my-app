@@ -1,0 +1,272 @@
+/* 
+* Borders 
+*/
+.s-border {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #4FBFE0;
+}
+
+.m-border {
+    border-style: solid;
+    border-width: 3px;
+    border-color: #4FBFE0;
+}
+
+.l-border {
+    border-style: solid;
+    border-width: 5px;
+    border-color: #4FBFE0;
+}
+
+.left-border {
+    border-left: 6px solid #4FBFE0;
+    padding: 10px 0px 10px 5px;
+}
+
+
+.border-green {
+    border: 5px solid #33CC00;
+    border-radius: 500px;
+    -webkit-border-radius: 500px;
+    -moz-border-radius: 500px;
+}
+
+/* 
+* Display 
+*/
+.display-block {
+    display: block;
+}
+.display-inline-block {
+    display: inline-block;
+}
+.display-inline {
+    display: inline;
+}
+.hide {
+    display: none;
+}
+
+/* 
+* Overflow 
+*/
+.overflow-div {
+    overflow-x:auto;
+}
+.clearfix {
+    overflow: auto;
+}
+.overflow-hidden {
+    overflow: hidden;
+}
+
+/*
+* Background colors 
+*/
+.background-xxlight-blue {
+    background: #DCF2F9
+}
+
+.background-xlight-blue {
+    background: #B9E5F3
+}
+
+.background-light-blue {
+    background: #72CCE6
+}
+
+.background-blue {
+    background: #4FBFE0
+}
+
+.background-white {
+    background: white
+}
+
+/* 
+* Table 
+*/
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table caption {
+    font-size: 1.5em;
+    font-weight: bolder;
+    margin: .5em 0 .75em;
+    color: #4FBFE0;
+    text-align: left;
+}
+
+.price {
+    text-align: right;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #D6D6D6;
+}
+
+thead {
+ background-color: #72CCE6;
+ color: white;
+}
+
+tbody tr:hover {
+    background-color:#DCF2F9;
+}
+
+/* 
+* Card 
+*/
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 100%;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+@media screen and (min-width: 901px) {
+    .card {
+        padding: 2%;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .card {
+        padding: 5%;
+    }
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/*  
+* Misc css classes manipulating objects and accessibility 
+*/
+/* *:focus {
+    outline: #FDBB30 dotted 1px !important;
+}
+
+*::-moz-focus-inner { 
+    outline: #FDBB30 dotted 1px !important;
+}  */
+
+
+/*  
+* Alert message box 
+*/
+.danger-alert {
+    padding: 10px;
+    background-color: #FA3C57; /* Red */
+    color: white;
+    margin-bottom: 15px;
+  }
+  
+  /* The close button */
+  .close-btn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  /* When moving the mouse over the close button */
+  .closebtn:hover {
+    color: black;
+  }
+
+
+/*
+*  Scroll bar
+*/
+ .scrollbar {
+     margin-left: 30px;
+     float: left;
+     background: #F5F5F5;
+     overflow-y: scroll;
+     margin-bottom: 25px;
+ }
+
+#skinny-scroll::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #DCF2F9;
+}
+
+#skinny-scroll::-webkit-scrollbar {
+	width: 6px;
+	background-color: #DCF2F9;
+}
+
+#skinny-scroll::-webkit-scrollbar-thumb {
+	background-color: #4FBFE0;
+}
+
+/* 
+* Hover
+*/
+.hover:hover {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #FDBB30;
+    cursor: pointer;
+}
+/* Hover for extra */
+.extra { 
+    display: none;
+    margin-bottom: 5px;
+}
+
+.hover-for-extra:hover .extra {
+    display: block;
+}
+
+/* 
+* Misc 
+*/
+.strong-blur {
+    filter: blur(6px);
+}
+
+.rounded {
+    border-radius: 50%;
+}  
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+hr {
+    height: 1px;
+    background-color: #D6D6D6 !important;
+    border: 0 none;
+    color: #D6D6D6;
+}
+
+.recaptcha {
+    max-width: 304px;
+    margin: 0 auto;
+}
+
+.content-none { 
+    content: none;
+}
+
+
+
+
+
+
+
+ 
+
+

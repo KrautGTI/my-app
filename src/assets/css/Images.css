@@ -1,0 +1,72 @@
+/* 
+* Pixel sizing 
+*/
+img.xsmall {
+    width: 100%;
+    height: auto;
+    max-width: 50px;
+    padding: 5px;
+}
+
+img.small {
+    width: 100%;
+    height: auto;
+    max-width: 100px;
+}
+
+img.medium {
+    width: 100%;
+    height: auto;
+    max-width: 150px;
+    padding: 5px;
+}
+
+img.large {
+    width: 100%;
+    height: auto;
+    max-width: 300px;
+    padding: 5px;
+}
+
+img.xlarge {
+    width: 100%;
+    height: auto;
+    max-width: 450px;
+    padding: 5px;
+}
+
+img.xxlarge {
+    width: 100%;
+    height: auto;
+    max-width: 550px;
+}
+
+/* 
+* em sizing
+*/
+img.xs-em {
+    height: 0.75em;
+}
+img.s-em {
+    height: 1em;
+}
+
+img.m-em {
+    height: 1.25em;
+}
+
+img.l-em {
+    height: 1.75em;
+}
+
+img.xl-em {
+    height: 2em;
+}
+
+/* 
+* Misc 
+*/
+.responsive {
+    max-width: 100%;
+    height: auto;
+}

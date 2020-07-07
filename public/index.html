@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- TODO: update color -->
+    <meta name="theme-color" content="#000000" />
+
+    <!-- TODO: update names and descriptions (keep description below 160 char) -->
+    <title>Doug's React Boiler</title>
+    <meta
+      name="description"
+      content="Doug's React Boiler is a boilerplate React.js library that is packed with Doug's base CSS library, base React components, directories, React Router, and more!"
+    />
+
+    <!-- TODO: update icons -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+
+    <!-- TODO: update names, logos, and colors in manifest -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- TODO: you can delete this if you aren't using Font Awesome icons -->
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+      integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <script>
+      function isIE() {
+        ua = navigator.userAgent;
+        /* MSIE used to detect old browsers and Trident used to newer ones*/
+        var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+          return is_ie; 
+      }
+      /* Create an alert to show if the browser is IE or not */
+      if (isIE()){
+          alert('Looks like you are using the ancient, unsupported, and unsafe Internet Explorer! No worries, just install a modern web browser like Chrome or email help@minute.tech and we will step you through it.');
+      } 
+    </script>
+    <noscript>
+      Uh oh, looks like JavaScript isn't enabled. This is rare, so you get
+      special treatment. Email help@minute.tech and they can help.
+    </noscript>
+    <!--[if IE]>
+      Looks like you are using the ancient, unsupported Internet Explorer! 
+      No worries, just install a modern web browser like Chrome, Firefox, or Safari. 
+      If you can't figure out how to do that, email help@minute.tech and we will step you through it!
+    <![endif]-->
+    <div id="root"></div>
+  </body>
+</html>
