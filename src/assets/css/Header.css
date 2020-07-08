@@ -1,11 +1,17 @@
 .nav-container {
     margin: 0 auto;
+    padding: 10px;
 }
 
 .nav-logo {
-    max-width: 75px;
+    max-width: 50px;
+    margin-right: 10px;
     vertical-align: middle;
 }
+
+.nav-container .hamburger {
+    display: none;
+  }
 
 .nav-l-text {
     font-size: 2.5rem;
@@ -22,42 +28,116 @@
 }
 
 .nav-link {
+    position: relative;
     display: inline-block;
+    text-decoration: none !important;
     cursor: pointer;
-    height: 75px;
-    line-height: 75px;
+    height: 50px;
+    line-height: 50px;
     color: black !important;
     padding: 0px 10px 0px 10px;
-    font-size: 20px;
+    font-size: 18px;
   }
 
 .nav-link:hover {
-    color: #4FBFE0 !important;
+    color: #FDBB30 !important;
 }
 
 .nav-select {
-    color: #4FBFE0 !important;
-    text-decoration: underline !important;
+    color: #FDBB30 !important;
+}
+
+
+/* Underline styling */
+.nav-link::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 10px;
+    left: 0;
+    background-color: #FDBB30;
+    visibility: hidden;
+    transform: scaleX(0);
+    transition: all 0.3s ease-in-out 0s;
+  }
+
+.nav-link:hover::before {
+    visibility: visible;
+    transform: scaleX(0.7);
+}
+.nav-select::before {
+    content: "";
+    position: absolute;
+    height: 2px;
+    bottom: 13px;
+    left: 0;
+    background-color: #FDBB30;
+    visibility: visible;
+    transform: scaleX(0.5);
+    transition: all 0.3s ease-in-out 0s;
 }
 
 /* Mobile */
 @media screen and (max-width: 901px) {
     .nav-l-text {
-        font-size: 1.2rem !important;
+        font-size: 1.8rem !important;
+    }
+
+    .ham {
+        width: 38px;
     }
     
     .nav-logo {
-        max-width: 25px;
-    }
-
-    .nav-link {
-        font-size: 16px !important;
-        height: 25px !important;
-        line-height: 25px !important;
-        padding: 0px 10px 0px 10px;
+        max-width: 35px;
     }
 
     .nav-links {
         padding-right: 0px;
+    }
+
+    .nav-link {
+        font-size: 16px !important;
+        height: 30px !important;
+        line-height: 30px !important;
+        padding: 0px 10px 0px 10px;
+    }
+
+    .nav-links {display: none;}
+    .nav-links.responsive {position: relative;}
+
+    .nav-links.responsive {
+        display: block;
+        float: none;
+        margin-top: 20px;
+    }
+    
+    .nav-links.responsive .nav-link {
+        float: none;
+        display: block;
+        text-align: center;
+    }
+    .nav-container a.hamburger {
+        float: right;
+        display: block;
+    }
+    .nav-container.responsive .hamburger {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+
+    /* Underline styling */
+    .nav-link::before {
+        bottom: 0;
+    }
+
+    .nav-link:hover::before {
+        transform: scaleX(0.15);
+    }
+    .nav-select::before {
+        bottom: 2px;
+        transform: scaleX(0.1);
     }
 }

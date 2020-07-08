@@ -3,6 +3,11 @@
  /*  padding, width, containers, and positioning.  */
 /* ---------------------------------------------- */
 
+/* Browser has default 8px around body */
+body {
+    margin: 0;
+}
+
 /* 
 * Responsive Containers
 */

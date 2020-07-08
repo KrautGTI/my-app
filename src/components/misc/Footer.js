@@ -19,9 +19,9 @@ export default class Footer extends Component {
                     {' '}
                     {this.state.year}
                     {' '}
-                    {/* TODO: update name */}
-                    Doug's React Boiler
+                    Prestige Power
                 </div>
+                {/* TODO: add FAQ and social links */}
             </footer>
         )
     }

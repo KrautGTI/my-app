@@ -261,6 +261,63 @@ hr {
     content: none;
 }
 
+/* Hero */
+.hero-container-large {
+    height: 600px;
+    max-width: 100%;
+}
+
+.hero-container-small {
+    height: 400px;
+    max-width: 100%;
+}
+
+.hero-image-1 {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("https://firebasestorage.googleapis.com/v0/b/goprestigepower.appspot.com/o/hero.png?alt=media&token=fca4a604-5846-4c39-b7c0-97ef8e1fd589");
+    height: 100%;
+    background-position: 50% 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+  
+  .hero-text {
+    text-align: center;
+    position: absolute;
+    width: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+  }
+  
+  .hero-text button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 12px 30px;
+    color: white;
+    background-color: #4FBFE0;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .hero-text button:hover {
+    background-color: #3B8FA8;
+    color: white;
+  }
+
+
+  @media screen and (max-width: 900px) {
+   .hero-text {
+        width: 85%;
+   }
+   .hero-container-large {
+        height: 400px;
+        max-width: 100%;
+    }
+}
+
 
 
 
