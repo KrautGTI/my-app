@@ -70,31 +70,31 @@ a.animated-button:link, a.animated-button:visited {
 /* Victoria Buttons */
 
 a.animated-button.victoria-one {
-	border: 2px solid #D24D57;
+	border: 2px solid #33CC00;
 }
 a.animated-button.victoria-one:after {
-	background: #D24D57;
+	background: #33CC00;
 	-moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
 	-ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
 	-webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
 	transform: translateX(-50%) translateY(-50%) rotate(-25deg);
 }
 a.animated-button.victoria-two {
-    border: 2px solid #D24D57;
-    color: #D24D57 !important;
+    border: 2px solid #33CC00;
+    color: #269900;
 }
 a.animated-button.victoria-two:after {
-	background: #D24D57;
+	background: #33CC00;
 	-moz-transform: translateX(-50%) translateY(-50%) rotate(25deg);
 	-ms-transform: translateX(-50%) translateY(-50%) rotate(25deg);
 	-webkit-transform: translateX(-50%) translateY(-50%) rotate(25deg);
 	transform: translateX(-50%) translateY(-50%) rotate(25deg);
 }
 a.animated-button.victoria-three {
-    border: 2px solid #D24D57;
+    border: 2px solid #33CC00;
 }
 a.animated-button.victoria-three:after {
-    background: #D24D57;
+    background: #33CC00;
 	opacity: .5;
 	-moz-transform: translateX(-50%) translateY(-50%);
 	-ms-transform: translateX(-50%) translateY(-50%);
@@ -106,10 +106,10 @@ a.animated-button.victoria-three:hover:after {
     opacity: 1;
 }
 a.animated-button.victoria-four {
-	border: 2px solid #D24D57;
+	border: 2px solid #33CC00;
 }
 a.animated-button.victoria-four:after {
-	background: #D24D57;
+	background: #33CC00;
 	opacity: .5;
 	-moz-transform: translateY(-50%) translateX(-50%) rotate(90deg);
 	-ms-transform: translateY(-50%) translateX(-50%) rotate(90deg);
@@ -394,4 +394,124 @@ a.animated-button.thar-four:before {
 	color: #000 !important;
 	background: #F7CA18;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
+}
+
+/* Doug */
+a.animated-button.doug-one {
+	color: #fff;
+	cursor: pointer;
+	display: block;
+	position: relative;
+	border: 2px solid #4FBFE0;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
+	background: #4FBFE0;
+}
+a.animated-button.doug-one:hover {
+	color: black !important;
+	background-color: transparent;
+	
+	border-color: #F7CA18 !important;
+}
+a.animated-button.doug-one:hover:before {
+	left: 0%;
+	right: auto;
+	width: 100%;
+}
+a.animated-button.doug-one:before {
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	height: 100%;
+	width: 0px;
+	z-index: -1;
+	content: '';
+	color: #4FBFE0 !important;
+	background: #F7CA18;
+	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+/* 
+* Social Media
+*/
+
+/* Wrapper */
+.icon-button {
+	background-color: white;
+	border-radius: 3.6rem;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 2.0rem;
+	height: 3.6rem;
+	line-height: 3.6rem;
+	margin: 0 5px;
+	position: relative;
+	text-align: center;
+	-webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
+	width: 3.6rem;
+}
+
+/* Circle */
+.icon-button span {
+	border-radius: 0;
+	display: block;
+	height: 0;
+	left: 50%;
+	margin: 0;
+	position: absolute;
+	top: 50%;
+	-webkit-transition: all 0.3s;
+	   -moz-transition: all 0.3s;
+	     -o-transition: all 0.3s;
+	        transition: all 0.3s;
+	width: 0;
+}
+.icon-button:hover span {
+	width: 3.6rem;
+	height: 3.6rem;
+	border-radius: 3.6rem;
+	margin: -1.8rem;
+}
+.twitter span {
+	background-color: #4099ff;
+}
+.facebook span {
+	background-color: #3B5998;
+}
+.yelp span {
+	background-color: #d32323;
+}
+
+/* Icons */
+.icon-button i {
+	background: none;
+	color: white;
+	height: 3.6rem;
+	left: 0;
+	line-height: 3.6rem;
+	position: absolute;
+	top: 0;
+	-webkit-transition: all 0.3s;
+	   -moz-transition: all 0.3s;
+	     -o-transition: all 0.3s;
+	        transition: all 0.3s;
+	width: 3.6rem;
+	z-index: 10;
+}
+.icon-button .icon-twitter {
+	color: #4099ff;
+}
+.icon-button .icon-facebook {
+	color: #3B5998;
+}
+.icon-button .icon-yelp {
+	color: #d32323;
+}
+.icon-button:hover .icon-twitter,
+.icon-button:hover .icon-facebook,
+.icon-button:hover .icon-yelp{
+	color: white;
 }

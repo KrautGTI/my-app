@@ -250,6 +250,12 @@ body {
     bottom: 0;
 }
 
+.p-center-right {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+  }
+
 
 /* 
 * Padding
@@ -345,6 +351,10 @@ body {
 
 .s-margin-t {
     margin: 1% 0% 0% 0%;
+}
+
+.s-margin-l {
+    margin: 0% 0% 0% 1%;
 }
 
 .s-margin-b { 

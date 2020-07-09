@@ -11,8 +11,8 @@ export default class Home extends Component {
                     <div className="hero-image-1">
                         <div className="hero-text text-shadow">
                             <h1 className="s-margin-b no-padding ">SOLAR &amp; STORAGE</h1>
-                            <h2 className="s-margin-b no-padding">$1/Mo For 6 Months</h2>
-                            <Link to="/solar-quote"><button>Request Free Quote</button></Link>
+                            <h2 className="s-margin-b no-padding">Just $1 a month for 6 months</h2>
+                            <Link to="/solar-quote" className="btn btn-md animated-button doug-one">Request Free Quote</Link>
                         </div>
                     </div>
                 </div>
@@ -25,7 +25,7 @@ export default class Home extends Component {
                         A solar installation adds value to a homeowner’s property at no cost to the homeowner. That’s truly a no brainer, right?
                     </p>
                     <div className="center-text m-margin-b">
-                        <Link to="/solar-quote" className="btn btn-sm animated-button victoria-two">Learn more</Link>
+                        <Link to="/why-solar" className="btn btn-sm animated-button victoria-two">Learn more</Link>
                     </div>
                     <Grid fluid>
                         <Row center="xs">
