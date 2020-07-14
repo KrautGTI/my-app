@@ -273,13 +273,23 @@ hr {
 }
 
 .hero-image-1 {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("https://firebasestorage.googleapis.com/v0/b/goprestigepower.appspot.com/o/hero.png?alt=media&token=fca4a604-5846-4c39-b7c0-97ef8e1fd589");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url("https://firebasestorage.googleapis.com/v0/b/goprestigepower.appspot.com/o/hero.png?alt=media&token=fca4a604-5846-4c39-b7c0-97ef8e1fd589");
     height: 100%;
     background-position: 50% 100%;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
   }
+
+  .hero-image-2 {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url("https://firebasestorage.googleapis.com/v0/b/goprestigepower.appspot.com/o/commercial-solar.jpg?alt=media&token=a0cb3b31-e785-4f1b-bbfc-3d831de6c80c");
+    height: 100%;
+    background-position: 50% 80%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+  }
+  
   
   .hero-text {
     text-align: center;
@@ -289,6 +299,15 @@ hr {
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
+  }
+
+  .hero-text h1 {
+    font-weight: 1000;
+    font-size: 60px;
+  }
+
+  .hero-text h2 {
+    font-size: 30px;
   }
   
   .hero-text button {
@@ -316,15 +335,15 @@ hr {
         height: 400px;
         max-width: 100%;
     }
-}
 
-.f-container {
-    width: 100%;
-    height: 50px;
-    padding-bottom: 25px;
-    display: flex;
-    align-items: center;
-  }
+    .hero-text h1 {
+        font-size: 30px;
+      }
+    
+      .hero-text h2 {
+        font-size: 20px;
+      }
+}
 
 
 

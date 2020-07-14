@@ -13,10 +13,11 @@ class Header extends Component {
 
     componentDidMount(){
         if(this.hamburgerRef && this.navLinksRef){
-            document.body.addEventListener('click', () => {
+            this.hamburgerRef.current.addEventListener('click', () => {
                 this.hamburgerRef.current.classList.toggle("active");
                 this.navLinksRef.current.classList.toggle("responsive")
               });
+
         }
     }
 
@@ -71,20 +72,8 @@ class Header extends Component {
                             activeClassName="nav-select">
                             Bonus Referrals
                         </NavLink>
-                        <NavLink 
-                            exact
-                            to="/commercial-solar" 
-                            className="nav-link" 
-                            activeClassName="nav-select">
-                            Commercial Solar
-                        </NavLink>
-                        <NavLink 
-                            exact
-                            to="/login" 
-                            className="nav-link" 
-                            activeClassName="nav-select">
-                            Login
-                        </NavLink>
+                        <NavLink to="/solar-quote" className="btn btn-sm animated-button doug-one">Free Solar Quote</NavLink>
+                        
                     </div>
                 </nav>
             </header>

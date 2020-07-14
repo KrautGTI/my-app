@@ -12,6 +12,7 @@ import BonusReferrals from './components/pages/BonusReferrals';
 import CommercialSolar from './components/pages/CommercialSolar';
 import SolarQuote from './components/pages/SolarQuote';
 import Login from './components/pages/Login';
+import FAQ from './components/pages/FAQ';
 
 class Routes extends Component {
     render() {
@@ -23,6 +24,7 @@ class Routes extends Component {
                 <Route exact path="/bonus-referrals" component={withTracker(BonusReferrals)} />
                 <Route exact path="/commercial-solar" component={withTracker(CommercialSolar)} />
                 <Route exact path="/solar-quote" component={withTracker(SolarQuote)} />
+                <Route exact path="/faq" component={withTracker(FAQ)} />
                 <Route exact path="/login" component={withTracker(Login)} />
                 <Route component={withTracker(Page404)} />
             </Switch>

@@ -43,7 +43,6 @@ export default class ContactForm extends Component {
                     {props => (
                         <form onSubmit={props.handleSubmit}>
                             <Grid fluid>
-                                {/* Row 1 */}
                                 <Row>
                                     <Col sm={12} md={6} className="s-margin-b">
                                         <label>Name:</label>

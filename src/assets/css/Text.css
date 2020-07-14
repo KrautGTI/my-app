@@ -348,6 +348,16 @@ span {
     text-shadow: 0 0 6px black !important;
 }
 
+.l-icon {
+    font-size: 50px !important;
+    padding: 10px;
+}
+
+.xl-icon {
+    font-size: 75px !important;
+    padding: 10px;
+}
+
 
 
 

@@ -8,10 +8,12 @@
     "@testing-library/user-event": "^7.1.2",
     "firebase": "^7.15.5",
     "formik": "^2.1.4",
+    "google-libphonenumber": "^3.2.10",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-flexbox-grid": "^2.1.2",
     "react-ga": "^3.0.0",
+    "react-responsive": "^8.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "yup": "^0.29.1"
