@@ -79,7 +79,7 @@ export default class Home extends Component {
                         <div className="hero-text text-shadow">
                             <h1 className="s-margin-b no-padding ">Commercial Solar</h1>
                             <h2 className="s-margin-b no-padding">Have a big project? We work on projects of all sizes.</h2>
-                            <Link to="/solar-quote" className="btn btn-md animated-button doug-one">Request Free Commercial Quote</Link>
+                            <Link to="/commercial-solar" className="btn btn-md animated-button doug-one">Request Free Commercial Quote</Link>
                         </div>
                     </div>
                 </div>

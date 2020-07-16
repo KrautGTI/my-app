@@ -92,12 +92,12 @@ Font: CormorantGaramond & PinyonScript
 * Heading
 */
 h1 {
-    font-size: 3em;
+    font-size: 3.5em !important;
     font-family: "CormorantGaramond-Bold";
 }
 
 h2 {
-    font-size: 2.5em;
+    font-size: 2em !important;
     font-family: "CormorantGaramond-Bold";
 }
 
@@ -112,13 +112,13 @@ h3 {
 
 @media screen and (max-width: 900px) {
     h1 {
-        font-size: 2em;
+        font-size: 2em  !important;
     }
     h2 {
-        font-size: 1.6em;
+        font-size: 1.6em  !important;
     }
     h3 {
-        font-size: 1em;
+        font-size: 1em  !important;
     }
 }
 

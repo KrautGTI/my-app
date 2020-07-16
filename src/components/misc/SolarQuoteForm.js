@@ -6,27 +6,21 @@ import { referralFormSchema } from '../../utils/formSchemas'
 import { firestore } from "../../Fire.js";
 import { validatePhone } from '../../utils/misc';
 
-export default class ReferralForm extends Component {
+export default class SolarQuoteForm extends Component {
     constructor(props) {
         super(props);
-        this.addReferral = this.addReferral.bind(this);
+        this.addQuoteRequest = this.addQuoteRequest.bind(this);
+        this.showPassword = this.showPassword.bind(this);
+
+        this.state = {
+            passwordShown: false
+        }
     }
     
 
-    addReferral(values){
+    addQuoteRequest(values){
         firestore.collection('referrals').add({
-            referee: {
-                firstName: values.refereeFirstName,
-                lastName: values.refereeLastName,
-                phone: values.refereePhone,
-                email: values.refereeEmail
-            },
-            referrer: {
-                firstName: values.referrerFirstName,
-                lastName: values.referrerLastName,
-                phone: values.referrerPhone,
-                email: values.referrerEmail
-            },
+            
             relation: values.relation,
             salesRep: values.salesRep,
             timestamp: Date.now(),
@@ -34,20 +28,25 @@ export default class ReferralForm extends Component {
             alert("Referral submitted successfully!")
         );
       }
+
+    showPassword(e) {
+        e.preventDefault(e)
+        this.setState({ passwordShown: true });
+    }
       
     render() {
         // TODO: if signed in, auto fill based on current logged in user data! probably have to turn on formik revalid
         const initialFormState = {
-            refereeFirstName: "",
-            refereeLastName: "",
-            refereePhone: "",
-            refereeEmail: "",
-            relation: "",
-            referrerFirstName: "",
-            referrerLastName: "",
-            referrerPhone: "",
-            referrerEmail: "",
-            salesRep: ""
+            firstName: "",
+            lastName: "",
+            phone: "",
+            email: "",
+            zip: "",
+            averageBill: "",
+            shaded: "",
+            solarReasons: "",
+            business: "",
+            electricityBillUrl: ""
           };
 
         return (
@@ -55,7 +54,7 @@ export default class ReferralForm extends Component {
                 <Formik
                     initialValues={initialFormState}
                     onSubmit={(values, actions) => {
-                        this.addReferral(values);
+                        this.addQuoteRequest(values);
                         actions.resetForm()
                     }}
                     validationSchema={referralFormSchema}
@@ -63,7 +62,6 @@ export default class ReferralForm extends Component {
                     {props => (
                         <form onSubmit={props.handleSubmit}>
                             <Grid fluid>
-                                <h2>Their Information</h2>
                                 <Row>
                                     <Col sm={12} md={6} className="s-margin-b">
                                         <label>First name: <span className="red">*</span></label>
@@ -73,12 +71,12 @@ export default class ReferralForm extends Component {
                                             required
                                             onChange={props.handleChange}
                                             placeholder="John"
-                                            name="refereeFirstName"
-                                            value={props.values.refereeFirstName}
+                                            name="firstName"
+                                            value={props.values.firstName}
                                         />
                                         <br/>
-                                        {props.errors.refereeFirstName && props.touched.refereeFirstName ? (
-                                            <span className="red">{props.errors.refereeFirstName}</span>
+                                        {props.errors.firstName && props.touched.firstName ? (
+                                            <span className="red">{props.errors.firstName}</span>
                                         ) : (
                                             ""
                                         )}
@@ -122,7 +120,7 @@ export default class ReferralForm extends Component {
                                         )}
                                     </Col>
                                     <Col sm={12} md={6} className="s-margin-b">
-                                        <label>Email:</label>
+                                        <label>Email: <span className="red">*</span></label>
                                         <br/>
                                         <Field
                                             type="text"
@@ -141,123 +139,164 @@ export default class ReferralForm extends Component {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col xs={12} className="s-margin-b">
-                                        <label>How do you know each other?:</label>
+                                    <Col xs={12} sm={6} className="s-margin-b">
+                                        <label>Zip Code:</label>
                                         <br/>
                                         <Field
                                             type="text"
                                             required
                                             onChange={props.handleChange}
-                                            placeholder="Jane is my neighbor!"
-                                            name="relation"
-                                            value={props.values.relation}
+                                            placeholder="123456"
+                                            name="zip"
+                                            value={props.values.zip}
                                         />
                                         <br/>
-                                        {props.errors.relation && props.touched.relation ? (
-                                            <span className="red">{props.errors.relation}</span>
+                                        {props.errors.zip && props.touched.zip ? (
+                                            <span className="red">{props.errors.zip}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                    <Col xs={12} sm={6} className="s-margin-b">
+                                        <label>Business/Organization:</label>
+                                        <br/>
+                                        <Field
+                                            type="text"
+                                            required
+                                            onChange={props.handleChange}
+                                            placeholder="Big Business Boys LLC"
+                                            name="business"
+                                            value={props.values.business}
+                                        />
+                                        <br/>
+                                        {props.errors.business && props.touched.business ? (
+                                            <span className="red">{props.errors.business}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={12} sm={6} className="s-margin-b">
+                                        <label>What's your average power bill?</label>
+                                        <br/>
+                                        <Field
+                                            type="text"
+                                            required
+                                            onChange={props.handleChange}
+                                            placeholder="123456"
+                                            name="zip"
+                                            value={props.values.zip}
+                                        />
+                                        <br/>
+                                        {props.errors.zip && props.touched.zip ? (
+                                            <span className="red">{props.errors.zip}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                    <Col xs={12} sm={6} className="s-margin-b">
+                                        <label>Is your house shaded?</label>
+                                        <br/>
+                                        <Field
+                                            type="text"
+                                            required
+                                            onChange={props.handleChange}
+                                            placeholder="123456"
+                                            name="zip"
+                                            value={props.values.zip}
+                                        />
+                                        <br/>
+                                        {props.errors.zip && props.touched.zip ? (
+                                            <span className="red">{props.errors.zip}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={12} sm={6} className="s-margin-b">
+                                        <label>What are your reasons for going solar?</label>
+                                        <br/>
+                                        <Field
+                                            type="text"
+                                            required
+                                            onChange={props.handleChange}
+                                            placeholder="Big Business Boys LLC"
+                                            name="business"
+                                            value={props.values.business}
+                                        />
+                                        <br/>
+                                        {props.errors.business && props.touched.business ? (
+                                            <span className="red">{props.errors.business}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={12} sm={6} className="s-margin-b">
+                                        <label className="no-margin">Upload your power bill:</label>
+                                        <div className="grey s-text">This will expedite the qualification process.</div>
+                                        <Field
+                                            type="text"
+                                            required
+                                            onChange={props.handleChange}
+                                            placeholder="https://www.com"
+                                            name="business"
+                                            value={props.values.business}
+                                        />
+                                        <br/>
+                                        {props.errors.business && props.touched.business ? (
+                                            <span className="red">{props.errors.business}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col xs={12} className={this.state.passwordShown ? "hide" : "s-margin-b"}>
+                                        <button onClick={(e) => this.showPassword(e)}>Keep track of process by creating an account!</button>
+                                    </Col>
+                                    <Col xs={12} sm={6} className={this.state.passwordShown ? "s-margin-b" : "hide"}>
+                                        <label>Password</label>
+                                        <br/>
+                                        <Field
+                                            type="password"
+                                            required
+                                            onChange={props.handleChange}
+                                            placeholder="******************"
+                                            name="password"
+                                            value={props.values.password}
+                                        />
+                                        <br/>
+                                        {props.errors.password && props.touched.password ? (
+                                            <span className="red">{props.errors.password}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                    <Col xs={12} sm={6} className={this.state.passwordShown ? "s-margin-b" : "hide"}>
+                                        <label>Confirm Password</label>
+                                        <br/>
+                                        <Field
+                                            type="password"
+                                            required
+                                            onChange={props.handleChange}
+                                            placeholder="******************"
+                                            name="confirmPassword"
+                                            value={props.values.confirmPassword}
+                                        />
+                                        <br/>
+                                        {props.errors.confirmPassword && props.touched.confirmPassword ? (
+                                            <span className="red">{props.errors.confirmPassword}</span>
                                         ) : (
                                             ""
                                         )}
                                     </Col>
                                 </Row>
                                 <hr/>
-                                <h2>Your Information</h2>
-                                <Row>
-                                    <Col sm={12} md={6} className="s-margin-b">
-                                        <label>First name:</label>
-                                        <br/>
-                                        <Field
-                                            type="text"
-                                            required
-                                            onChange={props.handleChange}
-                                            placeholder="John"
-                                            name="referrerFirstName"
-                                            value={props.values.referrerFirstName}
-                                        />
-                                        <br/>
-                                        {props.errors.referrerFirstName && props.touched.referrerFirstName ? (
-                                            <span className="red">{props.errors.referrerFirstName}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
-                                    <Col sm={12} md={6} className="s-margin-b">
-                                        <label>Last name:</label>
-                                        <br/>
-                                        <Field
-                                            type="text"
-                                            required
-                                            onChange={props.handleChange}
-                                            placeholder="Doe"
-                                            name="referrerLastName"
-                                            value={props.values.referrerLastName}
-                                        />
-                                        <br/>
-                                        {props.errors.referrerLastName && props.touched.referrerLastName ? (
-                                            <span className="red">{props.errors.referrerLastName}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col sm={12} md={6}>
-                                        <label>Phone: </label>
-                                        <br/>
-                                        <Field
-                                            name="referrerPhone"
-                                            validate={validatePhone}
-                                            onChange={props.handleChange}
-                                            value={props.values.referrerPhone}
-                                            type="text"
-                                            placeholder={props.values.referrerPhone || `(123) 456-7890`}
-                                        />
-                                        <br/>
-                                        {props.errors.referrerPhone && props.touched.referrerPhone ? (
-                                            <span className="red">{props.errors.referrerPhone}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
-                                    <Col sm={12} md={6} className="s-margin-b">
-                                        <label>Email:</label>
-                                        <br/>
-                                        <Field
-                                            type="text"
-                                            required
-                                            onChange={props.handleChange}
-                                            placeholder="john_doe@gmail.com"
-                                            name="referrerEmail"
-                                            value={props.values.referrerEmail}
-                                        />
-                                        <br/>
-                                        {props.errors.referrerEmail && props.touched.referrerEmail ? (
-                                            <span className="red">{props.errors.referrerEmail}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={12} className="s-margin-b">
-                                        <label>Who was your sales representative?:</label>
-                                        <br/>
-                                        <Field
-                                            type="text"
-                                            required
-                                            onChange={props.handleChange}
-                                            placeholder="Bob James"
-                                            name="salesRep"
-                                            value={props.values.salesRep}
-                                        />
-                                        <br/>
-                                        {props.errors.salesRep && props.touched.salesRep ? (
-                                            <span className="red">{props.errors.salesRep}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
-                                </Row>
+                                
                                 <Row className="m-margin-b">
                                     <Col xs={12}>
                                         <button 
