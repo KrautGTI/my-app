@@ -27,6 +27,16 @@
 	}
 }
 
+.just-text-btn {
+    padding: 0;
+    background: none;
+	color: inherit;
+	border: none;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  }
+
 /* Global Button Styles */
 a.animated-button:link, a.animated-button:visited {
 	position: relative;
@@ -67,6 +77,7 @@ a.animated-button:link:hover:after, a.animated-button:visited:hover:after {
 
 a.animated-button.victoria-one {
 	border: 2px solid #33CC00;
+	color: #269900;
 }
 a.animated-button.victoria-one:after {
 	background: #33CC00;
@@ -87,7 +98,8 @@ a.animated-button.victoria-two:after {
 	transform: translateX(-50%) translateY(-50%) rotate(25deg);
 }
 a.animated-button.victoria-three {
-    border: 2px solid #33CC00;
+	border: 2px solid #33CC00;
+	color: #269900;
 }
 a.animated-button.victoria-three:after {
     background: #33CC00;
@@ -103,6 +115,7 @@ a.animated-button.victoria-three:hover:after {
 }
 a.animated-button.victoria-four {
 	border: 2px solid #33CC00;
+	color: #269900;
 }
 a.animated-button.victoria-four:after {
 	background: #33CC00;

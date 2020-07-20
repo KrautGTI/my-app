@@ -256,7 +256,7 @@ export default class SolarQuoteForm extends Component {
                                 </Row>
                                 <Row>
                                     <Col xs={12} className={this.state.passwordShown ? "hide" : "s-margin-b"}>
-                                        <button onClick={(e) => this.showPassword(e)}>Keep track of process by creating an account!</button>
+                                        <button className="just-text-btn text-hover green m-text" onClick={(e) => this.showPassword(e)}><i className="fas fa-key" />&nbsp; <u>Keep track of the process by creating an account!</u></button>
                                     </Col>
                                     <Col xs={12} sm={6} className={this.state.passwordShown ? "s-margin-b" : "hide"}>
                                         <label>Password</label>
@@ -295,15 +295,12 @@ export default class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <hr/>
                                 
-                                <Row className="m-margin-b">
+                                <Row className="m-margin-b" center="xs">
                                     <Col xs={12}>
-                                        <button 
-                                            type="submit" 
-                                            disabled={!props.dirty && !props.isSubmitting}>
-                                                Submit
-                                        </button>
+                                        <a className="btn btn-sm animated-button victoria-one" href="# ">
+                                            <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Submit</button>
+                                        </a>
                                     </Col>
                                 </Row>
                             </Grid>

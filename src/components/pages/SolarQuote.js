@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import SolarQuoteForm from '../misc/SolarQuoteForm'
+import { Link } from 'react-router-dom';
 
 export default class SolarQuote extends Component {
     render() {
@@ -15,8 +16,9 @@ export default class SolarQuote extends Component {
                 <hr/>
                 <br/>
                 
-                <h3>Need a commercial solar quote?</h3>
-                <button>Commercial solar quote</button>
+                <h3 className="display-inline">Need a commercial solar quote?</h3>
+                &nbsp;&nbsp;&nbsp;
+                <Link to="/commercial-solar" className="btn animated-button victoria-one">Get a Commercial Quote</Link>
             </div>
         )
     }
