@@ -2,90 +2,101 @@
 /*
 // TODO: you can update all or some of these colors and their declarations throughout the app, but mainly the primary and secondary colors likely
 
-Blue: #4FBFE0
+Blue: #669999
 Dark: #3B8FA8
 Light: #72CCE6
-Xlight: #B9E5F3
-xxlight: #DCF2F9
 
-Yellow: #FDBB30
-Dark: #BE8C24
-Light: #FDC959
-Xlight: #FEE4AC
-xxlight: #FFF1D6
 
-Pink: #F9BFBC
-Dark: #BB8F8D
-Light: #FBD9D7
-Xlight: #FEF2F2
+Yellow: #F2B725
+Dark: #F5C551
+Light: #FAE2A8
 
 Red: #E3352B
 Dark: #AA2820
 Light: #EE8680
-Xlight: #F9D7D5
+
 
 Orange: #FF8533
 Dark: #B35026
 Light: #FFB685
-Xlight: #FFE7D6
 
-Green: #33CC00
-Dark: #269900
-Light: #8FC981
-Xlight: #D6F5CC
+Green: #79A06B
+Dark: #578846
+Light: #9AB890
 
 Grey: #A1A1A1
-Dark: #6B6B6B
+Dark: #6B6B6B 
 Light: #D6D6D6
 
-
-// TODO: update font and declarations around app
-
-Font: CormorantGaramond & PinyonScript
+Fonts: LinLibertine (Headings) & Multicolore (Subheadings) & LouisGeorgeCafe (Body) 
 
 */
 /*//*//*//*//*//*//*//*/
 
-/* @font-face {
-    font-family: "CormorantGaramond-Light";
-    src: url(../fonts/Cormorant_Garamond/CormorantGaramond-Light.ttf);
+/* Headings */
+@font-face {
+    font-family: "LinLibertine-Regular";
+    src: url(../fonts/linux_libertine/LinLibertine_R.ttf);
 }
 @font-face {
-    font-family: "CormorantGaramond-Regular";
-    src: url(../fonts/Cormorant_Garamond/CormorantGaramond-Regular.ttf);
+    font-family: "LinLibertine-Italic";
+    src: url(../fonts/linux_libertine/LinLibertine_RI.ttf);
 }
 @font-face {
-    font-family: "CormorantGaramond-Medium";
-    src: url(../fonts/Cormorant_Garamond/CormorantGaramond-Medium.ttf);
+    font-family: "LinLibertine-SemiBold";
+    src: url(../fonts/linux_libertine/LinLibertine_RZ.ttf);
 }
 @font-face {
-    font-family: "CormorantGaramond-SemiBold";
-    src: url(../fonts/Cormorant_Garamond/CormorantGaramond-SemiBold.ttf);
+    font-family: "LinLibertine-Bold";
+    src: url(../fonts/linux_libertine/LinLibertine_RB.ttf);
+}
+
+/* Body */
+@font-face {
+    font-family: "LouisGeorgeCafe-Light";
+    src: url(../fonts/louis_george_caf/LouisGeorgeCafeLight.ttf);
 }
 @font-face {
-    font-family: "CormorantGaramond-Italic";
-    src: url(../fonts/Cormorant_Garamond/CormorantGaramond-Italic.ttf);
+    font-family: "LouisGeorgeCafe-Regular";
+    src: url(../fonts/louis_george_caf/LouisGeorgeCafe.ttf);
 }
 @font-face {
-    font-family: "CormorantGaramond-Bold";
-    src: url(../fonts/Cormorant_Garamond/CormorantGaramond-Bold.ttf);
+    font-family: "LouisGeorgeCafe-Italic";
+    src: url(../fonts/louis_george_caf/LouisGeorgeCafeItalic.ttf);
+}
+@font-face {
+    font-family: "LouisGeorgeCafe-Bold";
+    src: url(../fonts/louis_george_caf/LouisGeorgeCafeBold.ttf);
 }
 
 @font-face {
-    font-family: "PinyonScript-Regular";
-    src: url(../fonts/Pinyon_Script/PinyonScript-Regular.ttf);
-} */
-
-.cormorant-garamond-regular {
-    font-family: "CormorantGaramond-Regular" !important;
+    font-family: "Multicolore";
+    src: url(../fonts/multicolore/Multicolore.otf);
 }
 
-.cormorant-garamond-medium {
-    font-family: "CormorantGaramond-Medium" !important;
+
+.louis-george-cafe-light {
+    font-family: "LouisGeorgeCafe-Light" !important;
 }
 
-.cormorant-garamond-bold {
-    font-family: "CormorantGaramond-Bold" !important;
+.louis-george-cafe-regular {
+    font-family: "LouisGeorgeCafe-Regular" !important;
+}
+
+.louis-george-cafe-bold {
+    font-family: "LouisGeorgeCafe-Bold" !important;
+}
+
+.lin-libertine-regular {
+    font-family: "LinLibertine-Regular" !important;
+}
+
+.lin-libertine-bold {
+    font-family: "LinLibertine-Bold" !important;
+}
+
+.multicolore {
+    font-family: "Multicolore" !important;
 }
 
 /* 
@@ -93,19 +104,19 @@ Font: CormorantGaramond & PinyonScript
 */
 h1 {
     font-size: 3.5em !important;
-    font-family: "CormorantGaramond-Bold";
+    font-family: "LouisGeorgeCafe-Bold" !important;
 }
 
 h2 {
     font-size: 2em !important;
-    font-family: "CormorantGaramond-Bold";
+    font-family: "LouisGeorgeCafe-Bold" !important;
 }
 
 h3 {
     font-size: 1.5em;
     padding: 0px !important;
     margin: 0px !important;
-    font-family: "CormorantGaramond-Bold";
+    font-family: "LouisGeorgeCafe-Bold" !important;
     word-wrap: break-word !important;
     white-space: normal !important;
 }
@@ -123,50 +134,50 @@ h3 {
 }
 
 h4 {
-    font-family: "CormorantGaramond-Bold";
+    font-family: "LouisGeorgeCafe-Bold" !important;
 }
 
 h5 {
-    font-family: "CormorantGaramond-Bold";
+    font-family: "LouisGeorgeCafe-Bold" !important;
 }
 
 /* 
 * Body
 */
 p {
-    font-family: "CormorantGaramond-Medium" !important;
+    font-family: "LinLibertine-Regular" !important;
     line-height: 1.6;
     font-size: 16;
 }
 
 a {
     text-decoration: none;
-    font-family: "CormorantGaramond-Medium";
+    font-family: "LinLibertine-Regular";
     cursor: pointer;
 }
 
 b {
-    font-family: "CormorantGaramond-Bold";
+    font-family: "LinLibertine-Bold";
 }
 
 i {
-    font-family: "CormorantGaramond-Italic";
+    font-family: "LinLibertine-Italic";
 }
 
 ul,
 ol,
 li {
-    font-family: "CormorantGaramond-Medium";
+    font-family: "LinLibertine-Regular"  !important;
     line-height: 1.6;
     font-size: 16;
 }
 
 div {
-    font-family: "CormorantGaramond-Medium";
+    font-family: "LinLibertine-Regular";
 }
 
 span {
-    font-family: "CormorantGaramond-Medium";
+    font-family: "LinLibertine-Regular";
 }
 
 
@@ -223,7 +234,7 @@ span {
     color: #B9E5F3 !important;
 }
 .blue {
-    color: #4FBFE0 !important;
+    color: #669999 !important;
 }
 .light-blue {
     color: #72CCE6 !important;
@@ -231,10 +242,10 @@ span {
 
 /* Yellow */
 .dark-yellow {
-    color: #BE8C24 !important;
+    color: #F5C551 !important;
 }
 .yellow {
-    color: #FDBB30 !important;
+    color: #F2B725 !important;
 }
 .light-yellow {
     color: #FEE4AC !important;
@@ -242,13 +253,13 @@ span {
 
 /* Green */
 .dark-green {
-    color: #269900 !important;
+    color: #578846 !important;
 }
 .green {
-    color: #33CC00 !important;
+    color: #79A06B !important;
 }
 .light-green {
-    color: #8FC981 !important;
+    color: #9AB890 !important;
 }
 .xlight-green {
     color: #ADEB99 !important;
@@ -289,7 +300,7 @@ span {
 
 /* Hover color */
 .text-hover:hover {
-    color: #4FBFE0  !important;
+    color: #669999  !important;
     cursor: pointer;
 }
 
@@ -299,17 +310,17 @@ span {
 }
 
 .text-hover-green:hover {
-    color: #33CC00  !important;
+    color: #79A06B  !important;
     cursor: pointer;
 }
 
 .text-hover-dark-green:hover {
-    color: #269900  !important;
+    color: #578846  !important;
     cursor: pointer;
 }
 
 .text-hover-yellow:hover {
-    color: #FDBB30  !important;
+    color: #F2B725  !important;
     cursor: pointer;
 }
 

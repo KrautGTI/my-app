@@ -55,7 +55,6 @@ export default class ContactForm extends Component {
                                             name="name"
                                             value={props.values.name}
                                         />
-                                        <br/>
                                         {props.errors.name && props.touched.name ? (
                                             <span className="red">{props.errors.name}</span>
                                         ) : (
@@ -74,7 +73,6 @@ export default class ContactForm extends Component {
                                             name="email"
                                             value={props.values.email}
                                         />
-                                        <br/>
                                         {props.errors.email && props.touched.email ? (
                                             <span className="red">{props.errors.email}</span>
                                         ) : (
@@ -94,7 +92,6 @@ export default class ContactForm extends Component {
                                             name="body"
                                             value={props.values.body}
                                         />
-                                        <br/>
                                         {props.errors.body && props.touched.body ? (
                                             <span className="red">{props.errors.body}</span>
                                         ) : (

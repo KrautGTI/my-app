@@ -19,6 +19,7 @@
     vertical-align: middle;
     display: inline-block;
     font-weight: 700;
+    font-family: "LouisGeorgeCafe-Bold";
 }
 
 .nav-links {
@@ -37,14 +38,15 @@
     color: black !important;
     padding: 0px 10px 0px 10px;
     font-size: 18px;
+    font-family: "LouisGeorgeCafe-Regular" !important;
   }
 
 .nav-link:hover {
-    color: #FDBB30 !important;
+    color: #F2B725 !important;
 }
 
 .nav-select {
-    color: #FDBB30 !important;
+    color: #F2B725 !important;
 }
 
 
@@ -56,7 +58,7 @@
     height: 2px;
     bottom: 10px;
     left: 0;
-    background-color: #FDBB30;
+    background-color: #F2B725;
     visibility: hidden;
     transform: scaleX(0);
     transition: all 0.3s ease-in-out 0s;
@@ -72,7 +74,7 @@
     height: 2px;
     bottom: 13px;
     left: 0;
-    background-color: #FDBB30;
+    background-color: #F2B725;
     visibility: visible;
     transform: scaleX(0.5);
     transition: all 0.3s ease-in-out 0s;

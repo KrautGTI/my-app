@@ -31,7 +31,11 @@ export default class Home extends Component {
                     <Grid fluid>
                         <Row center="xs">
                             <Col sm={12} md={4}>
-                                <i className="fas fa-bolt xl-icon" />
+                                <img
+                                    className="responsive small"
+                                    alt="light bulb"
+                                    src={require("../../assets/images/icons/light-bulb.png")}
+                                /> 
                                 <h2>Save money on your utility rates</h2>
                                 <p>
                                     Electricity bills are skyrocketing. By installing solar panels on your home, you can harness the suns energy to 
@@ -39,14 +43,22 @@ export default class Home extends Component {
                                 </p>
                             </Col>
                             <Col sm={12} md={4}>
-                                <i className="fas fa-hand-holding-usd xl-icon" />
+                                <img
+                                    className="responsive small"
+                                    alt="wholesale"
+                                    src={require("../../assets/images/icons/wholesale.png")}
+                                /> 
                                 <h2>No cost to you</h2>
                                 <p>
                                     As long as your property qualifies, we provide hassle free design, permitting, installation, and monitoring. All at <i>no cost</i>!
-                                    </p>
+                                </p>
                             </Col>
                             <Col sm={12} md={4}>
-                                <i className="fas fa-seedling xl-icon" />
+                                <img
+                                    className="responsive small"
+                                    alt="eco home"
+                                    src={require("../../assets/images/icons/eco-home.png")}
+                                /> 
                                 <h2>Sustainability for your future</h2>
                                 <p>
                                     Renewable solar power is the future of energy. We specialize in solar installations that provide homeowners with the “peace of mind” of 
@@ -57,7 +69,11 @@ export default class Home extends Component {
                         </Row>
                         <Row center="xs">
                             <Col xs={12} sm={6}>
-                                <i className="fas fa-phone xl-icon" />
+                                <img
+                                    className="responsive small"
+                                    alt="phone"
+                                    src={require("../../assets/images/icons/phone-call.png")}
+                                /> 
                                 <h2>More Questions?</h2>
                                 <p>
                                     If you would like to learn more about solar power, or have questions about our services, schedule an appointment with one of 

@@ -6,7 +6,7 @@ export default class BonusReferrals extends Component {
         return (
             <div className="wrapper">
                 <h1>Bonus Referrals</h1>
-                <p>Refer a family or friend to receive a $1,000 referral bonus!</p>
+                <h3 className="green">Refer a family or friend to receive a $1,000 referral bonus!</h3>
                 <ReferralForm />
             </div>
         )

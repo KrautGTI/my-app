@@ -19,23 +19,28 @@ export default class WhySolar extends Component {
                     advantage of our “solar as a service” program.
                 </p>
 
-                <p>
-                    Benefits include:
-                    • Exit your ever increasing electric company.
-                    • Earn money off producing your own clean energy.
-                    • Production guarantee over 25 years.
-                    • 26% Federal Tax Credit (ITC)
-                    • Full 25 year warranty and insurance on solar system.
-                    • Increase home value and sell at faster rate.
-                    • Full transfer guarantee to next homeowner.
-                    • Return on investment within 7-10 years depending on market.
-                    • Positive impact on the environment.
-                </p>
+                <h4>Benefits include:</h4>
+                <ul>
+                    <li>Exit your ever increasing electric company</li>
+                    <li>Earn money off producing your own clean energy</li>
+                    <li>Production guarantee over 25 years</li>
+                    <li>26% Federal Tax Credit (ITC)</li>
+                    <li>Full 25 year warranty and insurance on solar system</li>
+                    <li>Increase home value and sell at faster rate</li>
+                    <li>Full transfer guarantee to next homeowner</li>
+                    <li>Return on investment within 7-10 years depending on market</li>
+                    <li>Positive impact on the environment</li>
+                </ul>
+                
 
-                <Grid fluid>
+                <Grid fluid className="m-margin-t-b">
                     <Row center="xs">
                         <Col sm={12} md={4}>
-                            <i className="fas fa-bolt xl-icon" />
+                            <img
+                                className="responsive small"
+                                alt="light bulb"
+                                src={require("../../assets/images/icons/light-bulb.png")}
+                            /> 
                             <h2>Save money on your utility rates</h2>
                             <p>
                                 Electricity bills are skyrocketing. By installing solar panels on your home, you can harness the suns energy to 
@@ -43,14 +48,22 @@ export default class WhySolar extends Component {
                             </p>
                         </Col>
                         <Col sm={12} md={4}>
-                            <i className="fas fa-hand-holding-usd xl-icon" />
+                            <img
+                                className="responsive small"
+                                alt="wholesale"
+                                src={require("../../assets/images/icons/wholesale.png")}
+                            /> 
                             <h2>No cost to you</h2>
                             <p>
                                 As long as your property qualifies, we provide hassle free design, permitting, installation, and monitoring. All at <i>no cost</i>!
-                                </p>
+                            </p>
                         </Col>
                         <Col sm={12} md={4}>
-                            <i className="fas fa-seedling xl-icon" />
+                            <img
+                                className="responsive small"
+                                alt="eco home"
+                                src={require("../../assets/images/icons/eco-home.png")}
+                            /> 
                             <h2>Sustainability for your future</h2>
                             <p>
                                 Renewable solar power is the future of energy. We specialize in solar installations that provide homeowners with the “peace of mind” of 
@@ -61,7 +74,11 @@ export default class WhySolar extends Component {
                     </Row>
                     <Row center="xs">
                         <Col xs={12} sm={6}>
-                            <i className="fas fa-phone xl-icon" />
+                            <img
+                                className="responsive small"
+                                alt="phone"
+                                src={require("../../assets/images/icons/phone-call.png")}
+                            /> 
                             <h2>More Questions?</h2>
                             <p>
                                 If you would like to learn more about solar power, or have questions about our services, schedule an appointment with one of 
@@ -76,9 +93,7 @@ export default class WhySolar extends Component {
                         </Col>
                     </Row>
                 </Grid>
-                
-                
-                <br/>
+
                 <hr/>
                 <br/>
 

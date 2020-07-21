@@ -51,6 +51,7 @@ a.animated-button:link, a.animated-button:visited {
 	-moz-transition: all 1s ease;
 	-o-transition: all 1s ease;
 	transition: all 1s ease;
+	font-family: "LouisGeorgeCafe-Regular" !important;
 }
 a.animated-button:link:after, a.animated-button:visited:after {
 	content: "";
@@ -76,33 +77,33 @@ a.animated-button:link:hover:after, a.animated-button:visited:hover:after {
 /* Victoria Buttons */
 
 a.animated-button.victoria-one {
-	border: 2px solid #33CC00;
-	color: #269900;
+	border: 2px solid #79A06B;
+	color: #578846;
 }
 a.animated-button.victoria-one:after {
-	background: #33CC00;
+	background: #79A06B;
 	-moz-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
 	-ms-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
 	-webkit-transform: translateX(-50%) translateY(-50%) rotate(-25deg);
 	transform: translateX(-50%) translateY(-50%) rotate(-25deg);
 }
 a.animated-button.victoria-two {
-    border: 2px solid #33CC00;
-    color: #269900;
+    border: 2px solid #79A06B;
+    color: #578846;
 }
 a.animated-button.victoria-two:after {
-	background: #33CC00;
+	background: #79A06B;
 	-moz-transform: translateX(-50%) translateY(-50%) rotate(25deg);
 	-ms-transform: translateX(-50%) translateY(-50%) rotate(25deg);
 	-webkit-transform: translateX(-50%) translateY(-50%) rotate(25deg);
 	transform: translateX(-50%) translateY(-50%) rotate(25deg);
 }
 a.animated-button.victoria-three {
-	border: 2px solid #33CC00;
-	color: #269900;
+	border: 2px solid #79A06B;
+	color: #578846;
 }
 a.animated-button.victoria-three:after {
-    background: #33CC00;
+    background: #79A06B;
 	opacity: .5;
 	-moz-transform: translateX(-50%) translateY(-50%);
 	-ms-transform: translateX(-50%) translateY(-50%);
@@ -114,11 +115,11 @@ a.animated-button.victoria-three:hover:after {
     opacity: 1;
 }
 a.animated-button.victoria-four {
-	border: 2px solid #33CC00;
-	color: #269900;
+	border: 2px solid #79A06B;
+	color: #578846;
 }
 a.animated-button.victoria-four:after {
-	background: #33CC00;
+	background: #79A06B;
 	opacity: .5;
 	-moz-transform: translateY(-50%) translateX(-50%) rotate(90deg);
 	-ms-transform: translateY(-50%) translateX(-50%) rotate(90deg);
@@ -411,9 +412,9 @@ a.animated-button.doug-one {
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
-	border: 2px solid #4FBFE0;
+	border: 2px solid #669999;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
-	background: #4FBFE0;
+	background: #669999;
 }
 a.animated-button.doug-one:hover {
 	color: black !important;
@@ -435,7 +436,7 @@ a.animated-button.doug-one:before {
 	width: 0px;
 	z-index: -1;
 	content: '';
-	color: #4FBFE0 !important;
+	color: #669999 !important;
 	background: #F7CA18;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }

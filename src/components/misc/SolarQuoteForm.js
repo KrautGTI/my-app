@@ -17,7 +17,6 @@ export default class SolarQuoteForm extends Component {
         }
     }
     
-
     addQuoteRequest(values){
         firestore.collection('referrals').add({
             
@@ -44,7 +43,7 @@ export default class SolarQuoteForm extends Component {
             zip: "",
             averageBill: "",
             shaded: "",
-            solarReasons: "",
+            solarReasons: [],
             business: "",
             electricityBillUrl: ""
           };
@@ -62,8 +61,8 @@ export default class SolarQuoteForm extends Component {
                     {props => (
                         <form onSubmit={props.handleSubmit}>
                             <Grid fluid>
-                                <Row>
-                                    <Col sm={12} md={6} className="s-margin-b">
+                                <Row className="s-margin-b">
+                                    <Col sm={12} md={6}>
                                         <label>First name: <span className="red">*</span></label>
                                         <br/>
                                         <Field
@@ -74,14 +73,13 @@ export default class SolarQuoteForm extends Component {
                                             name="firstName"
                                             value={props.values.firstName}
                                         />
-                                        <br/>
                                         {props.errors.firstName && props.touched.firstName ? (
                                             <span className="red">{props.errors.firstName}</span>
                                         ) : (
                                             ""
                                         )}
                                     </Col>
-                                    <Col sm={12} md={6} className="s-margin-b">
+                                    <Col sm={12} md={6}>
                                         <label>Last name: <span className="red">*</span></label>
                                         <br/>
                                         <Field
@@ -89,37 +87,36 @@ export default class SolarQuoteForm extends Component {
                                             required
                                             onChange={props.handleChange}
                                             placeholder="Doe"
-                                            name="refereeLastName"
-                                            value={props.values.refereeLastName}
+                                            name="lastName"
+                                            value={props.values.lastName}
                                         />
-                                        <br/>
-                                        {props.errors.refereeLastName && props.touched.refereeLastName ? (
-                                            <span className="red">{props.errors.refereeLastName}</span>
+                                        {props.errors.lastName && props.touched.lastName ? (
+                                            <span className="red">{props.errors.lastName}</span>
                                         ) : (
                                             ""
                                         )}
                                     </Col>
                                 </Row>
-                                <Row>
+                                <Row className="s-margin-b">
                                     <Col sm={12} md={6}>
                                         <label>Phone: <span className="red">*</span></label>
                                         <br/>
                                         <Field
-                                            name="refereePhone"
+                                            name="phone"
+                                            required
                                             validate={validatePhone}
                                             onChange={props.handleChange}
-                                            value={props.values.refereePhone}
+                                            value={props.values.phone}
                                             type="text"
-                                            placeholder={props.values.refereePhone || `(123) 456-7890`}
+                                            placeholder={props.values.phone || `(123) 456-7890`}
                                         />
-                                        <br/>
-                                        {props.errors.refereePhone && props.touched.refereePhone ? (
-                                            <span className="red">{props.errors.refereePhone}</span>
+                                        {props.errors.phone && props.touched.phone ? (
+                                            <span className="red">{props.errors.phone}</span>
                                         ) : (
                                             ""
                                         )}
                                     </Col>
-                                    <Col sm={12} md={6} className="s-margin-b">
+                                    <Col sm={12} md={6}>
                                         <label>Email: <span className="red">*</span></label>
                                         <br/>
                                         <Field
@@ -127,48 +124,43 @@ export default class SolarQuoteForm extends Component {
                                             required
                                             onChange={props.handleChange}
                                             placeholder="john_doe@gmail.com"
-                                            name="refereeEmail"
-                                            value={props.values.refereeEmail}
+                                            name="email"
+                                            value={props.values.email}
                                         />
-                                        <br/>
-                                        {props.errors.refereeEmail && props.touched.refereeEmail ? (
-                                            <span className="red">{props.errors.refereeEmail}</span>
+                                        {props.errors.email && props.touched.email ? (
+                                            <span className="red">{props.errors.email}</span>
                                         ) : (
                                             ""
                                         )}
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col xs={12} sm={6} className="s-margin-b">
+                                <Row className="s-margin-b">
+                                    <Col xs={12} sm={6}>
                                         <label>Zip Code:</label>
                                         <br/>
                                         <Field
                                             type="text"
-                                            required
                                             onChange={props.handleChange}
                                             placeholder="123456"
                                             name="zip"
                                             value={props.values.zip}
                                         />
-                                        <br/>
                                         {props.errors.zip && props.touched.zip ? (
                                             <span className="red">{props.errors.zip}</span>
                                         ) : (
                                             ""
                                         )}
                                     </Col>
-                                    <Col xs={12} sm={6} className="s-margin-b">
+                                    <Col xs={12} sm={6}>
                                         <label>Business/Organization:</label>
                                         <br/>
                                         <Field
                                             type="text"
-                                            required
                                             onChange={props.handleChange}
                                             placeholder="Big Business Boys LLC"
                                             name="business"
                                             value={props.values.business}
                                         />
-                                        <br/>
                                         {props.errors.business && props.touched.business ? (
                                             <span className="red">{props.errors.business}</span>
                                         ) : (
@@ -176,37 +168,33 @@ export default class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col xs={12} sm={6} className="s-margin-b">
+                                <Row className="s-margin-b">
+                                    <Col xs={12} sm={6}>
                                         <label>What's your average power bill?</label>
                                         <br/>
                                         <Field
                                             type="text"
-                                            required
                                             onChange={props.handleChange}
                                             placeholder="123456"
                                             name="zip"
                                             value={props.values.zip}
                                         />
-                                        <br/>
                                         {props.errors.zip && props.touched.zip ? (
                                             <span className="red">{props.errors.zip}</span>
                                         ) : (
                                             ""
                                         )}
                                     </Col>
-                                    <Col xs={12} sm={6} className="s-margin-b">
+                                    <Col xs={12} sm={6}>
                                         <label>Is your house shaded?</label>
                                         <br/>
                                         <Field
                                             type="text"
-                                            required
                                             onChange={props.handleChange}
                                             placeholder="123456"
                                             name="zip"
                                             value={props.values.zip}
                                         />
-                                        <br/>
                                         {props.errors.zip && props.touched.zip ? (
                                             <span className="red">{props.errors.zip}</span>
                                         ) : (
@@ -214,39 +202,41 @@ export default class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col xs={12} sm={6} className="s-margin-b">
+                                <Row className="s-margin-b">
+                                    <Col xs={12} sm={6}>
                                         <label>What are your reasons for going solar?</label>
                                         <br/>
-                                        <Field
+                                        <Checkbox name="solarReasons" label="Savings" value="savings" />
+                                        <Checkbox name="solarReasons" label="Tax credit" value="tax-credit" />
+                                        <Checkbox name="solarReasons" label="Environment" value="environment" />
+                                        <Checkbox name="solarReasons" label="Other" value="other" />
+                                        {/* TODO: isnt savings and tax credit the same thing? */}
+                                        {/* TODO: Custom field for other to enter something? */}
+                                        {/* <Field
                                             type="text"
-                                            required
                                             onChange={props.handleChange}
                                             placeholder="Big Business Boys LLC"
                                             name="business"
                                             value={props.values.business}
                                         />
-                                        <br/>
                                         {props.errors.business && props.touched.business ? (
                                             <span className="red">{props.errors.business}</span>
                                         ) : (
                                             ""
-                                        )}
+                                        )} */}
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col xs={12} sm={6} className="s-margin-b">
+                                <Row className="s-margin-b">
+                                    <Col xs={12} sm={6}>
                                         <label className="no-margin">Upload your power bill:</label>
                                         <div className="grey s-text">This will expedite the qualification process.</div>
                                         <Field
                                             type="text"
-                                            required
                                             onChange={props.handleChange}
                                             placeholder="https://www.com"
                                             name="business"
                                             value={props.values.business}
                                         />
-                                        <br/>
                                         {props.errors.business && props.touched.business ? (
                                             <span className="red">{props.errors.business}</span>
                                         ) : (
@@ -254,40 +244,36 @@ export default class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col xs={12} className={this.state.passwordShown ? "hide" : "s-margin-b"}>
+                                <Row className="s-margin-b">
+                                    <Col xs={12} className={this.state.passwordShown ? "hide" : ""}>
                                         <button className="just-text-btn text-hover green m-text" onClick={(e) => this.showPassword(e)}><i className="fas fa-key" />&nbsp; <u>Keep track of the process by creating an account!</u></button>
                                     </Col>
-                                    <Col xs={12} sm={6} className={this.state.passwordShown ? "s-margin-b" : "hide"}>
+                                    <Col xs={12} sm={6} className={this.state.passwordShown ? "" : "hide"}>
                                         <label>Password</label>
                                         <br/>
                                         <Field
                                             type="password"
-                                            required
                                             onChange={props.handleChange}
                                             placeholder="******************"
                                             name="password"
                                             value={props.values.password}
                                         />
-                                        <br/>
                                         {props.errors.password && props.touched.password ? (
                                             <span className="red">{props.errors.password}</span>
                                         ) : (
                                             ""
                                         )}
                                     </Col>
-                                    <Col xs={12} sm={6} className={this.state.passwordShown ? "s-margin-b" : "hide"}>
+                                    <Col xs={12} sm={6} className={this.state.passwordShown ? "" : "hide"}>
                                         <label>Confirm Password</label>
                                         <br/>
                                         <Field
                                             type="password"
-                                            required
                                             onChange={props.handleChange}
                                             placeholder="******************"
                                             name="confirmPassword"
                                             value={props.values.confirmPassword}
                                         />
-                                        <br/>
                                         {props.errors.confirmPassword && props.touched.confirmPassword ? (
                                             <span className="red">{props.errors.confirmPassword}</span>
                                         ) : (
@@ -296,7 +282,7 @@ export default class SolarQuoteForm extends Component {
                                     </Col>
                                 </Row>
                                 
-                                <Row className="m-margin-b" center="xs">
+                                <Row center="xs" className="s-margin-b">
                                     <Col xs={12}>
                                         <a className="btn btn-sm animated-button victoria-one" href="# ">
                                             <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Submit</button>
@@ -311,3 +297,33 @@ export default class SolarQuoteForm extends Component {
         )
     }
 }
+
+
+function Checkbox(props) {
+    return (
+      <Field name={props.name}>
+        {({ field, form }) => (
+          <label className="checkbox-container">
+            <input
+              type="checkbox"
+              {...props}
+              checked={field.value.includes(props.value)}
+              onChange={() => {
+                if (field.value.includes(props.value)) {
+                  const nextValue = field.value.filter(
+                    value => value !== props.value
+                  );
+                  form.setFieldValue(props.name, nextValue);
+                } else {
+                  const nextValue = field.value.concat(props.value);
+                  form.setFieldValue(props.name, nextValue);
+                }
+              }}
+            />
+            {props.label}
+            <span className="checkmark"></span>
+          </label>
+        )}
+      </Field>
+    );
+  }

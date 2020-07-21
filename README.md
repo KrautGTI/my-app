@@ -1,11 +1,6 @@
 # Prestige Power
 
-This project was built from Doug's React.js website boilerplate template ([dougs-react-boiler](https://github.com/facebook/create-react-app)) and was further bootstrapped from [Create React App](https://github.com/facebook/create-react-app). In this setup, we have Doug's 
-base CSS library, base React components (like Header & Footer), directories structured, React Router ready to go, and more! 
-
-Check all `TODO` tags to denote changes that might need to be made depending on your specific project. Find and replace `dougs-react-boiler` or `Doug's React Boiler` in all project files for naming specific items.
-
-Live demo: https://dougs-react-boiler.web.app/
+This project was built from Doug's React.js website boilerplate template ([dougs-react-boiler](https://github.com/facebook/create-react-app)) and was further bootstrapped from [Create React App](https://github.com/facebook/create-react-app). 
 
 ## Available Scripts
 
