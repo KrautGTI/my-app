@@ -285,7 +285,7 @@ a.animated-button.thar-one {
 	cursor: pointer;
 	display: block;
 	position: relative;
-	border: 2px solid #F7CA18;
+	border: 2px solid #F5C551;
 	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 a.animated-button.thar-one:hover {
@@ -308,7 +308,7 @@ a.animated-button.thar-one:before {
 	z-index: -1;
 	content: '';
 	color: #000 !important;
-	background: #F7CA18;
+	background: #F5C551;
 	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 a.animated-button.thar-two {
@@ -316,7 +316,7 @@ a.animated-button.thar-two {
 	cursor: pointer;
 	display: block;
 	position: relative;
-	border: 2px solid #F7CA18;
+	border: 2px solid #F5C551;
 	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 a.animated-button.thar-two:hover {
@@ -339,7 +339,7 @@ a.animated-button.thar-two:before {
 	z-index: -1;
 	content: '';
 	color: #000 !important;
-	background: #F7CA18;
+	background: #F5C551;
 	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 a.animated-button.thar-three {
@@ -347,7 +347,7 @@ a.animated-button.thar-three {
 	cursor: pointer;
 	display: block;
 	position: relative;
-	border: 2px solid #F7CA18;
+	border: 2px solid #F5C551;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
 }
 a.animated-button.thar-three:hover {
@@ -370,7 +370,7 @@ a.animated-button.thar-three:before {
 	z-index: -1;
 	content: '';
 	color: #000 !important;
-	background: #F7CA18;
+	background: #F5C551;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
 }
 a.animated-button.thar-four {
@@ -378,7 +378,7 @@ a.animated-button.thar-four {
 	cursor: pointer;
 	display: block;
 	position: relative;
-	border: 2px solid #F7CA18;
+	border: 2px solid #F5C551;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
 }
 a.animated-button.thar-four:hover {
@@ -401,7 +401,7 @@ a.animated-button.thar-four:before {
 	z-index: -1;
 	content: '';
 	color: #000 !important;
-	background: #F7CA18;
+	background: #F5C551;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
 }
 
@@ -411,7 +411,7 @@ a.animated-button.doug-one {
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
-	border: 2px solid #032632;
+	border: 2px solid #F5C551;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
 	background: #032632;
 }
@@ -419,7 +419,7 @@ a.animated-button.doug-one:hover {
 	color: black !important;
 	background-color: transparent;
 	
-	border-color: #F7CA18 !important;
+	border-color: #F5C551 !important;
 }
 a.animated-button.doug-one:hover:before {
 	left: 0%;
@@ -436,7 +436,7 @@ a.animated-button.doug-one:before {
 	z-index: -1;
 	content: '';
 	color: #032632 !important;
-	background: #F7CA18;
+	background: #F5C551;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }
 

@@ -99,7 +99,7 @@ export default class ContactForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row center="xs" className="m-margin-b">
+                                <Row center="xs" className="s-margin-t-b">
                                     <Col xs={12}>
                                         <a className="btn btn-sm animated-button victoria-one" href="# " onClick={(e) => props.handleSubmit(e)}>
                                             <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Submit</button>

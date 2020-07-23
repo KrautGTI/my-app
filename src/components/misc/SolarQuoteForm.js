@@ -249,7 +249,7 @@ export default class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className="s-margin-b">
+                                <Row className="m-margin-b">
                                     <Col xs={12} className={this.state.passwordShown ? "hide" : ""}>
                                         <button className="just-text-btn text-hover green m-text" onClick={(e) => this.showPassword(e)}><i className="fas fa-key" />&nbsp; <u>Keep track of the process by creating an account!</u></button>
                                     </Col>

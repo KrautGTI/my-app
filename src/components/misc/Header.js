@@ -74,8 +74,8 @@ class Header extends Component {
                         </NavLink>
                         <NavLink to="/solar-quote" className="btn btn-sm animated-button doug-one">Free Solar Quote</NavLink>
                     </div>
-                    <hr/>
                 </nav>
+                <hr className="s-margin-t no-padding"/>
             </header>
         )
     }
