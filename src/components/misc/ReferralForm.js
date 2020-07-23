@@ -258,13 +258,11 @@ export default class ReferralForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className="m-margin-b">
+                                <Row center="xs" className="m-margin-b">
                                     <Col xs={12}>
-                                        <button 
-                                            type="submit" 
-                                            disabled={!props.dirty && !props.isSubmitting}>
-                                                Submit
-                                        </button>
+                                        <a className="btn btn-sm animated-button victoria-one" href="# " onClick={(e) => props.handleSubmit(e)}>
+                                            <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Submit</button>
+                                        </a>
                                     </Col>
                                 </Row>
                             </Grid>

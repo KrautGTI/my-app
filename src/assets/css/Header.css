@@ -103,6 +103,7 @@
         height: 30px !important;
         line-height: 30px !important;
         padding: 0px 10px 0px 10px;
+        margin: 5px 0 5px 0;
     }
 
     .nav-links {display: none;}

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { Formik, Field } from 'formik';
+import { Formik, Form, Field } from 'formik';
 
-import { referralFormSchema } from '../../utils/formSchemas'
+import { solarQuoteFormSchema } from '../../utils/formSchemas'
 import { firestore } from "../../Fire.js";
 import { validatePhone } from '../../utils/misc';
 
@@ -17,16 +17,21 @@ export default class SolarQuoteForm extends Component {
         }
     }
     
-    addQuoteRequest(values){
-        firestore.collection('referrals').add({
+    addQuoteRequest(values, resetForm){
+        console.log("Values: ")
+        console.log(values)
+        // if(values.password)
+        // firestore.collection('referrals').add({
             
-            relation: values.relation,
-            salesRep: values.salesRep,
-            timestamp: Date.now(),
-        }).then(
-            alert("Referral submitted successfully!")
-        );
-      }
+        //     relation: values.relation,
+        //     salesRep: values.salesRep,
+        //     timestamp: Date.now(),
+        // }).then(
+        //     alert("Referral submitted successfully!")
+        // );
+        alert("Submitted.")
+        resetForm()
+    }
 
     showPassword(e) {
         e.preventDefault(e)
@@ -45,7 +50,9 @@ export default class SolarQuoteForm extends Component {
             shaded: "",
             solarReasons: [],
             business: "",
-            electricityBillUrl: ""
+            billUrl: "",
+            password: "",
+            confirmPassword: ""
           };
 
         return (
@@ -53,13 +60,12 @@ export default class SolarQuoteForm extends Component {
                 <Formik
                     initialValues={initialFormState}
                     onSubmit={(values, actions) => {
-                        this.addQuoteRequest(values);
-                        actions.resetForm()
+                        this.addQuoteRequest(values, actions.resetForm)
                     }}
-                    validationSchema={referralFormSchema}
+                    validationSchema={solarQuoteFormSchema}
                     >
                     {props => (
-                        <form onSubmit={props.handleSubmit}>
+                        <Form>
                             <Grid fluid>
                                 <Row className="s-margin-b">
                                     <Col sm={12} md={6}>
@@ -136,12 +142,12 @@ export default class SolarQuoteForm extends Component {
                                 </Row>
                                 <Row className="s-margin-b">
                                     <Col xs={12} sm={6}>
-                                        <label>Zip Code:</label>
+                                        <label>ZIP Code:</label>
                                         <br/>
                                         <Field
                                             type="text"
                                             onChange={props.handleChange}
-                                            placeholder="123456"
+                                            placeholder="12345"
                                             name="zip"
                                             value={props.values.zip}
                                         />
@@ -172,15 +178,21 @@ export default class SolarQuoteForm extends Component {
                                     <Col xs={12} sm={6}>
                                         <label>What's your average power bill?</label>
                                         <br/>
-                                        <Field
-                                            type="text"
+                                        <Field 
+                                            component="select" 
+                                            name="averageBill" 
+                                            value={props.values.averageBill}
                                             onChange={props.handleChange}
-                                            placeholder="123456"
-                                            name="zip"
-                                            value={props.values.zip}
-                                        />
-                                        {props.errors.zip && props.touched.zip ? (
-                                            <span className="red">{props.errors.zip}</span>
+                                            >
+                                            <option defaultValue value="">Not selected</option> 
+                                            <option value="50">Under $100</option>
+                                            <option value="150">$100-200/mo</option>
+                                            <option value="250">$200-300/mo</option>
+                                            <option value="350">$300-400/mo</option>
+                                            <option value="450">$400+</option>
+                                        </Field>
+                                        {props.errors.averageBill && props.touched.averageBill ? (
+                                            <span className="red">{props.errors.averageBill}</span>
                                         ) : (
                                             ""
                                         )}
@@ -189,14 +201,19 @@ export default class SolarQuoteForm extends Component {
                                         <label>Is your house shaded?</label>
                                         <br/>
                                         <Field
-                                            type="text"
-                                            onChange={props.handleChange}
-                                            placeholder="123456"
-                                            name="zip"
-                                            value={props.values.zip}
+                                            component={RadioButton}
+                                            name="shaded"
+                                            id="yes"
+                                            label="Yes"
                                         />
-                                        {props.errors.zip && props.touched.zip ? (
-                                            <span className="red">{props.errors.zip}</span>
+                                        <Field
+                                            component={RadioButton}
+                                            name="shaded"
+                                            id="no"
+                                            label="No"
+                                        />
+                                        {props.errors.shaded && props.touched.shaded ? (
+                                            <span className="red">{props.errors.shaded}</span>
                                         ) : (
                                             ""
                                         )}
@@ -212,18 +229,6 @@ export default class SolarQuoteForm extends Component {
                                         <Checkbox name="solarReasons" label="Other" value="other" />
                                         {/* TODO: isnt savings and tax credit the same thing? */}
                                         {/* TODO: Custom field for other to enter something? */}
-                                        {/* <Field
-                                            type="text"
-                                            onChange={props.handleChange}
-                                            placeholder="Big Business Boys LLC"
-                                            name="business"
-                                            value={props.values.business}
-                                        />
-                                        {props.errors.business && props.touched.business ? (
-                                            <span className="red">{props.errors.business}</span>
-                                        ) : (
-                                            ""
-                                        )} */}
                                     </Col>
                                 </Row>
                                 <Row className="s-margin-b">
@@ -233,12 +238,12 @@ export default class SolarQuoteForm extends Component {
                                         <Field
                                             type="text"
                                             onChange={props.handleChange}
-                                            placeholder="https://www.com"
-                                            name="business"
-                                            value={props.values.business}
+                                            placeholder="https://www.website.com"
+                                            name="billUrl"
+                                            value={props.values.billUrl}
                                         />
-                                        {props.errors.business && props.touched.business ? (
-                                            <span className="red">{props.errors.business}</span>
+                                        {props.errors.billUrl && props.touched.billUrl ? (
+                                            <span className="red">{props.errors.billUrl}</span>
                                         ) : (
                                             ""
                                         )}
@@ -282,15 +287,15 @@ export default class SolarQuoteForm extends Component {
                                     </Col>
                                 </Row>
                                 
-                                <Row center="xs" className="s-margin-b">
+                                <Row center="xs" className="s-margin-t-b">
                                     <Col xs={12}>
-                                        <a className="btn btn-sm animated-button victoria-one" href="# ">
+                                        <a className="btn btn-sm animated-button victoria-one" href="# " onClick={(e) => props.handleSubmit(e)}>
                                             <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Submit</button>
                                         </a>
                                     </Col>
                                 </Row>
                             </Grid>
-                        </form>
+                        </Form>
                     )}
                 </Formik>
             </div>
@@ -327,3 +332,29 @@ function Checkbox(props) {
       </Field>
     );
   }
+
+  const RadioButton = ({
+    field: { name, value, onChange, onBlur },
+    id,
+    label,
+    onSelect,
+    ...props
+  }) => {
+    return (
+      <label htmlFor={id} className="radio-container">
+        {label}
+        <input
+          name={name}
+          id={id}
+          type="radio"
+          value={id}
+          checked={id === value}
+          onChange={onChange}
+          onClick={onSelect}
+          onBlur={onBlur}
+          {...props}
+        />
+        <span className="radio"></span>
+      </label>
+    );
+  };

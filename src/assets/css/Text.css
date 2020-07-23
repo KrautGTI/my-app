@@ -1,20 +1,17 @@
 /*//*/ /*/ Colors /*/ /*//*/
 /*
-// TODO: you can update all or some of these colors and their declarations throughout the app, but mainly the primary and secondary colors likely
 
-Blue: #669999
-Dark: #3B8FA8
-Light: #72CCE6
+Blue: #35515B
+Dark: #032632 <- Primary
+Light: #9AA8AD
 
-
-Yellow: #F2B725
-Dark: #F5C551
+Yellow: #F5C551
+Dark: #F2B725 <- Secondary
 Light: #FAE2A8
 
 Red: #E3352B
 Dark: #AA2820
 Light: #EE8680
-
 
 Orange: #FF8533
 Dark: #B35026
@@ -25,7 +22,7 @@ Dark: #578846
 Light: #9AB890
 
 Grey: #A1A1A1
-Dark: #6B6B6B 
+Dark: #434444 
 Light: #D6D6D6
 
 Fonts: LinLibertine (Headings) & Multicolore (Subheadings) & LouisGeorgeCafe (Body) 
@@ -150,11 +147,20 @@ p {
     font-size: 16;
 }
 
-a {
+a:link {
     text-decoration: none;
     font-family: "LinLibertine-Regular";
     cursor: pointer;
+    color: #35515B;
 }
+
+a:visited {
+    text-decoration: none;
+    font-family: "LinLibertine-Regular";
+    cursor: pointer;
+    color: #032632;
+}
+
 
 b {
     font-family: "LinLibertine-Bold";
@@ -234,10 +240,10 @@ span {
     color: #B9E5F3 !important;
 }
 .blue {
-    color: #669999 !important;
+    color: #35515B !important;
 }
 .light-blue {
-    color: #72CCE6 !important;
+    color: #9AA8AD !important;
 }
 
 /* Yellow */
@@ -245,7 +251,7 @@ span {
     color: #F5C551 !important;
 }
 .yellow {
-    color: #F2B725 !important;
+    color: #F5C551 !important;
 }
 .light-yellow {
     color: #FEE4AC !important;
@@ -300,7 +306,7 @@ span {
 
 /* Hover color */
 .text-hover:hover {
-    color: #669999  !important;
+    color: #35515B  !important;
     cursor: pointer;
 }
 
@@ -320,7 +326,7 @@ span {
 }
 
 .text-hover-yellow:hover {
-    color: #F2B725  !important;
+    color: #F5C551  !important;
     cursor: pointer;
 }
 

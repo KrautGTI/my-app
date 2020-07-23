@@ -75,7 +75,6 @@ a.animated-button:link:hover:after, a.animated-button:visited:hover:after {
 }
 
 /* Victoria Buttons */
-
 a.animated-button.victoria-one {
 	border: 2px solid #79A06B;
 	color: #578846;
@@ -412,9 +411,9 @@ a.animated-button.doug-one {
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
-	border: 2px solid #669999;
+	border: 2px solid #032632;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
-	background: #669999;
+	background: #032632;
 }
 a.animated-button.doug-one:hover {
 	color: black !important;
@@ -436,7 +435,7 @@ a.animated-button.doug-one:before {
 	width: 0px;
 	z-index: -1;
 	content: '';
-	color: #669999 !important;
+	color: #032632 !important;
 	background: #F7CA18;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
 }

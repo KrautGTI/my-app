@@ -73,8 +73,8 @@ class Header extends Component {
                             Bonus Referrals
                         </NavLink>
                         <NavLink to="/solar-quote" className="btn btn-sm animated-button doug-one">Free Solar Quote</NavLink>
-                        
                     </div>
+                    <hr/>
                 </nav>
             </header>
         )

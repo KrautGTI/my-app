@@ -68,17 +68,17 @@ export const referralFormSchema = yup.object().shape({
 export const solarQuoteFormSchema = yup.object().shape({
   firstName: yup
     .string()
-    .required("Their first name is required.")
+    .required("Your first name is required.")
     .max(150,"Name must be at most 150 characters long.")
     .min(2,"Name must be at least 2 characters long."),
   lastName: yup
     .string()
-    .required("Their last name is required.")
+    .required("Your last name is required.")
     .max(150,"Name must be at most 150 characters long.")
     .min(2,"Name must be at least 2 characters long."),
   phone: yup
     .string()
-    .required("Their phone number is required."),
+    .required("Your phone number is required."),
   email: yup
     .string()
     .email("Please enter a valid email.")      
@@ -86,31 +86,21 @@ export const solarQuoteFormSchema = yup.object().shape({
     .min(2,"Email must be at least 2 characters long."),
   zip: yup
     .string()
-    .max(400,"Field can be at most 400 characters long.")
-    .min(2,"Field must be at least 2 characters long."),
-  averageBill: yup
-    .string()
-    .max(400,"Field can be at most 400 characters long.")
-    .min(2,"Field must be at least 2 characters long."),
-  shaded: yup
-    .string()
-    .max(400,"Field can be at most 400 characters long.")
-    .min(2,"Field must be at least 2 characters long."),
-  solarReasons: yup
-    .string()
-    .max(400,"Field can be at most 400 characters long.")
-    .min(2,"Field must be at least 2 characters long."),
+    .max(10, "ZIP should be less than 10 digits."),
   business: yup
     .string()
-    .max(400,"Field can be at most 400 characters long.")
+    .max(150,"Field can be at most 400 characters long.")
     .min(2,"Field must be at least 2 characters long."),
-  billupload: yup
+  averageBill: yup.string(),
+  shaded: yup.string(),
+  solarReasons: yup.string(),
+  billUrl: yup.string().url("Not a valid URL. Example: https://www.website.com"),
+  password: yup
     .string()
-    .max(400,"Field can be at most 400 characters long.")
-    .min(2,"Field must be at least 2 characters long."),
-  radioGroup: yup.string().required("A radio option is required"),
-  checkboxGroup: yup.array().required(
-      "At least one checkbox is required"
-    ),
-  singleCheckbox: yup.bool().oneOf([true], "Must agree to something")
+    .max(50,"Too long")
+    .min(8,"Too short"),
+  confirmPassword: yup
+    .string()
+    .max(50,"Too long")
+    .min(8,"Too short")
 })

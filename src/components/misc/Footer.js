@@ -68,7 +68,7 @@ export default class Footer extends Component {
                             {this.state.year}
                             {' '}
                             {/* TODO: update name */}
-                            Doug's React Boiler
+                            Prestige Power
                         </div>
                         <div className="s-padding-t-b">
                             <Link to="/about">About</Link> | <Link to="/terms">Terms &amp; Conditions</Link> | <Link to="/more">More</Link> 
