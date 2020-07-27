@@ -454,7 +454,7 @@ a.animated-button.doug-one:before {
 
 /* Wrapper */
 .icon-button {
-	background-color: white;
+	background-color: #032632;
 	border-radius: 3.6rem;
 	cursor: pointer;
 	display: inline-block;

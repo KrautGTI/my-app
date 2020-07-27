@@ -21,6 +21,20 @@ export default class Footer extends Component {
                         </div>
 
                         <div className="center">
+                            <div className="center-text">
+                                <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/GoPrestigePower" className="icon-button twitter">
+                                    <i className="fab fa-twitter icon-twitter" />
+                                    <span></span>
+                                </a>
+                                <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/GoPrestigePowerUSA" className="icon-button facebook">
+                                    <i className="fab fa-facebook icon-facebook"/>
+                                    <span></span>
+                                </a>
+                                <a target="_blank" rel="noopener noreferrer" href="https://www.yelp.com/biz/go-prestige-power-mission-viejo" className="icon-button yelp">
+                                    <i className="fab fa-yelp icon-yelp"/>
+                                    <span></span>
+                                </a>
+                            </div>
                             &copy;
                             {' '}
                             {this.state.year}
@@ -30,23 +44,12 @@ export default class Footer extends Component {
                         </div>
 
                         <div className="right">
-                            <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/GoPrestigePower" className="icon-button twitter">
-                                <i className="fab fa-twitter icon-twitter" />
-                                <span></span>
-                            </a>
-                            <a target="_blank" rel="noopener noreferrer" href="https://www.facebook.com/GoPrestigePowerUSA" className="icon-button facebook">
-                                <i className="fab fa-facebook icon-facebook"/>
-                                <span></span>
-                            </a>
-                            <a target="_blank" rel="noopener noreferrer" href="https://www.yelp.com/biz/go-prestige-power-mission-viejo" className="icon-button yelp">
-                                <i className="fab fa-yelp icon-yelp"/>
-                                <span></span>
-                            </a>
+                            <a href="https://www.douglasrcjames.com" target="_blank" rel="noopener noreferrer"><i className="fas fa-tools"/> by douglasrcjames</a> 
                             &nbsp;&nbsp;
                         </div>
                     </MediaQuery>
                     <MediaQuery maxWidth={900}>
-                        <div className="s-padding-t-b">
+                        <div>
                             <a target="_blank" rel="noopener noreferrer" href="https://twitter.com/GoPrestigePower" className="icon-button twitter">
                                 <i className="fab fa-twitter icon-twitter" />
                                 <span></span>
@@ -62,7 +65,7 @@ export default class Footer extends Component {
                                 <span></span>
                             </a>
                         </div>
-                        <div className="s-padding-t-b">
+                        <div>
                             &copy;
                             {' '}
                             {this.state.year}
@@ -70,7 +73,10 @@ export default class Footer extends Component {
                             {/* TODO: update name */}
                             Prestige Power
                         </div>
-                        <div className="s-padding-t-b">
+                        <div>
+                        <a href="https://www.douglasrcjames.com" target="_blank" rel="noopener noreferrer"><i className="fas fa-tools"/> by douglasrcjames</a> 
+                        </div>
+                        <div>
                             <Link to="/about">About</Link> | <Link to="/terms">Terms &amp; Conditions</Link> | <Link to="/more">More</Link> 
                         </div>
                     </MediaQuery>

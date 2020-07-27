@@ -3,8 +3,14 @@ import React, { Component } from 'react'
 export default class About extends Component {
     render() {
         return (
-            <div className="wrapper">
-                <h1>About Us</h1>
+            <div className="container">
+               
+                <h1>About Us  <img
+                    className="responsive right medium s-padding"
+                    alt="light bulb"
+                    src={require("../../assets/images/sunrun-partner.png")}
+                /> </h1>
+                
                 <p>
                     Prestige Power offers homeowners the opportunity to say goodbye to high utility bills
                     and hello to solar savings. We are dedicated to assisting homeowners in transitioning
@@ -30,8 +36,6 @@ export default class About extends Component {
 
                 <h2>Our Team</h2>
                 <p>Coming soon!</p>
-
-                {/* TODO: include Sunrun partner logo */}
                 
             </div>
         )

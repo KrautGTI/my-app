@@ -17,7 +17,7 @@ export default class Home extends Component {
                     </div>
                 </div>
                 
-                <div className="wrapper">
+                <div className="container">
                     <h1 className="center-text">Why Solar?</h1>
                     <p className="l-width center">
                         In today’s world, many people are concerned about the impact that everyday living has on the environment. 
@@ -100,7 +100,7 @@ export default class Home extends Component {
                     </div>
                 </div>
                
-                <div className="wrapper">
+                <div className="container">
                     <h2>Have a question? Contact Us!</h2>
                     <ContactForm />
                 </div>

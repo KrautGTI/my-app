@@ -273,7 +273,7 @@ hr {
 }
 
 .hero-image-1 {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url("https://firebasestorage.googleapis.com/v0/b/goprestigepower.appspot.com/o/hero.png?alt=media&token=fca4a604-5846-4c39-b7c0-97ef8e1fd589");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.2)), url("https://firebasestorage.googleapis.com/v0/b/goprestigepower.appspot.com/o/site%2Fhero.png?alt=media&token=5d0d4e4a-629f-46d3-8a6c-251fbcc6ca26");
     height: 100%;
     background-position: 50% 100%;
     background-repeat: no-repeat;
@@ -282,7 +282,7 @@ hr {
   }
 
   .hero-image-2 {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url("https://firebasestorage.googleapis.com/v0/b/goprestigepower.appspot.com/o/commercial-solar.jpg?alt=media&token=a0cb3b31-e785-4f1b-bbfc-3d831de6c80c");
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.2)), url("https://firebasestorage.googleapis.com/v0/b/goprestigepower.appspot.com/o/site%2Fcommercial-solar.jpg?alt=media&token=4edd7a77-56fb-4ac1-b09c-1e1835120214");
     height: 100%;
     background-position: 50% 80%;
     background-repeat: no-repeat;

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default class SolarQuote extends Component {
     render() {
         return (
-            <div className="wrapper">
+            <div className="container">
                 <h1>Solar Quote</h1>
                 <h3>LIMITED TIME OFFER: $1/Mo For 6 Months</h3>
                 <p>Want to talk to one of our sales representatives right now? Give us a call at 949-636-8339!</p>

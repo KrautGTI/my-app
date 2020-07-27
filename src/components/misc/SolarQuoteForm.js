@@ -3,7 +3,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Formik, Form, Field } from 'formik';
 
 import { solarQuoteFormSchema } from '../../utils/formSchemas'
-import { firestore } from "../../Fire.js";
+import { firestore, storage } from "../../Fire.js";
 import { validatePhone } from '../../utils/misc';
 
 export default class SolarQuoteForm extends Component {
@@ -13,13 +13,18 @@ export default class SolarQuoteForm extends Component {
         this.showPassword = this.showPassword.bind(this);
 
         this.state = {
-            passwordShown: false
+            passwordShown: false,
+            filePath: null,
+            fileUrl: "",
+            fileProgress: 0
         }
     }
     
     addQuoteRequest(values, resetForm){
         console.log("Values: ")
         console.log(values)
+        console.log("Bill URL: ")
+        console.log(this.state.fileUrl)
         // if(values.password)
         // firestore.collection('referrals').add({
             
@@ -33,10 +38,47 @@ export default class SolarQuoteForm extends Component {
         resetForm()
     }
 
+    handleFileChange = e => {
+        if (e.target.files[0]) {
+          const filePath = e.target.files[0];
+          this.setState(() => ({ filePath }));
+        }
+      };
+
+    handleFileUpload = (file) => {
+        // TODO: randomize file name
+        const uploadTask = storage.ref(`bills/${file.name}`).put(file);
+        uploadTask.on(
+          "state_changed",
+          snapshot => {
+            // progress function ...
+            const fileProgress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            this.setState({ fileProgress });
+          },
+          error => {
+            // Error function ...
+            console.log(error);
+          },
+          () => {
+            // complete function ...
+            storage
+              .ref("bills")
+              .child(file.name)
+              .getDownloadURL()
+              .then(fileUrl => {
+                this.setState({ fileUrl });
+              });
+          }
+        );
+      };
+
     showPassword(e) {
         e.preventDefault(e)
         this.setState({ passwordShown: true });
     }
+    
       
     render() {
         // TODO: if signed in, auto fill based on current logged in user data! probably have to turn on formik revalid
@@ -235,17 +277,24 @@ export default class SolarQuoteForm extends Component {
                                     <Col xs={12} sm={6}>
                                         <label className="no-margin">Upload your power bill:</label>
                                         <div className="grey s-text">This will expedite the qualification process.</div>
-                                        <Field
-                                            type="text"
-                                            onChange={props.handleChange}
-                                            placeholder="https://www.website.com"
-                                            name="billUrl"
-                                            value={props.values.billUrl}
-                                        />
-                                        {props.errors.billUrl && props.touched.billUrl ? (
-                                            <span className="red">{props.errors.billUrl}</span>
-                                        ) : (
-                                            ""
+                                        {!this.state.fileUrl && (
+                                            <input type="file" onChange={this.handleFileChange} />
+                                        )}
+                                        <br/>
+                                        {this.state.fileProgress > 0 && ( 
+                                            <div className="box-text-v-align">
+                                                <progress value={this.state.fileProgress} max="100"/> <b className="s-padding-l">{this.state.fileProgress}%</b>
+                                            </div>
+                                        )}
+                                        {this.state.filePath && !this.state.fileUrl && (
+                                            <button type="button" onClick={() => this.handleFileUpload(this.state.filePath)}>
+                                                Upload bill
+                                            </button>
+                                        )}
+                                        {this.state.fileUrl && (
+                                            <div>
+                                                <b className="green">Upload success!</b>
+                                            </div>
                                         )}
                                     </Col>
                                 </Row>
@@ -289,7 +338,7 @@ export default class SolarQuoteForm extends Component {
                                 
                                 <Row center="xs" className="s-margin-t-b">
                                     <Col xs={12}>
-                                        <a className="btn btn-sm animated-button victoria-one" href="# " onClick={(e) => props.handleSubmit(e)}>
+                                        <a className="btn btn-md animated-button victoria-one" href="# " onClick={(e) => props.handleSubmit(e)}>
                                             <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Submit</button>
                                         </a>
                                     </Col>

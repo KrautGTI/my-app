@@ -186,6 +186,11 @@ span {
     font-family: "LinLibertine-Regular";
 }
 
+label {
+    font-size: 18px;
+    font-family: "LouisGeorgeCafe-Bold";
+}
+
 
 /* 
 * Text size 
