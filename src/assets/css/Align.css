@@ -20,7 +20,7 @@ body {
         /* For outer div holding the body */
         margin: 0 auto;
         width: 75%;
-        padding: 2% 0 0 0;
+        padding: 5% 0% 5% 0%;
     }
 
     .wrapper-w-img {
@@ -63,7 +63,7 @@ body {
     .wrapper {
         margin: 0 auto;
         width: 80%;
-        padding: 2% 0 0 0;
+        padding: 5% 0% 5% 0%;
     }
 
     .wrapper-w-img {
@@ -106,7 +106,7 @@ body {
     .wrapper {
         margin: 0 auto;
         width: 90%;
-        padding: 2% 0 0 0;
+        padding: 5% 0% 5% 0%;
     }
 
     .wrapper-w-img {
@@ -403,9 +403,6 @@ body {
 /*
 * Misc 
 */
-.container {
-    margin: 5% 0% 5% 0%;
-}
 
 .horiz-center {
     margin: 0 auto;

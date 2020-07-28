@@ -4,7 +4,7 @@ import SolarQuoteForm from '../misc/SolarQuoteForm'
 export default class CommercialSolar extends Component {
     render() {
         return (
-            <div className="container">
+            <div className="wrapper">
                 <h1>Commercial Solar</h1>
                 <p>
                     Do you know of a business owner that is looking to cut costs on recurring payments?

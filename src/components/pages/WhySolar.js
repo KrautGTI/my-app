@@ -4,7 +4,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 export default class WhySolar extends Component {
     render() {
         return (
-            <div className="container">
+            <div className="wrapper">
                 <h1>Why Solar?</h1>
                 <p>
                     In today’s world, many people are concerned about the impact that everyday living has on the environment. 
