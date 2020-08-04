@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Formik, Form, Field } from 'formik';
+import { withRouter } from "react-router-dom";
 
 import { solarQuoteFormSchema } from '../../utils/formSchemas'
-import { firestore, storage } from "../../Fire.js";
-import { validatePhone } from '../../utils/misc';
+import { storage, firestore, firebase, fire } from "../../Fire.js";
+import { validatePhone, genId } from '../../utils/misc';
 
-export default class SolarQuoteForm extends Component {
+class SolarQuoteForm extends Component {
     constructor(props) {
         super(props);
-        this.addQuoteRequest = this.addQuoteRequest.bind(this);
         this.showPassword = this.showPassword.bind(this);
 
         this.state = {
@@ -20,23 +20,157 @@ export default class SolarQuoteForm extends Component {
         }
     }
     
-    addQuoteRequest(values, resetForm){
-        console.log("Values: ")
-        console.log(values)
-        console.log("Bill URL: ")
-        console.log(this.state.fileUrl)
-        // if(values.password)
-        // firestore.collection('referrals').add({
-            
-        //     relation: values.relation,
-        //     salesRep: values.salesRep,
-        //     timestamp: Date.now(),
-        // }).then(
-        //     alert("Referral submitted successfully!")
-        // );
-        alert("Submitted.")
-        resetForm()
+    addQuoteRequest = (values, resetForm) => {
+        console.log("Values: ");
+        console.log(values);
+        console.log("Bill URL: ");
+        console.log(this.state.fileUrl);
+        if(this.state.filePath && !this.state.fileUrl){
+            // Case: User selected file, but didn't upload before submit
+            alert("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.");
+        } else {
+            // Case: User either didn't select a file or selected a file properly
+            if(this.state.passwordShown && (!values.password || !values.confirmPassword)){
+                // Case: User may have intended to insert password for account, but didn't fill one of the password fields
+                const confirmPasswordResponse = window.confirm("The password field was opened, but not finished. Did you want to continue anyways?");
+                if(confirmPasswordResponse){
+                    // Case: User doesn't care that the password wasn't inputted, creating client and building without account
+                    firestore.collection('clients').add({
+                        firstName: values.firstName,
+                        lastName: values.lastName,
+                        phone: values.phone,
+                        email: values.email,
+                        business: values.business,
+                        solarReasons: values.solarReasons,
+                        timestamp: Date.now(),
+                    }).then((docRef) => {
+                        if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
+                            // Case: User inputted at least one of the building fields
+                            firestore.collection('buildings').add({
+                                userId: docRef.id,
+                                zip: values.zip,
+                                averageBill: values.averageBill,
+                                shaded: values.shaded,
+                                billUrl: this.state.fileUrl,
+                                timestamp: Date.now(),
+                            })
+                        }
+                        
+                        this.setState({
+                            fileUrl: "",
+                            filePath: "",
+                            fileProgress: 0
+                        });
+                        resetForm();
+                        alert("Submitted proposal!");
+                    });
+                } else {
+                    // Case: User wants to stay and input password.
+                    console.log("User wants to stay and input password.")
+                }  
+            } else if(!this.state.passwordShown){
+                // Case: User didn't show intent for making an account, proceed with just submitting form without account.
+                firestore.collection('clients').add({
+                    firstName: values.firstName,
+                    lastName: values.lastName,
+                    phone: values.phone,
+                    email: values.email,
+                    business: values.business,
+                    solarReasons: values.solarReasons,
+                    timestamp: Date.now(),
+                }).then((docRef) => {
+                    if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
+                        // Case: User inputted at least one of the building fields
+                        firestore.collection('buildings').add({
+                            userId: docRef.id,
+                            zip: values.zip,
+                            averageBill: values.averageBill,
+                            shaded: values.shaded,
+                            billUrl: this.state.fileUrl,
+                            timestamp: Date.now(),
+                        })
+                    }
+                    this.setState({
+                        fileUrl: "",
+                        filePath: "",
+                        fileProgress: 0
+                    });
+                    resetForm();
+                    alert("Submitted proposal!");
+                });
+            } else {
+                // Case: User is creating an account!
+                if(values.password === values.confirmPassword){
+                    alert("Please fill out the recaptcha challenge before continuing!")
+                    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
+                        'callback': (response) => {
+                          // reCAPTCHA solved, allow Ask.
+                          fire.auth().createUserWithEmailAndPassword(values.email, values.password)
+                            .then((userData) => {
+                                // No existing user, now add to Firestore
+                                var currentUser = fire.auth().currentUser;
+                                currentUser.updateProfile({
+                                  displayName: (values.firstName + " " + values.lastName)
+                                }).then(function() {
+                                  console.log("Successfully added display name to Firebase.");
+                                }).catch(function(error) {
+                                  console.error("Error adding your display name to database: ", error);
+                                  alert("Error adding your display name to database" + error);
+                                  window.recaptchaVerifier.clear()
+                                });
+                                
+                                if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
+                                    // Case: User inputted at least one of the building fields
+                                    firestore.collection('buildings').add({
+                                        userId: userData.user.uid,
+                                        zip: values.zip,
+                                        averageBill: values.averageBill,
+                                        shaded: values.shaded,
+                                        billUrl: this.state.fileUrl,
+                                        timestamp: Date.now(),
+                                    })
+                                }
+                                
+                                firestore.collection("clients").doc(userData.user.uid).set({
+                                    firstName: values.firstName,
+                                    lastName: values.lastName,
+                                    phone: values.phone,
+                                    email: values.email,
+                                    business: values.business,
+                                    solarReasons: values.solarReasons,
+                                    timestamp: Date.now(),
+                                }, { merge: true }).then(() => {
+                                    console.log("Successful write to Firestore.");
+                                    this.props.history.push("/account");
+                                }).catch((error) => {
+                                    console.error("Error adding document: ", error);
+                                    alert("Error adding document: " + error);
+                                    window.recaptchaVerifier.clear()
+                                });
+                            }).catch((error) => {
+                                var errorCode = error.code;
+                                var errorMessage = error.message;
+                                console.log("Error registering: " + errorCode + ": " + errorMessage)
+                                alert("Error registering: " + errorMessage)
+                                window.recaptchaVerifier.clear()
+                              });
+                            //   TODO: if register email is taken,needs to throw error on what to do!
+                        },
+                        'expired-callback': () => {
+                          // Response expired. Ask user to solve reCAPTCHA again.
+                          alert("Please solve the reCAPTCHA again.")
+                          window.recaptchaVerifier.clear()
+                        }
+                      })
+                      window.recaptchaVerifier.render()
+                } else {
+                    alert("Passwords you entered do not match! Try again.")
+                }
+            }
+        }
     }
+
+    // TODO: allow user to delete file selection
 
     handleFileChange = e => {
         if (e.target.files[0]) {
@@ -46,8 +180,9 @@ export default class SolarQuoteForm extends Component {
       };
 
     handleFileUpload = (file) => {
-        // TODO: randomize file name
-        const uploadTask = storage.ref(`bills/${file.name}`).put(file);
+        const randomId = genId(5)
+        // TODO: set max file size allowed
+        const uploadTask = storage.ref(`bills/${randomId}-${file.name}`).put(file);
         uploadTask.on(
           "state_changed",
           snapshot => {
@@ -64,8 +199,7 @@ export default class SolarQuoteForm extends Component {
           () => {
             // complete function ...
             storage
-              .ref("bills")
-              .child(file.name)
+              .ref(`bills/${randomId}-${file.name}`)
               .getDownloadURL()
               .then(fileUrl => {
                 this.setState({ fileUrl });
@@ -92,7 +226,6 @@ export default class SolarQuoteForm extends Component {
             shaded: "",
             solarReasons: [],
             business: "",
-            billUrl: "",
             password: "",
             confirmPassword: ""
           };
@@ -102,7 +235,7 @@ export default class SolarQuoteForm extends Component {
                 <Formik
                     initialValues={initialFormState}
                     onSubmit={(values, actions) => {
-                        this.addQuoteRequest(values, actions.resetForm)
+                        this.addQuoteRequest(values, actions.resetForm);
                     }}
                     validationSchema={solarQuoteFormSchema}
                     >
@@ -343,6 +476,11 @@ export default class SolarQuoteForm extends Component {
                                         </a>
                                     </Col>
                                 </Row>
+                                <Row center="xs">
+                                    <Col xs={12}>
+                                    <div id="recaptcha" className="p-container recaptcha"></div>
+                                    </Col>
+                                </Row>
                             </Grid>
                         </Form>
                     )}
@@ -407,3 +545,5 @@ function Checkbox(props) {
       </label>
     );
   };
+
+  export default withRouter(SolarQuoteForm);

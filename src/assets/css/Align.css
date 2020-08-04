@@ -11,6 +11,12 @@ body {
     padding-bottom: 7rem;    /* Footer height */
 }
 
+@media screen and (max-width: 900px) {
+    body {
+        padding-bottom: 11rem;    /* Footer height */
+    }
+  }
+
 /* 
 * Responsive Containers
 */
@@ -432,6 +438,8 @@ body {
   @media screen and (max-width: 900px) {
     .f-container {
         display: block;
+        height: 9em;
+        padding: 10px 0 10px 0;
         text-align: center;
     }
   }

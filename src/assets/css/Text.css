@@ -120,13 +120,13 @@ h3 {
 
 @media screen and (max-width: 900px) {
     h1 {
-        font-size: 2em  !important;
+        font-size: 2em !important;
     }
     h2 {
-        font-size: 1.6em  !important;
+        font-size: 1.5em !important;
     }
     h3 {
-        font-size: 1em  !important;
+        font-size: 1em !important;
     }
 }
 
