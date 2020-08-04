@@ -2,12 +2,14 @@ import React, { Component } from 'react'
 import { NavLink, withRouter } from "react-router-dom";
 import '../../assets/css/Hamburger.css';
 import "../../assets/css/Header.css";
+import { fire } from "../../Fire.js";
 
 class Header extends Component {
     constructor(props) {
         super(props)
     
         this.hamburgerRef = React.createRef();
+        this.signOut = this.signOut.bind(this);
         this.navLinksRef = React.createRef();
     }
 
@@ -24,6 +26,19 @@ class Header extends Component {
     componentWillUnmount(){
         this.hamburgerRef.current.removeEventListener("click");
     }
+
+    signOut(){
+        console.log("Signing out...")
+        fire.auth().signOut().then(() => {
+          console.log("Sign out successful.");
+          alert("Sign out successful.");
+          this.props.history.push("/");
+          window.location.reload();
+        }).catch((error) => {
+          console.error("Error signing out: " + error);
+          alert("Error signing out: " + error);
+        });
+      }
 
     render() {
         return (
@@ -73,6 +88,13 @@ class Header extends Component {
                             Bonus Referrals
                         </NavLink>
                         <NavLink to="/solar-quote" className="btn btn-sm animated-button doug-one">Free Solar Quote</NavLink>
+                        {this.props.user && (
+                            <>
+                            <NavLink to="/account" exact className="nav-link" activeClassName="nav-select">Account</NavLink>
+                            <NavLink to="/" className="nav-link" onClick={this.signOut}>Sign out</NavLink>
+                            </>
+                        )}
+                        
                     </div>
                 </nav>
                 <hr className="s-margin-t no-padding"/>

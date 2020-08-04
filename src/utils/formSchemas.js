@@ -104,3 +104,15 @@ export const solarQuoteFormSchema = yup.object().shape({
     .max(50,"Too long")
     .min(8,"Too short")
 })
+
+export const logInSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Please enter an valid email")
+    .required("Email is required."),
+  password: yup
+    .string()
+    .required("Password is required.")
+    .max(50, "Too long")
+    .min(6, "Too short")
+});
