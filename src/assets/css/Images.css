@@ -21,6 +21,13 @@ img.medium {
     padding: 5px;
 }
 
+img.xmedium {
+    width: 100%;
+    height: auto;
+    max-width: 250px;
+    padding: 5px;
+}
+
 img.large {
     width: 100%;
     height: auto;

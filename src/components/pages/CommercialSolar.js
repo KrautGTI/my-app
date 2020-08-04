@@ -7,10 +7,14 @@ export default class CommercialSolar extends Component {
             <div className="wrapper">
                 <h1>Commercial Solar</h1>
                 <p>
-                    Do you know of a business owner that is looking to cut costs on recurring payments?
-                    Here at Prestige Power we connect you with the best commercial solar power service
-                    in the industry. We help offer zero down, financing, and cash options for any business
-                    that qualifies.
+                    Do you know a business owner who is looking to reduce recurring energy costs? Prestige
+                    Power connects commercial property owners with the best commercial solar installers in the
+                    industry. Our installers offer zero down, financing, and cash options for businesses that qualify.
+                    We also offer Prestige Power customers a referral bonus for referring residential and
+                    commercial customers who get installed. The bonus for referral of a residential
+                    customer is $1,000. The bonus for referral of a commercial customer is $3,000. All bonuses are
+                    paid after the referred customer’s installation and will arrive within 2-3 weeks in the form of a
+                    check.
                 </p>
 
                 <h4>Benefits include:</h4>

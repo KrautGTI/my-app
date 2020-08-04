@@ -36,10 +36,11 @@ export default class Home extends Component {
                                     alt="light bulb"
                                     src={require("../../assets/images/icons/light-bulb.png")}
                                 /> 
-                                <h2>Save money on your utility rates</h2>
+                                <h2>Save Money</h2>
                                 <p>
-                                    Electricity bills are skyrocketing. By installing solar panels on your home, you can harness the suns energy to 
-                                    meet all of your electricity needs and eliminate rate increases and unpredictability from your utility company.
+                                    Electricity bills are skyrocketing. By installing solar panels on your home, you can now harness
+                                    the suns energy to meet all of your electricity needs. Cost savings may vary,
+                                    but all homeowners save money using solar energy.
                                 </p>
                             </Col>
                             <Col sm={12} md={4}>
@@ -48,9 +49,10 @@ export default class Home extends Component {
                                     alt="wholesale"
                                     src={require("../../assets/images/icons/wholesale.png")}
                                 /> 
-                                <h2>No cost to you</h2>
+                                <h2>No Cost</h2>
                                 <p>
-                                    As long as your property qualifies, we provide hassle free design, permitting, installation, and monitoring. All at <i>no cost</i>!
+                                    As long as your property qualifies, Prestige Power helps provide homeowners with hassle-free
+                                    design, permitting, installation, and monitoring. All at <i>no cost</i>!
                                 </p>
                             </Col>
                             <Col sm={12} md={4}>
@@ -59,11 +61,11 @@ export default class Home extends Component {
                                     alt="eco home"
                                     src={require("../../assets/images/icons/eco-home.png")}
                                 /> 
-                                <h2>Sustainability for your future</h2>
+                                <h2>Sustainability</h2>
                                 <p>
-                                    Renewable solar power is the future of energy. We specialize in solar installations that provide homeowners with the “peace of mind” of 
-                                    knowing exactly what their electricity bills will be every month with no surprises. When you install “solar as a service,” your rate 
-                                    will be locked in below your utility company’s residential rate for the next 25 years.
+                                    Renewable solar power is the future of energy. Prestige Power specializes in providing
+                                    homeowners with the peace of mind of knowing exactly what their
+                                    electricity bills will be each month with no surprises. 
                                 </p>
                             </Col>
                         </Row>
@@ -74,15 +76,17 @@ export default class Home extends Component {
                                     alt="phone"
                                     src={require("../../assets/images/icons/phone-call.png")}
                                 /> 
-                                <h2>More Questions?</h2>
+                                <h2>More Questions</h2>
                                 <p>
-                                    If you would like to learn more about solar power, or have questions about our services, schedule an appointment with one of 
-                                    our knowledgeable sales representatives today and get your FREE quote!
+                                    If you would like to learn more about solar power or have questions about Prestige Power’s
+                                    services, schedule an appointment with one of our
+                                    knowledgeable sales representatives. 
                                 </p>
+                                <Link to="/solar-quote" className="just-text-btn green text-hover">Get your FREE quote today!</Link>
                             </Col>
                         </Row>
                         <Row center="xs">
-                            <Col className="s-text m-margin-t-b">
+                            <Col className="s-text m-margin-t">
                                 <b>Disclaimer:</b>
                                 <p>Each home has a unique solar potential based on kilowatt usage and the direction, pitch, and shading of the roof. Cost savings may vary.</p>
                             </Col>
