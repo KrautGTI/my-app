@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import SolarQuoteForm from '../misc/SolarQuoteForm'
+import SolarQuoteForm from '../forms/SolarQuoteForm'
 
 export default class CommercialSolar extends Component {
     render() {
@@ -28,7 +28,7 @@ export default class CommercialSolar extends Component {
                 </ul>
                 <hr/>
                 <h2>Your Business Information</h2>
-                <SolarQuoteForm />
+                <SolarQuoteForm user={this.props.user} />
                 {/* 
                     First, Last name
                     Phone

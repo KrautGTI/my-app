@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import ReferralForm from '../misc/ReferralForm'
+import ReferralForm from '../forms/ReferralForm'
 
 export default class BonusReferrals extends Component {
     render() {

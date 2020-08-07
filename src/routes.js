@@ -25,12 +25,11 @@ class Routes extends Component {
                 <Route exact path="/" component={withTracker(Home)} />
                 <Route exact path="/about" component={withTracker(About)} />
                 <Route exact path="/why-solar" component={withTracker(WhySolar)} />
-                <Route exact path="/bonus-referrals" component={withTracker(BonusReferrals)} />
-                <Route exact path="/commercial-solar" component={withTracker(CommercialSolar)} />
-                <Route exact path="/solar-quote" component={withTracker(SolarQuote)} />
                 <Route exact path="/faq" component={withTracker(FAQ)} />
+                <Route exact path="/bonus-referrals" component={withTracker(() => <BonusReferrals user={this.props.user} />) } />
+                <Route exact path="/commercial-solar" component={withTracker(() => <CommercialSolar user={this.props.user} />) } />
+                <Route exact path="/solar-quote" component={withTracker(() => <SolarQuote user={this.props.user} />) } />
 
-                <Route exact path="/login" component={withTracker(Login)} />
                 <VisitorRoute loggedIn={this.props.user} path="/login" component={withTracker(Login)} />
                 <Route path="/logging-in" exact component={() => <LoggingIn user={this.props.user} />} />
                 <UserRoute

@@ -42,9 +42,9 @@ export default class About extends Component {
 
                 
                 <div className="center-text">
-                    <h2>Proud Sponsor of Cal Poly University</h2>
+                    <h2>Proud Sponsor of California Polytechnic State University</h2>
                     <img
-                        className="responsive xmedium s-padding"
+                        className="responsive large s-padding"
                         alt="cal poly"
                         src={require("../../assets/images/logos/calpoly.png")}
                         /> 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Formik, Form, Field } from 'formik';
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 import { solarQuoteFormSchema } from '../../utils/formSchemas'
 import { storage, firestore, firebase, fire } from "../../Fire.js";
@@ -334,6 +334,7 @@ class SolarQuoteForm extends Component {
                                     </Col>
                                     <Col xs={12} sm={6}>
                                         <label>Business/Organization:</label>
+                                        {/* TODO: If user fills this in, perhaps just ask if they are looking for a commercial quote? */}
                                         <br/>
                                         <Field
                                             type="text"
@@ -431,7 +432,7 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className="m-margin-b">
+                                <Row className={this.props.user ? "hide" : "m-margin-b"}>
                                     <Col xs={12} className={this.state.passwordShown ? "hide" : ""}>
                                         <button className="just-text-btn text-hover green m-text" onClick={(e) => this.showPassword(e)}><i className="fas fa-key" />&nbsp; <u>Keep track of the process by creating an account!</u></button>
                                     </Col>
@@ -474,6 +475,13 @@ class SolarQuoteForm extends Component {
                                         <a className="btn btn-md animated-button victoria-one" href="# " onClick={(e) => props.handleSubmit(e)}>
                                             <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Submit</button>
                                         </a>
+                                    </Col>
+                                </Row>
+                                <Row center="xs" className="s-margin-t-b">
+                                    <Col xs={12}>
+                                        <Link to="/login" className="grey-text-btn s-padding-b">
+                                            Already have an account?
+                                        </Link>
                                     </Col>
                                 </Row>
                                 <Row center="xs">

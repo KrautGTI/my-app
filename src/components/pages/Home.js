@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import ContactForm from '../misc/ContactForm';
+import ContactForm from '../forms/ContactForm';
 
 export default class Home extends Component {
     render() {
