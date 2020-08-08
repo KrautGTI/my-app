@@ -287,7 +287,7 @@ class SolarQuoteForm extends Component {
                     {props => (
                         <Form>
                             <Grid fluid>
-                                <Row className={this.props.user ? "hide" : "m-margin-b"}>
+                                <Row className={this.props.user ? "hide" : "s-margin-b"}>
                                     <Col sm={12} md={6}>
                                         <label>First name: <span className="red">*</span></label>
                                         <br/>
@@ -323,7 +323,7 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className={this.props.user ? "hide" : "m-margin-b"}>
+                                <Row className={this.props.user ? "hide" : "s-margin-b"}>
                                     <Col sm={12} md={6}>
                                         <label>Phone: <span className="red">*</span></label>
                                         <br/>
@@ -360,7 +360,7 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className={this.props.user ? "hide" : "m-margin-b"}>
+                                <Row className={this.props.user ? "hide" : "s-margin-b"}>
                                     <Col xs={12} sm={6}>
                                         <label>Business/Organization:</label>
                                         {/* TODO: If user fills this in, perhaps just ask if they are looking for a commercial quote? */}
@@ -462,7 +462,7 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className={this.props.user ? "hide" : "m-margin-b"}>
+                                <Row className={this.props.user ? "hide" : "s-margin-b"}>
                                     <Col xs={12} sm={6}>
                                         <label>What are your reasons for going solar?</label>
                                         <br/>

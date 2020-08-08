@@ -76,7 +76,6 @@ export default class ReferralForm extends Component {
                                             name="refereeFirstName"
                                             value={props.values.refereeFirstName}
                                         />
-                                        <br/>
                                         {props.errors.refereeFirstName && props.touched.refereeFirstName ? (
                                             <span className="red">{props.errors.refereeFirstName}</span>
                                         ) : (
@@ -94,7 +93,6 @@ export default class ReferralForm extends Component {
                                             name="refereeLastName"
                                             value={props.values.refereeLastName}
                                         />
-                                        <br/>
                                         {props.errors.refereeLastName && props.touched.refereeLastName ? (
                                             <span className="red">{props.errors.refereeLastName}</span>
                                         ) : (
@@ -114,7 +112,6 @@ export default class ReferralForm extends Component {
                                             type="text"
                                             placeholder={props.values.refereePhone || `(123) 456-7890`}
                                         />
-                                        <br/>
                                         {props.errors.refereePhone && props.touched.refereePhone ? (
                                             <span className="red">{props.errors.refereePhone}</span>
                                         ) : (
@@ -132,7 +129,6 @@ export default class ReferralForm extends Component {
                                             name="refereeEmail"
                                             value={props.values.refereeEmail}
                                         />
-                                        <br/>
                                         {props.errors.refereeEmail && props.touched.refereeEmail ? (
                                             <span className="red">{props.errors.refereeEmail}</span>
                                         ) : (
@@ -142,17 +138,30 @@ export default class ReferralForm extends Component {
                                 </Row>
                                 <Row>
                                     <Col xs={12} className="s-margin-b">
-                                        <label>How do you know each other?:</label>
+                                        <label>
+                                            How do you know&nbsp;
+                                            {props.values.refereeFirstName 
+                                                ? 
+                                                <span className="dark-green">{props.values.refereeFirstName} {props.values.refereeLastName}</span> 
+                                                : 
+                                                <span style={{borderBottom: "1px solid black", paddingLeft: "50px"}}>&nbsp;</span>
+                                            }
+                                            ?:
+                                        </label>
                                         <br/>
                                         <Field
                                             type="text"
                                             required
                                             onChange={props.handleChange}
-                                            placeholder="Jane is my neighbor!"
+                                            placeholder={props.values.refereeFirstName 
+                                                ? 
+                                                `${props.values.refereeFirstName} is my neighbor!`
+                                                : 
+                                                `Jane is my neighbor!`
+                                            }
                                             name="relation"
                                             value={props.values.relation}
                                         />
-                                        <br/>
                                         {props.errors.relation && props.touched.relation ? (
                                             <span className="red">{props.errors.relation}</span>
                                         ) : (
@@ -174,7 +183,6 @@ export default class ReferralForm extends Component {
                                             name="referrerFirstName"
                                             value={props.values.referrerFirstName}
                                         />
-                                        <br/>
                                         {props.errors.referrerFirstName && props.touched.referrerFirstName ? (
                                             <span className="red">{props.errors.referrerFirstName}</span>
                                         ) : (
@@ -192,7 +200,6 @@ export default class ReferralForm extends Component {
                                             name="referrerLastName"
                                             value={props.values.referrerLastName}
                                         />
-                                        <br/>
                                         {props.errors.referrerLastName && props.touched.referrerLastName ? (
                                             <span className="red">{props.errors.referrerLastName}</span>
                                         ) : (
@@ -212,7 +219,6 @@ export default class ReferralForm extends Component {
                                             type="text"
                                             placeholder={props.values.referrerPhone || `(123) 456-7890`}
                                         />
-                                        <br/>
                                         {props.errors.referrerPhone && props.touched.referrerPhone ? (
                                             <span className="red">{props.errors.referrerPhone}</span>
                                         ) : (
@@ -230,7 +236,6 @@ export default class ReferralForm extends Component {
                                             name="referrerEmail"
                                             value={props.values.referrerEmail}
                                         />
-                                        <br/>
                                         {props.errors.referrerEmail && props.touched.referrerEmail ? (
                                             <span className="red">{props.errors.referrerEmail}</span>
                                         ) : (
@@ -250,7 +255,6 @@ export default class ReferralForm extends Component {
                                             name="salesRep"
                                             value={props.values.salesRep}
                                         />
-                                        <br/>
                                         {props.errors.salesRep && props.touched.salesRep ? (
                                             <span className="red">{props.errors.salesRep}</span>
                                         ) : (
