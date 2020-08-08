@@ -84,13 +84,17 @@ export const solarQuoteFormSchema = yup.object().shape({
     .email("Please enter a valid email.")      
     .max(150,"Email must be at most 150 characters long.")
     .min(2,"Email must be at least 2 characters long."),
-  zip: yup
-    .string()
-    .max(10, "ZIP should be less than 10 digits."),
   business: yup
     .string()
     .max(150,"Field can be at most 400 characters long.")
     .min(2,"Field must be at least 2 characters long."),
+  buildingName: yup
+    .string()
+    .max(10, "The building name should be less than 100 characters long.")
+    .min(2, "The building name must be at least 2 characters long."),
+  zip: yup
+    .string()
+    .max(10, "ZIP should be less than 10 digits."),
   averageBill: yup.string(),
   shaded: yup.string(),
   solarReasons: yup.string(),

@@ -20,7 +20,7 @@ class SolarQuoteForm extends Component {
         }
     }
     
-    addQuoteRequest = (values, resetForm) => {
+    addVisitorQuote = (values, resetForm) => {
         console.log("Values: ");
         console.log(values);
         console.log("Bill URL: ");
@@ -49,6 +49,7 @@ class SolarQuoteForm extends Component {
                             firestore.collection('buildings').add({
                                 userId: docRef.id,
                                 zip: values.zip,
+                                buildingName: values.buildingName,
                                 averageBill: values.averageBill,
                                 shaded: values.shaded,
                                 billUrl: this.state.fileUrl,
@@ -84,6 +85,7 @@ class SolarQuoteForm extends Component {
                         firestore.collection('buildings').add({
                             userId: docRef.id,
                             zip: values.zip,
+                            buildingName: values.buildingName,
                             averageBill: values.averageBill,
                             shaded: values.shaded,
                             billUrl: this.state.fileUrl,
@@ -98,7 +100,7 @@ class SolarQuoteForm extends Component {
                     resetForm();
                     alert("Submitted proposal!");
                 });
-            } else {
+            } else if(this.state.passwordShown && values.password && values.confirmPassword) {
                 // Case: User is creating an account!
                 if(values.password === values.confirmPassword){
                     alert("Please fill out the recaptcha challenge before continuing!")
@@ -123,6 +125,7 @@ class SolarQuoteForm extends Component {
                                     // Case: User inputted at least one of the building fields
                                     firestore.collection('buildings').add({
                                         userId: userData.user.uid,
+                                        buildingName: values.buildingName,
                                         zip: values.zip,
                                         averageBill: values.averageBill,
                                         shaded: values.shaded,
@@ -166,7 +169,48 @@ class SolarQuoteForm extends Component {
                 } else {
                     alert("Passwords you entered do not match! Try again.")
                 }
+            } else {
+                alert("Unknown case, try again!")
             }
+        }
+    }
+
+    addUserQuote = (values, resetForm) => {
+        console.log("Values: ");
+        console.log(values);
+        console.log("Bill URL: ");
+        console.log(this.state.fileUrl);
+        if(this.state.filePath && !this.state.fileUrl){
+            // Case: User selected file, but didn't upload before submit
+            alert("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.");
+        } else {
+            // TODO: give building a random name if they dont enter one
+            if(values.zip && (values.averageBill || values.shaded || this.state.fileUrl)){
+                // Case: User inputted at least one of the building fields
+                firestore.collection('buildings').add({
+                    userId: this.props.user.uid,
+                    name: values.name,
+                    zip: values.zip,
+                    buildingName: values.buildingName,
+                    averageBill: values.averageBill,
+                    shaded: values.shaded,
+                    billUrl: this.state.fileUrl,
+                    timestamp: Date.now(),
+                }).then(() => {
+                    this.setState({
+                        fileUrl: "",
+                        filePath: "",
+                        fileProgress: 0
+                    });
+                    resetForm();
+                    alert("Submitted proposal!");
+                }).catch((error) => {
+                    alert("Error adding building: " + error)
+                })
+            } else (
+                // TODO; ask reed about this is needed
+                alert("We at least need a zip code for this building to help you out!")
+            )
         }
     }
 
@@ -221,6 +265,7 @@ class SolarQuoteForm extends Component {
             lastName: "",
             phone: "",
             email: "",
+            buildingName: "",
             zip: "",
             averageBill: "",
             shaded: "",
@@ -235,14 +280,14 @@ class SolarQuoteForm extends Component {
                 <Formik
                     initialValues={initialFormState}
                     onSubmit={(values, actions) => {
-                        this.addQuoteRequest(values, actions.resetForm);
+                        this.addVisitorQuote(values, actions.resetForm);
                     }}
                     validationSchema={solarQuoteFormSchema}
                     >
                     {props => (
                         <Form>
                             <Grid fluid>
-                                <Row className="s-margin-b">
+                                <Row className={this.props.user ? "hide" : "m-margin-b"}>
                                     <Col sm={12} md={6}>
                                         <label>First name: <span className="red">*</span></label>
                                         <br/>
@@ -278,7 +323,7 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className="s-margin-b">
+                                <Row className={this.props.user ? "hide" : "m-margin-b"}>
                                     <Col sm={12} md={6}>
                                         <label>Phone: <span className="red">*</span></label>
                                         <br/>
@@ -315,23 +360,7 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className="s-margin-b">
-                                    <Col xs={12} sm={6}>
-                                        <label>ZIP Code:</label>
-                                        <br/>
-                                        <Field
-                                            type="text"
-                                            onChange={props.handleChange}
-                                            placeholder="12345"
-                                            name="zip"
-                                            value={props.values.zip}
-                                        />
-                                        {props.errors.zip && props.touched.zip ? (
-                                            <span className="red">{props.errors.zip}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
+                                <Row className={this.props.user ? "hide" : "m-margin-b"}>
                                     <Col xs={12} sm={6}>
                                         <label>Business/Organization:</label>
                                         {/* TODO: If user fills this in, perhaps just ask if they are looking for a commercial quote? */}
@@ -350,9 +379,47 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
+                                <div className={this.props.user ? "hide" : ""}>
+                                    <br/>
+                                    <hr/>
+                                    <br/>
+                                </div>
                                 <Row className="s-margin-b">
                                     <Col xs={12} sm={6}>
-                                        <label>What's your average power bill?</label>
+                                        <label className="no-padding no-margin">Building Nickname:</label>
+                                        <span className="s-text display-block">*This is your unofficial name for you and helps identify the property</span>
+                                        <Field
+                                            type="text"
+                                            onChange={props.handleChange}
+                                            placeholder="Main St Garage"
+                                            name="buildingName"
+                                            value={props.values.buildingName}
+                                        />
+                                        {props.errors.buildingName && props.touched.buildingName ? (
+                                            <span className="red">{props.errors.buildingName}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                    <Col xs={12} sm={6}>
+                                        <label className="s-padding-b">ZIP Code:</label>
+                                        <Field
+                                            type="text"
+                                            onChange={props.handleChange}
+                                            placeholder="12345"
+                                            name="zip"
+                                            value={props.values.zip}
+                                        />
+                                        {props.errors.zip && props.touched.zip ? (
+                                            <span className="red">{props.errors.zip}</span>
+                                        ) : (
+                                            ""
+                                        )}  
+                                    </Col>
+                                </Row>
+                                <Row className="s-margin-b">
+                                    <Col xs={12} sm={6}>
+                                        <label>What's the average power bill?</label>
                                         <br/>
                                         <Field 
                                             component="select" 
@@ -374,7 +441,7 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                     <Col xs={12} sm={6}>
-                                        <label>Is your house shaded?</label>
+                                        <label>Is the building shaded?</label>
                                         <br/>
                                         <Field
                                             component={RadioButton}
@@ -395,7 +462,7 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className="s-margin-b">
+                                <Row className={this.props.user ? "hide" : "m-margin-b"}>
                                     <Col xs={12} sm={6}>
                                         <label>What are your reasons for going solar?</label>
                                         <br/>
@@ -477,7 +544,7 @@ class SolarQuoteForm extends Component {
                                         </a>
                                     </Col>
                                 </Row>
-                                <Row center="xs" className="s-margin-t-b">
+                                <Row center="xs" className={this.props.user ? "hide" : "s-margin-t-b"}>
                                     <Col xs={12}>
                                         <Link to="/login" className="grey-text-btn s-padding-b">
                                             Already have an account?
