@@ -47,7 +47,7 @@ class SolarQuoteForm extends Component {
                         if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
                             // Case: User inputted at least one of the building fields
                             firestore.collection('buildings').add({
-                                userId: docRef.id,
+                                clientId: docRef.id,
                                 zip: values.zip,
                                 buildingName: values.buildingName,
                                 averageBill: values.averageBill,
@@ -83,7 +83,7 @@ class SolarQuoteForm extends Component {
                     if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
                         // Case: User inputted at least one of the building fields
                         firestore.collection('buildings').add({
-                            userId: docRef.id,
+                            clientId: docRef.id,
                             zip: values.zip,
                             buildingName: values.buildingName,
                             averageBill: values.averageBill,
@@ -124,7 +124,7 @@ class SolarQuoteForm extends Component {
                                 if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
                                     // Case: User inputted at least one of the building fields
                                     firestore.collection('buildings').add({
-                                        userId: userData.user.uid,
+                                        clientId: userData.user.uid,
                                         buildingName: values.buildingName,
                                         zip: values.zip,
                                         averageBill: values.averageBill,
@@ -185,11 +185,10 @@ class SolarQuoteForm extends Component {
             alert("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.");
         } else {
             // TODO: give building a random name if they dont enter one
-            if(values.zip && (values.averageBill || values.shaded || this.state.fileUrl)){
+            if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
                 // Case: User inputted at least one of the building fields
                 firestore.collection('buildings').add({
-                    userId: this.props.user.uid,
-                    name: values.name,
+                    clientId: this.props.user.uid,
                     zip: values.zip,
                     buildingName: values.buildingName,
                     averageBill: values.averageBill,
@@ -207,10 +206,7 @@ class SolarQuoteForm extends Component {
                 }).catch((error) => {
                     alert("Error adding building: " + error)
                 })
-            } else (
-                // TODO; ask reed about this is needed
-                alert("We at least need a zip code for this building to help you out!")
-            )
+            }
         }
     }
 
@@ -387,7 +383,7 @@ class SolarQuoteForm extends Component {
                                 <Row className="s-margin-b">
                                     <Col xs={12} sm={6}>
                                         <label className="no-padding no-margin">Building Nickname:</label>
-                                        <span className="s-text display-block">*This is your unofficial name for you and helps identify the property</span>
+                                        <span className="s-text display-block">*This an unofficial name to identify the property</span>
                                         <Field
                                             type="text"
                                             onChange={props.handleChange}

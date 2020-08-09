@@ -7,7 +7,7 @@ export default class BonusReferrals extends Component {
             <div className="wrapper">
                 <h1>Bonus Referrals</h1>
                 <h3 className="green">Refer a family or friend to receive a $1,000 referral bonus!</h3>
-                <ReferralForm />
+                <ReferralForm user={this.props.user} />
             </div>
         )
     }

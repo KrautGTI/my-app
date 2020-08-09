@@ -14,25 +14,49 @@ export default class ReferralForm extends Component {
     
 
     addReferral(values){
-        firestore.collection('referrals').add({
-            referee: {
-                firstName: values.refereeFirstName,
-                lastName: values.refereeLastName,
-                phone: values.refereePhone,
-                email: values.refereeEmail
-            },
-            referrer: {
-                firstName: values.referrerFirstName,
-                lastName: values.referrerLastName,
-                phone: values.referrerPhone,
-                email: values.referrerEmail
-            },
-            relation: values.relation,
-            salesRep: values.salesRep,
-            timestamp: Date.now(),
-        }).then(
-            alert("Referral submitted successfully!")
-        );
+        if(this.props.user){
+            // TODO: grab user info from db and place in here
+            firestore.collection('referrals').add({
+                referee: {
+                    firstName: values.refereeFirstName,
+                    lastName: values.refereeLastName,
+                    phone: values.refereePhone,
+                    email: values.refereeEmail
+                },
+                referrer: {
+                    firstName: this.state.client.firstName,
+                    lastName: this.state.client.lastName,
+                    phone: this.state.client.phone,
+                    email: this.state.client.email
+                },
+                relation: values.relation,
+                salesRep: values.salesRep,
+                timestamp: Date.now(),
+            }).then(
+                alert("Referral submitted successfully!")
+            );
+        } else {
+            firestore.collection('referrals').add({
+                referee: {
+                    firstName: values.refereeFirstName,
+                    lastName: values.refereeLastName,
+                    phone: values.refereePhone,
+                    email: values.refereeEmail
+                },
+                referrer: {
+                    firstName: values.referrerFirstName,
+                    lastName: values.referrerLastName,
+                    phone: values.referrerPhone,
+                    email: values.referrerEmail
+                },
+                relation: values.relation,
+                salesRep: values.salesRep,
+                timestamp: Date.now(),
+            }).then(
+                alert("Referral submitted successfully!")
+            );
+        }
+        
       }
       
     render() {
@@ -137,7 +161,7 @@ export default class ReferralForm extends Component {
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col xs={12} className="s-margin-b">
+                                    <Col xs={12} sm={6} className="s-margin-b">
                                         <label>
                                             How do you know&nbsp;
                                             {props.values.refereeFirstName 
@@ -170,81 +194,84 @@ export default class ReferralForm extends Component {
                                     </Col>
                                 </Row>
                                 <hr/>
-                                <h2>Your Information</h2>
+                                <div className={this.props.user ? "hide" : ""}>
+                                    <h2>Your Information</h2>
+                                    <Row>
+                                        <Col sm={12} md={6} className="s-margin-b">
+                                            <label>First name:</label>
+                                            <br/>
+                                            <Field
+                                                type="text"
+                                                required
+                                                onChange={props.handleChange}
+                                                placeholder="John"
+                                                name="referrerFirstName"
+                                                value={props.values.referrerFirstName}
+                                            />
+                                            {props.errors.referrerFirstName && props.touched.referrerFirstName ? (
+                                                <span className="red">{props.errors.referrerFirstName}</span>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </Col>
+                                        <Col sm={12} md={6} className="s-margin-b">
+                                            <label>Last name:</label>
+                                            <br/>
+                                            <Field
+                                                type="text"
+                                                required
+                                                onChange={props.handleChange}
+                                                placeholder="Doe"
+                                                name="referrerLastName"
+                                                value={props.values.referrerLastName}
+                                            />
+                                            {props.errors.referrerLastName && props.touched.referrerLastName ? (
+                                                <span className="red">{props.errors.referrerLastName}</span>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col sm={12} md={6}>
+                                            <label>Phone: </label>
+                                            <br/>
+                                            <Field
+                                                name="referrerPhone"
+                                                validate={validatePhone}
+                                                onChange={props.handleChange}
+                                                value={props.values.referrerPhone}
+                                                type="text"
+                                                placeholder={props.values.referrerPhone || `(123) 456-7890`}
+                                            />
+                                            {props.errors.referrerPhone && props.touched.referrerPhone ? (
+                                                <span className="red">{props.errors.referrerPhone}</span>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </Col>
+                                        <Col sm={12} md={6} className="s-margin-b">
+                                            <label>Email:</label>
+                                            <br/>
+                                            <Field
+                                                type="text"
+                                                required
+                                                onChange={props.handleChange}
+                                                placeholder="john_doe@gmail.com"
+                                                name="referrerEmail"
+                                                value={props.values.referrerEmail}
+                                            />
+                                            {props.errors.referrerEmail && props.touched.referrerEmail ? (
+                                                <span className="red">{props.errors.referrerEmail}</span>
+                                            ) : (
+                                                ""
+                                            )}
+                                        </Col>
+                                    </Row>
+                                </div>
+                                
                                 <Row>
-                                    <Col sm={12} md={6} className="s-margin-b">
-                                        <label>First name:</label>
-                                        <br/>
-                                        <Field
-                                            type="text"
-                                            required
-                                            onChange={props.handleChange}
-                                            placeholder="John"
-                                            name="referrerFirstName"
-                                            value={props.values.referrerFirstName}
-                                        />
-                                        {props.errors.referrerFirstName && props.touched.referrerFirstName ? (
-                                            <span className="red">{props.errors.referrerFirstName}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
-                                    <Col sm={12} md={6} className="s-margin-b">
-                                        <label>Last name:</label>
-                                        <br/>
-                                        <Field
-                                            type="text"
-                                            required
-                                            onChange={props.handleChange}
-                                            placeholder="Doe"
-                                            name="referrerLastName"
-                                            value={props.values.referrerLastName}
-                                        />
-                                        {props.errors.referrerLastName && props.touched.referrerLastName ? (
-                                            <span className="red">{props.errors.referrerLastName}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col sm={12} md={6}>
-                                        <label>Phone: </label>
-                                        <br/>
-                                        <Field
-                                            name="referrerPhone"
-                                            validate={validatePhone}
-                                            onChange={props.handleChange}
-                                            value={props.values.referrerPhone}
-                                            type="text"
-                                            placeholder={props.values.referrerPhone || `(123) 456-7890`}
-                                        />
-                                        {props.errors.referrerPhone && props.touched.referrerPhone ? (
-                                            <span className="red">{props.errors.referrerPhone}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
-                                    <Col sm={12} md={6} className="s-margin-b">
-                                        <label>Email:</label>
-                                        <br/>
-                                        <Field
-                                            type="text"
-                                            required
-                                            onChange={props.handleChange}
-                                            placeholder="john_doe@gmail.com"
-                                            name="referrerEmail"
-                                            value={props.values.referrerEmail}
-                                        />
-                                        {props.errors.referrerEmail && props.touched.referrerEmail ? (
-                                            <span className="red">{props.errors.referrerEmail}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={12} className="s-margin-b">
+                                    <Col xs={12} sm={6} className="s-margin-b">
                                         <label>Who was your sales representative?:</label>
                                         <br/>
                                         <Field
