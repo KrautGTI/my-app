@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import { Router } from 'react-router-dom';
 
-// Alerts
+// Dialogue
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
+import Modal from 'react-modal'
 
 import history from './history';
 import Routes from "./routes";
@@ -20,9 +21,16 @@ import "./assets/css/Images.css";
 import "./assets/css/Misc.css";
 import "./assets/css/Buttons.css"; 
 import "./assets/css/Forms.css"; 
+import "./assets/css/Modal.css"; 
 
 // This component fixes bug where new page load would sometimes be in the middle or bottom
 import ScrollToTop from "./components/misc/ScrollToTop";
+
+// For React Modals: was getting a console error: 
+// https://github.com/reactjs/react-modal/issues/576
+if (typeof(window) !== 'undefined') {
+  Modal.setAppElement('body')
+}
 
 class App extends Component {
   constructor(props) {

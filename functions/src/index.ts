@@ -128,7 +128,7 @@ export const onReferralCreated = functions.firestore.document('referrals/{referr
     }
   });
 
-export const onClientCreated = functions.firestore.document('clients/{clientId}')
+export const onUserCreated = functions.firestore.document('users/{userId}')
   .onCreate(async (snap: { data: () => any; }) => {
     console.log("Client create heard! Starting inner...")
     const newValue = snap.data();
@@ -141,9 +141,9 @@ export const onClientCreated = functions.firestore.document('clients/{clientId}'
         <div>
             <h2>New <u>Prestige Power</u> Website client Sign Up</h2>
             <p>
-                A new client has signed up! Check the admin panel to view all clients, but here is the client details:
+                A new user has signed up! Check the admin panel to view all clients, but here is the user's details:
             </p>
-            <h3>Client Details:</h3>
+            <h3>Details:</h3>
             <p><u>First Name</u>: ${newValue.firstName}</p>
             <p><u>Last Name</u>: ${newValue.lastName}</p>
             <p><u>Email</u>: ${newValue.email}</p>
@@ -169,8 +169,8 @@ export const onClientCreated = functions.firestore.document('clients/{clientId}'
             from: `drcj.dev@gmail.com`,
             to: 'douglasrcjames@gmail.com, drcj.dev@gmail.com',
             replyTo: `${newValue.email}`,
-            subject: `New Prestige Power client sign up`,
-            text: `A new client sign up with the email of ${newValue.email}.`,
+            subject: `New Prestige Power user sign up`,
+            text: `A new user sign up with the email of ${newValue.email}.`,
             html: htmlEmail
         }
 
@@ -187,7 +187,7 @@ export const onClientCreated = functions.firestore.document('clients/{clientId}'
     }
   });
 
-  export const onBuildingCreated = functions.firestore.document('clients/{clientId}')
+  export const onBuildingCreated = functions.firestore.document('buildings/{buildingId}')
   .onCreate(async (snap: { data: () => any; }) => {
     console.log("Building create heard! Starting inner...")
     const newValue = snap.data();

@@ -191,6 +191,9 @@ label {
     font-family: "LouisGeorgeCafe-Bold";
 }
 
+time {
+    font-family: "LinLibertine-Regular" !important;
+}
 
 /* 
 * Text size 

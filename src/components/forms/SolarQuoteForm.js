@@ -35,7 +35,7 @@ class SolarQuoteForm extends Component {
                 const confirmPasswordResponse = window.confirm("The password field was opened, but not finished. Did you want to continue anyways?");
                 if(confirmPasswordResponse){
                     // Case: User doesn't care that the password wasn't inputted, creating client and building without account
-                    firestore.collection('clients').add({
+                    firestore.collection('users').add({
                         firstName: values.firstName,
                         lastName: values.lastName,
                         phone: values.phone,
@@ -71,7 +71,7 @@ class SolarQuoteForm extends Component {
                 }  
             } else if(!this.state.passwordShown){
                 // Case: User didn't show intent for making an account, proceed with just submitting form without account.
-                firestore.collection('clients').add({
+                firestore.collection('users').add({
                     firstName: values.firstName,
                     lastName: values.lastName,
                     phone: values.phone,
@@ -134,7 +134,7 @@ class SolarQuoteForm extends Component {
                                     })
                                 }
                                 
-                                firestore.collection("clients").doc(userData.user.uid).set({
+                                firestore.collection("users").doc(userData.user.uid).set({
                                     firstName: values.firstName,
                                     lastName: values.lastName,
                                     phone: values.phone,
@@ -495,7 +495,7 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className={this.props.user ? "hide" : "m-margin-b"}>
+                                <Row className={this.props.user ? "hide" : "s-margin-b"}>
                                     <Col xs={12} className={this.state.passwordShown ? "hide" : ""}>
                                         <button className="just-text-btn text-hover green m-text" onClick={(e) => this.showPassword(e)}><i className="fas fa-key" />&nbsp; <u>Keep track of the process by creating an account!</u></button>
                                     </Col>

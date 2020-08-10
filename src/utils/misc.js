@@ -2,6 +2,35 @@
 // Some random handy functions! 
 //
 
+export function timestampToDateTime(timestamp) {
+  const dateObject = new Date(timestamp);
+  let dd = dateObject.getDate();
+  let mm = dateObject.getMonth() + 1; // January is 0!
+  const yyyy = dateObject.getFullYear();
+  let hrs = dateObject.getHours();
+  let mins = dateObject.getMinutes();
+
+  if (dd < 10) {
+    dd = `0${dd}`;
+  }
+  if (mm < 10) {
+    mm = `0${mm}`;
+  }
+  if (hrs < 10) {
+    hrs = `0${hrs}`;
+  }
+  if (mins < 10) {
+    mins = `0${mins}`;
+  }
+  const fullDate = `${mm}/${dd}/${yyyy}`;
+  const fullTime = `${hrs}:${mins}`;
+
+  return {
+    fullTime,
+    fullDate
+  };
+}
+
 // First letter is uppercase
 export function ucFirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

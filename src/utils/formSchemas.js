@@ -90,7 +90,7 @@ export const solarQuoteFormSchema = yup.object().shape({
     .min(2,"Field must be at least 2 characters long."),
   buildingName: yup
     .string()
-    .max(10, "The building name should be less than 100 characters long.")
+    .max(100, "The building name should be less than 100 characters long.")
     .min(2, "The building name must be at least 2 characters long."),
   zip: yup
     .string()
@@ -107,6 +107,28 @@ export const solarQuoteFormSchema = yup.object().shape({
     .string()
     .max(50,"Too long")
     .min(8,"Too short")
+})
+
+export const profileSchema = yup.object().shape({
+  firstName: yup
+    .string()
+    .required("Your first name is required.")
+    .max(150,"Name must be at most 150 characters long.")
+    .min(2,"Name must be at least 2 characters long."),
+  lastName: yup
+    .string()
+    .required("Your last name is required.")
+    .max(150,"Name must be at most 150 characters long.")
+    .min(2,"Name must be at least 2 characters long."),
+  phone: yup
+    .string()
+    .required("Your phone number is required."),
+  email: yup
+    .string()
+    .email("Please enter a valid email.")      
+    .max(150,"Email must be at most 150 characters long.")
+    .min(2,"Email must be at least 2 characters long."),
+  solarReasons: yup.string(),
 })
 
 export const logInSchema = yup.object().shape({

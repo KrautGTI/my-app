@@ -19,9 +19,18 @@ service cloud.firestore {
 
     // TODO: change these to be updated by admins or that client!
     // No one can update, delete, read, or list but everyone can create
-    match /clients/{clientId} {
-      allow update, delete, read, list: if false;
+    match /users/{userId} {
+      function isTrueUser() {
+        return userId == request.auth.uid;
+      }
+      // Anyone can create a user
       allow create: if true;
+      // Only signed in users can read or list user profile data
+      allow read, list: if isSignedIn();
+      // Only that user can update their profile data
+      allow update: if isSignedIn() && isTrueUser();
+      // No one can delete a user
+      allow delete: if false;
     }
 
     // No one can update, delete, read, or list but everyone can create

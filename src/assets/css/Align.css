@@ -242,6 +242,14 @@ body {
     text-align: center;
 }
 
+.p-top-center {
+    position: absolute;
+    left: 0;
+    top: 10%;
+    width: 100%;
+    text-align: center;
+}
+
 .p-bottom-center {
     position: absolute;
     left: 0;
