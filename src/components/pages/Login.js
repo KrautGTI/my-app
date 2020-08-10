@@ -35,13 +35,13 @@ class LogIn extends Component {
               var errorCode = error.code;
               var errorMessage = error.message;
               console.log("Error signing in: " + errorCode + ": " + errorMessage)
-              alert("Error signing in: " + errorMessage)
+              this.props.alert.error("Error signing in: " + errorMessage)
               window.recaptchaVerifier.clear()
           });
         },
         'expired-callback': () => {
           // Response expired. Ask user to solve reCAPTCHA again.
-          alert("Please solve the reCAPTCHA again.")
+          this.props.alert.error("Please solve the reCAPTCHA again.")
           window.recaptchaVerifier.clear()
         }
       })

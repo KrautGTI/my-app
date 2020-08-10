@@ -2,17 +2,19 @@ import React, { Component } from 'react'
 import { Formik, Form, Field } from "formik";
 import { Link } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import { withAlert  } from 'react-alert'
+
 import { fire, firestore } from "../../Fire.js";
 import { confirm } from "../misc/Confirmation";
 import { ucFirst, validatePhone, timestampToDateTime } from "../../utils/misc";
 import { profileSchema } from "../../utils/formSchemas"
 
-export default class Account extends Component {
+class Account extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
-            user: []
+            user: {}
         }
     }
     
@@ -49,10 +51,6 @@ export default class Account extends Component {
         if(this.unsubscribeUsers){
             this.unsubscribeUsers();
         }
-
-        if(this.unsubscribeAddress){
-            this.unsubscribeAddress();
-        }
     }   
 
     updateDetails = (values, setSubmitting) => {
@@ -79,16 +77,16 @@ export default class Account extends Component {
                         console.log("Updated name details on Firestore.")
                     }).catch((error) => {
                         console.error("Error changing your name on database: " + error);
-                        alert("Error changing your name on database: " + error);
+                        this.props.alert.error('Error changing your name on database: ' + error)
                     });
                    
                 }).catch((error) => {
                     if(error.code === "auth/user-token-expired"){
-                        alert("Your log in status has changed. Please sign out and sign back in with your credentials.")
+                        this.props.alert.error('Your log in status has changed. Please sign out and sign back in with your credentials.')
                         window.location.reload();
                     } else {
                         console.error("Error updating display name on Firebase: " + error);
-                        alert("Error updating display name on Firebase: " + error);
+                        this.props.alert.error('Error updating display name on Firebase: ' + error)
                     }  
                 });
             }
@@ -101,11 +99,10 @@ export default class Account extends Component {
                 phone: values.phone,
             }, { merge: true }).then(() => {
                 console.log("Successfully updated profile details.")
-                alert("Successfully updated profile details.");
+                this.props.alert.success('Successfully updated profile details.')
             }).catch((error) => {
+                this.props.alert.error('Error changing your info on database: ' + error)
                 console.error("Error changing your info on database: " + error);
-                alert("Error changing your info on database: " + error);
-
             });
           },
           () => {
@@ -120,12 +117,12 @@ export default class Account extends Component {
         var currentUser = fire.auth().currentUser;
         if(currentUser){
             fire.auth().sendPasswordResetEmail(this.state.user.email).then(() => {
-                alert("Reset link has been sent to your email.");
+                this.props.alert.success('Reset link has been sent to your email.')
             }).catch((error) => {
-                alert(error.message);
+                this.props.alert.error('Error sending password reset: ' + error.message)
             });
         } else {
-            alert("Your log in status has changed. Please sign out and sign back in with your credentials.")
+            this.props.alert.error('Your log in status has changed. Please sign out and sign back in with your credentials.')
             window.location.reload();
         }
     }
@@ -144,6 +141,12 @@ export default class Account extends Component {
             return (
                 <div className="wrapper">
                     <h1>Account</h1>
+                    <Link to="/buildings" className="btn btn-sm animated-button victoria-one">
+                        <button type="submit" className="just-text-btn">View open building quotes</button>
+                    </Link>
+                    <br/>
+                    <hr/>
+                    <br/>
                     <Formik
                         initialValues={initialFormState}
                         validationSchema={profileSchema}
@@ -248,46 +251,23 @@ export default class Account extends Component {
                                    
                                     {/* Row 9 */}
                                     <Row>
-                                        <Col xs={12} md={6} lg={3} className="s-padding-t">
-                                            <button
-                                                type="submit"
-                                                className="s-btn-green"
-                                                disabled={!props.dirty || props.isSubmitting}>
-                                                Submit
-                                            </button>
+                                        <Col xs={12} lg={3} className="s-padding-t">
+                                            <a className="btn btn-sm animated-button victoria-one big-width" href="# " onClick={(e) => props.handleSubmit(e)}>
+                                                <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Submit</button>
+                                            </a>
                                         </Col>
-                                        <Col xs={12} md={6} lg={3} className="s-padding-t">
-                                            <button
-                                                disabled={!props.dirty}
-                                                onClick={props.handleReset}
-                                                type="button"
-                                                className="s-btn-yellow">
-                                                Reset form
-                                            </button>
+                                        <Col xs={12} lg={3} className="s-padding-t">
+                                            <a className="btn btn-sm animated-button thar-four" href="# " onClick={props.handleReset}>
+                                                <button type="button" className="just-text-btn">Reset form</button>
+                                            </a>
+                                        </Col>
+                                        <Col xs={12} lg={3} className="s-padding-t">
+                                            <a className="btn btn-sm animated-button thar-three" href="# " onClick={this.sendPasswordReset}>
+                                                <button type="button" className="just-text-btn">Change password</button>
+                                            </a>
                                         </Col>
                                     </Row>
-                                    <Row>
-                                        <Col xs={12} md={6} lg={3} className="s-padding-t">
-                                            <button
-                                                type="button"
-                                                className="s-btn-inv"
-                                                onClick={this.props.sendPasswordReset}>
-                                                Change password
-                                            </button>
-                                        </Col>
-                                       
-                                        {/* { !this.state.user.flags.verifiedEmail && (
-                                            <Col xs={12} md={6} lg={3} className="s-padding-t">
-                                                <button
-                                                    type="button"
-                                                    className="s-btn-inv"
-                                                    onClick={this.props.sendVerificationLink}>
-                                                    Send email verification link
-                                                </button>
-                                            </Col>
-                                        )} */}
-                                        
-                                    </Row>
+                                    {/* TODO: send verification link? */}
                                     <Row className="s-padding-t">
                                         <label>Member since: </label>&nbsp;
                                         <time className="box-text-v-align">
@@ -304,3 +284,5 @@ export default class Account extends Component {
         
     }
 }
+
+export default withAlert()(Account)

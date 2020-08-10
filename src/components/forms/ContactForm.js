@@ -32,7 +32,6 @@ class ContactForm extends Component {
 
         return (
             <div className="horiz-center">
-                <button onClick={() => this.props.alert.success(<div style={{ backgroundColor: '#032632', }}>Message submitted successfully.</div>)}>CLICK</button>
                 <Formik
                     initialValues={initialFormState}
                     onSubmit={(values, actions) => {

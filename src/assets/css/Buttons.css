@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:300,400,700);
 
 .btn-sm {
-	width: 160px;
+	width: auto;
 	margin: auto;
 	padding: 8px 10px;
 	font-size: 14px;
@@ -278,8 +278,8 @@ a.animated-button.gibson-four:hover:after {
 	opacity: 1;
 	color: #FFF;
 }
-/* Thar Buttons */
 
+/* Thar Buttons */
 a.animated-button.thar-one {
 	color: #fff;
 	cursor: pointer;
@@ -289,7 +289,7 @@ a.animated-button.thar-one {
 	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 a.animated-button.thar-one:hover {
-	color: #000 !important;
+	color: #F5C551 !important;
 	background-color: transparent;
 	text-shadow: none;
 }
@@ -307,7 +307,7 @@ a.animated-button.thar-one:before {
 	width: 100%;
 	z-index: -1;
 	content: '';
-	color: #000 !important;
+	color: #fff !important;
 	background: #F5C551;
 	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
@@ -320,7 +320,7 @@ a.animated-button.thar-two {
 	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 a.animated-button.thar-two:hover {
-	color: #000 !important;
+	color: #F5C551 !important;
 	background-color: transparent;
 	/* text-shadow: ntwo; */
 }
@@ -338,12 +338,12 @@ a.animated-button.thar-two:before {
 	width: 100%;
 	z-index: -1;
 	content: '';
-	color: #000 !important;
+	color: #fff !important;
 	background: #F5C551;
 	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 a.animated-button.thar-three {
-	color: #fff;
+	color: #F5C551;
 	cursor: pointer;
 	display: block;
 	position: relative;
@@ -351,7 +351,7 @@ a.animated-button.thar-three {
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
 }
 a.animated-button.thar-three:hover {
-	color: #000 !important;
+	color: #fff !important;
 	background-color: transparent;
 	/* text-shadow: nthree; */
 }
@@ -369,12 +369,12 @@ a.animated-button.thar-three:before {
 	width: 0px;
 	z-index: -1;
 	content: '';
-	color: #000 !important;
+	color: #fff !important;
 	background: #F5C551;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
 }
 a.animated-button.thar-four {
-	color: #fff;
+	color: #F5C551;
 	cursor: pointer;
 	display: block;
 	position: relative;
@@ -382,7 +382,7 @@ a.animated-button.thar-four {
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1) 0s;
 }
 a.animated-button.thar-four:hover {
-	color: #000 !important;
+	color: #fff !important;
 	background-color: transparent;
 	/* text-shadow: nfour; */
 }

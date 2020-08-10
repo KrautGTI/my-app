@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Formik, Form, Field } from 'formik';
 import { withRouter, Link } from "react-router-dom";
+import { withAlert  } from 'react-alert'
 
-import { solarQuoteFormSchema } from '../../utils/formSchemas'
+import { visitorSolarQuoteFormSchema, userSolarQuoteFormSchema } from '../../utils/formSchemas'
 import { storage, firestore, firebase, fire } from "../../Fire.js";
 import { validatePhone, genId } from '../../utils/misc';
+import * as constant from "../../utils/constants.js";
 
 class SolarQuoteForm extends Component {
     constructor(props) {
@@ -27,7 +29,7 @@ class SolarQuoteForm extends Component {
         console.log(this.state.fileUrl);
         if(this.state.filePath && !this.state.fileUrl){
             // Case: User selected file, but didn't upload before submit
-            alert("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.");
+            this.props.alert.error("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.")
         } else {
             // Case: User either didn't select a file or selected a file properly
             if(this.state.passwordShown && (!values.password || !values.confirmPassword)){
@@ -50,6 +52,7 @@ class SolarQuoteForm extends Component {
                                 clientId: docRef.id,
                                 zip: values.zip,
                                 buildingName: values.buildingName,
+                                status: constant.PENDING,
                                 averageBill: values.averageBill,
                                 shaded: values.shaded,
                                 billUrl: this.state.fileUrl,
@@ -63,7 +66,7 @@ class SolarQuoteForm extends Component {
                             fileProgress: 0
                         });
                         resetForm();
-                        alert("Submitted proposal!");
+                        this.props.alert.success("Submitted building proposal!")
                     });
                 } else {
                     // Case: User wants to stay and input password.
@@ -86,6 +89,7 @@ class SolarQuoteForm extends Component {
                             clientId: docRef.id,
                             zip: values.zip,
                             buildingName: values.buildingName,
+                            status: constant.PENDING,
                             averageBill: values.averageBill,
                             shaded: values.shaded,
                             billUrl: this.state.fileUrl,
@@ -98,12 +102,12 @@ class SolarQuoteForm extends Component {
                         fileProgress: 0
                     });
                     resetForm();
-                    alert("Submitted proposal!");
+                    this.props.alert.success("Submitted building proposal!")
                 });
             } else if(this.state.passwordShown && values.password && values.confirmPassword) {
                 // Case: User is creating an account!
                 if(values.password === values.confirmPassword){
-                    alert("Please fill out the recaptcha challenge before continuing!")
+                    this.props.alert.info("Please fill out the recaptcha challenge before continuing!")
                     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
                         'callback': (response) => {
                           // reCAPTCHA solved, allow Ask.
@@ -117,7 +121,7 @@ class SolarQuoteForm extends Component {
                                   console.log("Successfully added display name to Firebase.");
                                 }).catch(function(error) {
                                   console.error("Error adding your display name to database: ", error);
-                                  alert("Error adding your display name to database" + error);
+                                  this.props.alert.error("Error adding your display name to database: " + error)
                                   window.recaptchaVerifier.clear()
                                 });
                                 
@@ -126,6 +130,7 @@ class SolarQuoteForm extends Component {
                                     firestore.collection('buildings').add({
                                         clientId: userData.user.uid,
                                         buildingName: values.buildingName,
+                                        status: constant.PENDING,
                                         zip: values.zip,
                                         averageBill: values.averageBill,
                                         shaded: values.shaded,
@@ -147,30 +152,30 @@ class SolarQuoteForm extends Component {
                                     this.props.history.push("/account");
                                 }).catch((error) => {
                                     console.error("Error adding document: ", error);
-                                    alert("Error adding document: " + error);
+                                    this.props.alert.error("Error adding document: " + error)
                                     window.recaptchaVerifier.clear()
                                 });
                             }).catch((error) => {
                                 var errorCode = error.code;
                                 var errorMessage = error.message;
                                 console.log("Error registering: " + errorCode + ": " + errorMessage)
-                                alert("Error registering: " + errorMessage)
+                                this.props.alert.error("Error registering: " + error)
                                 window.recaptchaVerifier.clear()
                               });
                             //   TODO: if register email is taken,needs to throw error on what to do!
                         },
                         'expired-callback': () => {
                           // Response expired. Ask user to solve reCAPTCHA again.
-                          alert("Please solve the reCAPTCHA again.")
+                          this.props.alert.error("Please solve the reCAPTCHA again.")
                           window.recaptchaVerifier.clear()
                         }
                       })
                       window.recaptchaVerifier.render()
                 } else {
-                    alert("Passwords you entered do not match! Try again.")
+                    this.props.alert.error("Passwords you entered do not match! Try again.")
                 }
             } else {
-                alert("Unknown case, try again!")
+                this.props.alert.error("Unknown case, please check fields and try again!")
             }
         }
     }
@@ -182,13 +187,14 @@ class SolarQuoteForm extends Component {
         console.log(this.state.fileUrl);
         if(this.state.filePath && !this.state.fileUrl){
             // Case: User selected file, but didn't upload before submit
-            alert("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.");
+            this.props.alert.error("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.")
         } else {
             // TODO: give building a random name if they dont enter one
             if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
                 // Case: User inputted at least one of the building fields
                 firestore.collection('buildings').add({
                     clientId: this.props.user.uid,
+                    status: constant.PENDING,
                     zip: values.zip,
                     buildingName: values.buildingName,
                     averageBill: values.averageBill,
@@ -202,9 +208,9 @@ class SolarQuoteForm extends Component {
                         fileProgress: 0
                     });
                     resetForm();
-                    alert("Submitted proposal!");
+                    this.props.alert.success("Submitted building proposal!")
                 }).catch((error) => {
-                    alert("Error adding building: " + error)
+                    this.props.alert.error("Error adding building: " + error)
                 })
             }
         }
@@ -278,7 +284,7 @@ class SolarQuoteForm extends Component {
                     onSubmit={(values, actions) => {
                         this.addVisitorQuote(values, actions.resetForm);
                     }}
-                    validationSchema={solarQuoteFormSchema}
+                    validationSchema={this.props.user ? userSolarQuoteFormSchema : visitorSolarQuoteFormSchema}
                     >
                     {props => (
                         <Form>
@@ -617,4 +623,4 @@ function Checkbox(props) {
     );
   };
 
-  export default withRouter(SolarQuoteForm);
+  export default withAlert()(withRouter(SolarQuoteForm));

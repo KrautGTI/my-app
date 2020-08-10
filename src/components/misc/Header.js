@@ -31,12 +31,12 @@ class Header extends Component {
         console.log("Signing out...")
         fire.auth().signOut().then(() => {
           console.log("Sign out successful.");
-          alert("Sign out successful.");
+          this.props.alert.success("Sign out successful.")
           this.props.history.push("/");
           window.location.reload();
         }).catch((error) => {
           console.error("Error signing out: " + error);
-          alert("Error signing out: " + error);
+          this.props.alert.error("Error signing out: " + error)
         });
       }
 

@@ -65,7 +65,7 @@ export const referralFormSchema = yup.object().shape({
 })
 
 
-export const solarQuoteFormSchema = yup.object().shape({
+export const visitorSolarQuoteFormSchema = yup.object().shape({
   firstName: yup
     .string()
     .required("Your first name is required.")
@@ -107,6 +107,19 @@ export const solarQuoteFormSchema = yup.object().shape({
     .string()
     .max(50,"Too long")
     .min(8,"Too short")
+});
+
+export const userSolarQuoteFormSchema = yup.object().shape({
+  buildingName: yup
+    .string()
+    .max(100, "The building name should be less than 100 characters long.")
+    .min(2, "The building name must be at least 2 characters long."),
+  zip: yup
+    .string()
+    .max(10, "ZIP should be less than 10 digits."),
+  averageBill: yup.string(),
+  shaded: yup.string(),
+  billUrl: yup.string().url("Not a valid URL. Example: https://www.website.com"),
 })
 
 export const profileSchema = yup.object().shape({

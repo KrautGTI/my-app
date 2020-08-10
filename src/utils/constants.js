@@ -1,1 +1,4 @@
-// TODO: You should probably be using constants! Try to think of common stuff that we want to ensure is spelled right (like the state of a user or status of a ticket)
+// Building statuses
+export const PENDING = "pending";
+export const READY = "ready";
+export const EXPIRED = "expired";

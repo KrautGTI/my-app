@@ -16,6 +16,7 @@ import Login from './components/pages/Login';
 import FAQ from './components/pages/FAQ';
 import Account from './components/pages/Account';
 import LoggingIn from './components/pages/LoggingIn';
+import { withAlert } from 'react-alert';
 
 
 class Routes extends Component {
@@ -57,7 +58,7 @@ const UserRoute = ({ component: Comp, loggedIn, path, ...rest }) => {
             <Route
               render={() => (
                 <>
-                  {alert("You must sign in to visit that page.")}
+                  {this.props.alert.error("You must sign in to visit that page.")}
                   <Redirect to="/login" />
                 </>
               )}
@@ -78,7 +79,7 @@ const UserRoute = ({ component: Comp, loggedIn, path, ...rest }) => {
               <Route
                 render={() => (
                   <>
-                    {alert("You must be signed out to visit that page.")}
+                    {this.props.alert.error("You must be signed out to visit that page.")}
                     <Redirect to="/" />
                   </>
                 )}
@@ -91,4 +92,4 @@ const UserRoute = ({ component: Comp, loggedIn, path, ...rest }) => {
       );
     };
 
-export default withRouter(Routes);
+export default withAlert()(withRouter(Routes));

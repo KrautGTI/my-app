@@ -451,5 +451,10 @@ body {
         text-align: center;
     }
   }
+
+
+  .big-width {
+      width: 100% !important;
+  }
  
   

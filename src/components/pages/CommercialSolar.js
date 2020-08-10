@@ -37,7 +37,7 @@ export default class CommercialSolar extends Component {
                     More information 
                 */}
 
-                <h4 className="center-text">Contact us directly @ commercial@goprestigepower.com for more questions!</h4>
+                <h4 className="center-text">Contact us directly @ <u>commercial@goprestigepower.com</u> for more questions!</h4>
             </div>
         )
     }
