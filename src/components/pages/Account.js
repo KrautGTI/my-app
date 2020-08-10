@@ -8,13 +8,15 @@ import { fire, firestore } from "../../Fire.js";
 import { confirm } from "../misc/Confirmation";
 import { ucFirst, validatePhone, timestampToDateTime } from "../../utils/misc";
 import { profileSchema } from "../../utils/formSchemas"
+import * as constant from "../../utils/constants.js";
 
 class Account extends Component {
     constructor(props) {
         super(props)
     
         this.state = {
-            user: {}
+            user: {},
+            buildings: []
         }
     }
     
@@ -44,12 +46,28 @@ class Account extends Component {
                         user: docWithMore
                     }) 
                 });
+
+            this.unsubscribeBuildings = firestore.collection("buildings").where("clientId", "==", this.props.user.uid).orderBy("timestamp", "desc")
+                .onSnapshot((querySnapshot) => {
+                    var tempBuildings = []
+                    querySnapshot.forEach((doc) => {
+                        tempBuildings.push(doc.data());
+                    });
+                    this.setState({
+                        buildings: tempBuildings
+                    })
+                });
+
         }
     }
 
     componentWillUnmount() {
         if(this.unsubscribeUsers){
             this.unsubscribeUsers();
+        }
+
+        if(this.unsubscribeBuildings){
+            this.unsubscribeBuildings();
         }
     }   
 
@@ -127,6 +145,39 @@ class Account extends Component {
         }
     }
 
+    renderStatus(status){
+        if(status === constant.PENDING){
+            return(
+                <>
+                    <label>Status:</label>&nbsp;
+                    <span className="green">Pending <i className="fas fa-spinner fa-spin"/></span> 
+                    <div className="s-text s-margin-b">We are working on your solar request and will notify you via email and on this page when it is ready!</div>
+                </>
+            )
+        } else if(status === constant.READY){
+            return (
+                <>
+                    <label>Status:</label>&nbsp;
+                    <div className="green s-margin-b">
+                        <Link to="/" className="btn btn-sm animated-button victoria-one">
+                            <button type="button" className="just-text-btn">Proposal ready to view <i className="fas fa-check"/></button>
+                        </Link>
+                    </div> 
+                </>
+            )
+        } else if(status === constant.EXPIRED){
+            return (
+                <>
+                    <label>Status:</label>&nbsp;
+                    <span className="green">Expired <i className="fas fa-times"/></span> 
+                    <div className="s-text s-margin-b">Your request has been more than 90 days ago and has expired. <Link to="/solar-quote" className="green">Please resubmit your request.</Link></div>
+                </>
+            )
+        } else {
+            return (<span>Loading... </span>)
+        }
+    }
+
     render() {
         const initialFormState = {
             firstName: this.state.user.firstName,
@@ -141,12 +192,55 @@ class Account extends Component {
             return (
                 <div className="wrapper">
                     <h1>Account</h1>
-                    <Link to="/buildings" className="btn btn-sm animated-button victoria-one">
+                    <h2>Open Proposals</h2>
+                    {
+                        this.state.buildings.map((building, index) => {
+                            return(
+                                <div className="border-blue s-margin-t-b" key={index}>
+                                    <Grid fluid>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <h4>{building.buildingName || `Building ${building.zip}`}</h4>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={12}>
+                                                {this.renderStatus(building.status)}
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={12} sm={4}>
+                                                <div><b>Zip:</b> {building.zip}</div>
+                                            </Col>
+                                            <Col xs={12} sm={4}>
+                                                <div><b>Uploaded Bill URL:</b> <a href={building.billUrl} target="_blank" rel="noopener noreferrer" className="green">Click to view</a></div>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={12} sm={4}>
+                                                <div><b>Shaded?:</b> {building.shaded || "Not provided"}</div>
+                                            </Col>
+                                            <Col xs={12} sm={4}>
+                                                <div><b>Average bill cost:</b> {building.averageBill || "Not provided"}</div>
+                                            </Col>
+                                            <Col xs={12} sm={4}>
+                                                <b>Submitted:</b>&nbsp;
+                                                <time>
+                                                    {timestampToDateTime(building.timestamp).fullDate} @ {timestampToDateTime(building.timestamp).fullTime}
+                                                </time>
+                                            </Col>
+                                        </Row>
+                                    </Grid>
+                                </div>
+                            )
+                        })
+                    }
+                    {/* <Link to="/buildings" className="btn btn-sm animated-button victoria-one">
                         <button type="submit" className="just-text-btn">View open building quotes</button>
-                    </Link>
+                    </Link> */}
                     <br/>
                     <hr/>
-                    <br/>
+                    <h2>Your Personal Info</h2>
                     <Formik
                         initialValues={initialFormState}
                         validationSchema={profileSchema}
@@ -253,12 +347,12 @@ class Account extends Component {
                                     <Row>
                                         <Col xs={12} lg={3} className="s-padding-t">
                                             <a className="btn btn-sm animated-button victoria-one big-width" href="# " onClick={(e) => props.handleSubmit(e)}>
-                                                <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Submit</button>
+                                                <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Update changes</button>
                                             </a>
                                         </Col>
                                         <Col xs={12} lg={3} className="s-padding-t">
                                             <a className="btn btn-sm animated-button thar-four" href="# " onClick={props.handleReset}>
-                                                <button type="button" className="just-text-btn">Reset form</button>
+                                                <button type="button" className="just-text-btn">Reset changes</button>
                                             </a>
                                         </Col>
                                         <Col xs={12} lg={3} className="s-padding-t">
@@ -269,7 +363,7 @@ class Account extends Component {
                                     </Row>
                                     {/* TODO: send verification link? */}
                                     <Row className="s-padding-t">
-                                        <label>Member since: </label>&nbsp;
+                                        <label>Registered: </label>&nbsp;
                                         <time className="box-text-v-align">
                                             {this.state.user.timestamp && this.state.user.timestamp.fullDate} @ {this.state.user.timestamp && this.state.user.timestamp.fullTime}
                                         </time>

@@ -32,6 +32,11 @@
     -moz-border-radius: 500px;
 }
 
+.border-blue {
+    border: 3px solid #032632;
+    padding: 8px 15px 8px 15px;
+}
+
 /* 
 * Display 
 */

@@ -204,7 +204,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
             </p>
             <h3>Building Details:</h3>
             <p><u>User ID of client</u>: ${newValue.clientId}</p>
-            <p><u>ZIP</u>: ${newValue.lastName}</p>
+            <p><u>ZIP</u>: ${newValue.zip}</p>
             <p><u>Building name</u>: ${newValue.buildingName}</p>
             <p><u>Average bill</u>: ${newValue.averageBill}</p>
             <p><u>Shaded</u>: ${newValue.shaded}</p>

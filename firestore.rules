@@ -33,10 +33,20 @@ service cloud.firestore {
       allow delete: if false;
     }
 
-    // No one can update, delete, read, or list but everyone can create
+
     match /buildings/{buildingId} {
-      allow update, delete, read, list: if false;
+      function isTrueUser() {
+        return resource.data.clientId == request.auth.uid;
+      }
+      // Anyone can create a user
       allow create: if true;
+      // Only signed in users can read or list user profile data
+      allow read, list: if isSignedIn();
+      // Only that user can update their profile data
+      allow update: if isSignedIn() && isTrueUser();
+      // TODO: allow user to delete building?
+      // No one can delete a user
+      allow delete: if false;
     }
   }
 }

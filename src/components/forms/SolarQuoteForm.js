@@ -23,10 +23,6 @@ class SolarQuoteForm extends Component {
     }
     
     addVisitorQuote = (values, resetForm) => {
-        console.log("Values: ");
-        console.log(values);
-        console.log("Bill URL: ");
-        console.log(this.state.fileUrl);
         if(this.state.filePath && !this.state.fileUrl){
             // Case: User selected file, but didn't upload before submit
             this.props.alert.error("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.")
@@ -34,6 +30,7 @@ class SolarQuoteForm extends Component {
             // Case: User either didn't select a file or selected a file properly
             if(this.state.passwordShown && (!values.password || !values.confirmPassword)){
                 // Case: User may have intended to insert password for account, but didn't fill one of the password fields
+                // TODO: change to our confirm
                 const confirmPasswordResponse = window.confirm("The password field was opened, but not finished. Did you want to continue anyways?");
                 if(confirmPasswordResponse){
                     // Case: User doesn't care that the password wasn't inputted, creating client and building without account
@@ -181,16 +178,14 @@ class SolarQuoteForm extends Component {
     }
 
     addUserQuote = (values, resetForm) => {
-        console.log("Values: ");
-        console.log(values);
-        console.log("Bill URL: ");
-        console.log(this.state.fileUrl);
         if(this.state.filePath && !this.state.fileUrl){
             // Case: User selected file, but didn't upload before submit
             this.props.alert.error("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.")
         } else {
-            // TODO: give building a random name if they dont enter one
-            if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
+            if(!values.zip){
+                // TODO: discuss with reed
+                this.props.alert.error("You must enter at least the ZIP code for us to help the property.")
+            } else {
                 // Case: User inputted at least one of the building fields
                 firestore.collection('buildings').add({
                     clientId: this.props.user.uid,
@@ -213,6 +208,9 @@ class SolarQuoteForm extends Component {
                     this.props.alert.error("Error adding building: " + error)
                 })
             }
+           
+                
+            
         }
     }
 
@@ -282,7 +280,12 @@ class SolarQuoteForm extends Component {
                 <Formik
                     initialValues={initialFormState}
                     onSubmit={(values, actions) => {
-                        this.addVisitorQuote(values, actions.resetForm);
+                        if(this.props.user){
+                            this.addUserQuote(values, actions.resetForm);
+                        } else {
+                            this.addVisitorQuote(values, actions.resetForm);
+                        }
+                        
                     }}
                     validationSchema={this.props.user ? userSolarQuoteFormSchema : visitorSolarQuoteFormSchema}
                     >
