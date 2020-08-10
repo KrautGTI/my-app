@@ -1,6 +1,10 @@
 import React, {Component} from 'react';
 import { Router } from 'react-router-dom';
 
+// Alerts
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic'
+
 import history from './history';
 import Routes from "./routes";
 import { fire } from "./Fire.js";
@@ -45,21 +49,36 @@ class App extends Component {
   }
 
   render() {
+      // optional configuration
+      const options = {
+        // you can also just use 'bottom center'
+        position: positions.TOP_CENTER,
+        // containerStyle: {
+        //   backgroundColor: '#032632'
+        // },
+        timeout: 5000,
+        offset: '30px',
+        // you can also just use 'scale'
+        transition: transitions.SCALE
+      }
+      
       return (
-        <Router history={history}>
-          <ScrollToTop>
-              <Header user={this.state.user} />
-              { !this.state.loading && (
-                <Routes user={this.state.user} />
-              )}
-              { this.state.loading && (
-                <div className="l-container">
-                  <h2 className="wrapper">Loading...</h2> 
-                </div>
-              )}
-              <Footer />
-          </ScrollToTop>
-        </Router>
+        <AlertProvider template={AlertTemplate} {...options}>
+          <Router history={history}>
+            <ScrollToTop>
+                <Header user={this.state.user} />
+                { !this.state.loading && (
+                  <Routes user={this.state.user} />
+                )}
+                { this.state.loading && (
+                  <div className="l-container">
+                    <h2 className="wrapper">Loading...</h2> 
+                  </div>
+                )}
+                <Footer />
+            </ScrollToTop>
+          </Router>
+        </AlertProvider>
     );
   }
 }

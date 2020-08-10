@@ -4,14 +4,14 @@ import { Formik, Field } from 'formik';
 
 import { contactFormSchema } from '../../utils/formSchemas'
 import { firestore } from "../../Fire.js";
+import { withAlert  } from 'react-alert'
 
-export default class ContactForm extends Component {
+class ContactForm extends Component {
     constructor(props) {
         super(props);
         this.addMessage = this.addMessage.bind(this);
     }
     
-
     addMessage(values){
         firestore.collection('messages').add({
             email: values.email,
@@ -19,7 +19,7 @@ export default class ContactForm extends Component {
             message: values.message,
             timestamp: Date.now(),
         }).then(
-            alert("Message submitted successfully.")
+            this.props.alert.success('Message submitted successfully.')
         );
       }
       
@@ -32,6 +32,7 @@ export default class ContactForm extends Component {
 
         return (
             <div className="horiz-center">
+                <button onClick={() => this.props.alert.success(<div style={{ backgroundColor: '#032632', }}>Message submitted successfully.</div>)}>CLICK</button>
                 <Formik
                     initialValues={initialFormState}
                     onSubmit={(values, actions) => {
@@ -114,3 +115,5 @@ export default class ContactForm extends Component {
         )
     }
 }
+
+export default withAlert()(ContactForm)
