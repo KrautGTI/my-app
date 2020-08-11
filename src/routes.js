@@ -17,6 +17,7 @@ import FAQ from './components/pages/FAQ';
 import Account from './components/pages/Account';
 import LoggingIn from './components/pages/LoggingIn';
 import { withAlert } from 'react-alert';
+import AdminPanel from './components/pages/AdminPanel';
 
 
 class Routes extends Component {
@@ -33,6 +34,11 @@ class Routes extends Component {
 
                 <VisitorRoute loggedIn={this.props.user} path="/login" component={withTracker(Login)} />
                 <Route path="/logging-in" exact component={() => <LoggingIn user={this.props.user} />} />
+                <UserRoute
+                    exact
+                    path="/admin-panel"
+                    loggedIn={this.props.user}
+                    component={() => <AdminPanel user={this.props.user} />} />
                 <UserRoute
                     exact
                     path="/account"

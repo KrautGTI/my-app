@@ -67,7 +67,12 @@ a.animated-button:link:after, a.animated-button:visited:after {
 	transition: all 0.75s ease 0s;
 }
 a.animated-button:link:hover, a.animated-button:visited:hover {
-	color: #FFF !important;
+	color: #fff !important;
+	text-shadow: none;
+}
+
+a.animated-button.gibson-one:link:hover, a.animated-button.gibson-one:visited:hover {
+	color:  #E3352B !important;
 	text-shadow: none;
 }
 a.animated-button:link:hover:after, a.animated-button:visited:hover:after {
@@ -200,8 +205,8 @@ a.animated-button.sandy-four:hover:after {
 	opacity: 1;
 	color: #FFF;
 }
-/* Gibson Buttons */
 
+/* Gibson Buttons */
 a.animated-button.gibson-one {
 	border: 2px solid #65b37a;
 	color: #FFF;
@@ -269,7 +274,7 @@ a.animated-button.gibson-four:after {
 	background-image: -moz-linear-gradient(transparent 50%, rgba(101,179,122,0.2) 50%);
 	background-size: 10px 10px;
 	-moz-transform: translateX(-50%) translateY(-50%);
-	-ms-transform: translateX(-50%) translateY(-50%);
+	-ms-transform: translateX(-50%) translateY(-50%));
 	-webkit-transform: translateX(-50%) translateY(-50%);
 	transform: translateX(-50%) translateY(-50%);
 }
@@ -438,6 +443,38 @@ a.animated-button.doug-one:before {
 	color: #032632 !important;
 	background: #F5C551;
 	transition: all 0.4s cubic-bezier(0.42, 0, 0.58, 1);
+}
+
+a.animated-button.doug-two {
+	color: #E3352B;
+	cursor: pointer;
+	display: block;
+	position: relative;
+	border: 2px solid #E3352B;
+	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+}
+a.animated-button.doug-two:hover {
+	color: #fff !important;
+	background-color: transparent;
+	/* text-shadow: ntwo; */
+}
+a.animated-button.doug-two:hover:before {
+	top: 0%;
+	bottom: auto;
+	height: 100%;
+}
+a.animated-button.doug-two:before {
+	display: block;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	height: 0px;
+	width: 100%;
+	z-index: -1;
+	content: '';
+	color: #fff !important;
+	background: #E3352B;
+	transition: all 0.4s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
 }
 
 

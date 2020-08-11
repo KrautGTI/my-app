@@ -191,7 +191,12 @@ class Account extends Component {
         } else {
             return (
                 <div className="wrapper">
-                    <h1>Account</h1>
+                    <h1>Your Account</h1>
+                    {this.state.user.isAdmin && (
+                         <Link to="/admin-panel/" className="btn btn-sm animated-button doug-two s-width">
+                            <button type="button" className="just-text-btn">Go to admin panel <i className="fas fa-user-shield"/></button>
+                        </Link>
+                    )}
                     <h2>Open Proposals</h2>
                     {
                         this.state.buildings.map((building, index) => {
@@ -240,7 +245,7 @@ class Account extends Component {
                     </Link> */}
                     <br/>
                     <hr/>
-                    <h2>Your Personal Info</h2>
+                    <h2>Personal Info</h2>
                     <Formik
                         initialValues={initialFormState}
                         validationSchema={profileSchema}

@@ -110,13 +110,13 @@ table caption {
 }
 
 th, td {
-    padding: 8px;
+    padding: 8px !important;
     text-align: left;
     border-bottom: 1px solid #D6D6D6;
 }
 
 thead {
- background-color: #9AA8AD;
+ background-color: #032632;
  color: white;
 }
 

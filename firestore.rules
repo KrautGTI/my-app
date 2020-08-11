@@ -38,15 +38,19 @@ service cloud.firestore {
       function isTrueUser() {
         return resource.data.clientId == request.auth.uid;
       }
-      // Anyone can create a user
+
+      function isAdminUser() {
+        return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+      }
+
+      // Anyone can create a building
       allow create: if true;
-      // Only signed in users can read or list user profile data
-      allow read, list: if isSignedIn();
-      // Only that user can update their profile data
-      allow update: if isSignedIn() && isTrueUser();
-      // TODO: allow user to delete building?
-      // No one can delete a user
-      allow delete: if false;
+      // Only admins or that building owner can read or list building data
+      allow read, list: if isSignedIn() && (isTrueUser() || isAdminUser());
+      // Only that user or admins can update building data
+      allow update: if isSignedIn() && (isTrueUser() || isAdminUser());
+      // Only admins or that building owner may delete buildings
+      allow delete: if isTrueUser() || isAdminUser();
     }
   }
 }

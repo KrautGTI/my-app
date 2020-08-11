@@ -370,6 +370,10 @@ body {
     margin: 1% 0% 0% 0%;
 }
 
+.s-margin-r-l {
+    margin: 0% 1% 0% 1%;
+}
+
 .s-margin-l {
     margin: 0% 0% 0% 1%;
 }
