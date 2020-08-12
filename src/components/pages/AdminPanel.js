@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { firestore } from '../../Fire';
 import { timestampToDateTime } from '../../utils/misc';
-import {buildingStatusUpdateSchema} from '../../utils/formSchemas'
+import { buildingStatusUpdateSchema, userAssignedToUpdateSchema } from '../../utils/formSchemas'
 import * as constant from "../../utils/constants.js";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -14,7 +14,8 @@ class AdminPanel extends Component {
     
         this.state = {
             users: [],
-            buildings: []
+            buildings: [],
+            admins: []
         }
     }
     
@@ -45,6 +46,19 @@ class AdminPanel extends Component {
                     users: tempUsers
                 })
             });
+
+        this.unsubscribeAdminUsers = firestore.collection("users").where("isAdmin", "==", true).orderBy("timestamp", "desc")
+            .onSnapshot((querySnapshot) => {
+                var tempAdmins = []
+                querySnapshot.forEach((doc) => {
+                    var docWithMore = Object.assign({}, doc.data());
+                    docWithMore.id = doc.id;
+                    tempAdmins.push(docWithMore);
+                });
+                this.setState({
+                    admins: tempAdmins
+                })
+            });
     }
 
     componentWillUnmount() {
@@ -54,6 +68,10 @@ class AdminPanel extends Component {
 
         if(this.unsubscribeBuildings){
             this.unsubscribeBuildings();
+        }
+
+        if(this.unsubscribeAdminUsers){
+            this.unsubscribeAdminUsers();
         }
     }   
 
@@ -69,6 +87,40 @@ class AdminPanel extends Component {
                 console.error("Error changing building status on database: " + error);
             });
     }
+
+    updateUserAssignedTo = (values, userId) => {
+        
+        if(values.assignedTo){
+            console.log("Adding " + values.assignedTo + " to " + userId)
+            const foundAdminInfo = this.state.admins.find(admin => admin.id === values.assignedTo)
+            console.log("Found admin with name of: " + foundAdminInfo.firstName)
+            // Update firestore
+            firestore.collection("users").doc(userId).set({
+                assignedTo: {
+                    userId: values.assignedTo,
+                    firstName: foundAdminInfo.firstName,
+                    lastName: foundAdminInfo.lastName
+                }
+            }, { merge: true }).then(() => {
+                console.log("Successfully updated user assigned to.")
+                this.props.alert.success('Successfully updated user assignedTo.')
+            }).catch((error) => {
+                this.props.alert.error('Error changing user assignedTo on database: ' + error)
+                console.error("Error changing user assignedTo on database: " + error);
+            });
+        } else {
+            firestore.collection("users").doc(userId).set({
+                assignedTo: {}
+            }, { merge: true }).then(() => {
+                console.log("Successfully updated user assigned to.")
+                this.props.alert.success('Successfully updated user assignedTo.')
+            }).catch((error) => {
+                this.props.alert.error('Error changing user assignedTo on database: ' + error)
+                console.error("Error changing user assignedTo on database: " + error);
+            });
+        }
+        
+}
 
     render() {
         return (
@@ -102,6 +154,9 @@ class AdminPanel extends Component {
                                 { 
                                     this.state.users.map((user, index) => {
                                         const dateAndTime = timestampToDateTime(user.timestamp)
+                                        const initialUserAssignedToState = {
+                                            assignedTo: user.assignedTo.userId
+                                        }
                                         return (
                                             <tr key={index}>
                                                 <td>...{user.id.slice(0, 8)}</td>
@@ -111,7 +166,39 @@ class AdminPanel extends Component {
                                                 <td>{user.phone}</td>
                                                 <td>{user.solarReasons.join(", ")}</td>
                                                 <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
-                                                <td>{user.assignedTo || "unassigned"}</td>
+                                                <td>
+                                                    <Formik
+                                                        initialValues={initialUserAssignedToState}
+                                                        validationSchema={userAssignedToUpdateSchema}
+                                                        enableReinitialize={true}
+                                                        onSubmit={(values, actions) => {
+                                                            this.updateUserAssignedTo(values, user.id);
+                                                        }}
+                                                    >
+                                                        {props => (
+                                                            <Form onSubmit={props.handleSubmit}>
+                                                                <Field
+                                                                    component="select" 
+                                                                    name="assignedTo" 
+                                                                    className="table-select"
+                                                                    value={props.values.assignedTo}
+                                                                    onChange={props.handleChange}
+                                                                    >
+                                                                    <option defaultValue value="">N/A</option> 
+                                                                    { this.state.admins.map((admin, index) => {return(<option key={index} value={admin.id}>{admin.firstName} {admin.lastName}</option>)}) }
+                                                                </Field>
+                                                                &nbsp;&nbsp;
+                                                                <button
+                                                                    type="submit"
+                                                                    className="just-text-btn green text-hover"
+                                                                    disabled={!props.dirty || props.isSubmitting}
+                                                                >
+                                                                    save
+                                                                </button>
+                                                            </Form>
+                                                        )}
+                                                    </Formik>
+                                                </td>
                                                 <td>delete | notes </td>
                                             </tr>
                                         )
@@ -206,34 +293,3 @@ class AdminPanel extends Component {
 }
 
 export default withAlert()(AdminPanel)
-
-// TODO: for edittable fields like assigned to, 
-// {this.state.question.status !== constant.RESOLVED && this.state.question.currentTechnician.id === this.props.user.uid && (
-//     <td>
-//       
-//             <span className="text-inline-field">
-//               <Field
-//                 className=""
-//                 name="count"
-//                 onChange={props.handleChange}
-//                 value={props.values.count}
-//                 type="number"
-//                 placeholder={props.values.count || `0`}
-//               />
-//             </span> 
-            // &nbsp;&nbsp;
-            // <button
-            //   type="submit"
-            //   className="just-text-btn green text-hover"
-            //   disabled={!props.dirty || props.isSubmitting}
-            // >
-            //   save
-            // </button>
-//             {props.errors.count && props.touched.count ? (
-//                 <div className="red">{props.errors.count}</div>
-//               ) : (
-//                 ""
-//               )}
-
-//     </td>
-//   )}

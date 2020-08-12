@@ -161,3 +161,8 @@ export const buildingStatusUpdateSchema = yup.object().shape({
   status: yup
     .string(),
 });
+
+export const userAssignedToUpdateSchema = yup.object().shape({
+  assignedTo: yup
+    .string(),
+});
