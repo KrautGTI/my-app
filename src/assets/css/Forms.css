@@ -222,3 +222,11 @@ select:hover {
 select option {
 	font-weight:normal;
 }
+
+select.table-select {
+  display: inline;
+  font-size: 10px;
+  line-height: 12px;
+  padding: 4px 4px;
+  margin: 0 0 2px 0;
+}

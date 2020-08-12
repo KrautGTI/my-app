@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import { firestore } from '../../Fire';
 import { timestampToDateTime } from '../../utils/misc';
+import {buildingStatusUpdateSchema} from '../../utils/formSchemas'
+import * as constant from "../../utils/constants.js";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
+import { Field, Form, Formik } from 'formik';
+import { withAlert } from 'react-alert';
 
-export default class AdminPanel extends Component {
+class AdminPanel extends Component {
     constructor(props) {
         super(props)
     
@@ -52,6 +56,19 @@ export default class AdminPanel extends Component {
             this.unsubscribeBuildings();
         }
     }   
+
+    updateBuildingStatus = (values, buildingId) => {
+            // Update firestore
+            firestore.collection("buildings").doc(buildingId).set({
+                status: values.status
+            }, { merge: true }).then(() => {
+                console.log("Successfully updated building status.")
+                this.props.alert.success('Successfully updated building status.')
+            }).catch((error) => {
+                this.props.alert.error('Error changing building status on database: ' + error)
+                console.error("Error changing building status on database: " + error);
+            });
+    }
 
     render() {
         return (
@@ -125,12 +142,49 @@ export default class AdminPanel extends Component {
                                 { 
                                     this.state.buildings.map((building, index) => {
                                         const dateAndTime = timestampToDateTime(building.timestamp)
+                                        const initialBuildingStatusState = {
+                                            status: building.status
+                                        }
                                         return (
                                             <tr key={index}>
                                                 <td>...{building.id.slice(0, 8)}</td>
                                                 <td>...{building.clientId.slice(0, 8)}</td>
                                                 <td>{building.buildingName}</td>
-                                                <td>{building.status}</td>
+                                                <td>
+                                                <Formik
+                                                    initialValues={initialBuildingStatusState}
+                                                    validationSchema={buildingStatusUpdateSchema}
+                                                    enableReinitialize={true}
+                                                    onSubmit={(values, actions) => {
+                                                        this.updateBuildingStatus(values, building.id);
+                                                    }}
+                                                >
+                                                    {props => (
+                                                        <Form onSubmit={props.handleSubmit}>
+                                                            <Field
+                                                                component="select" 
+                                                                name="status" 
+                                                                className="table-select"
+                                                                value={props.values.status}
+                                                                onChange={props.handleChange}
+                                                                >
+                                                                <option defaultValue value="">N/A</option> 
+                                                                <option value={constant.PENDING}>Pending</option>
+                                                                <option value={constant.READY}>Ready</option>
+                                                                <option value={constant.EXPIRED}>Expired</option>
+                                                            </Field>
+                                                            &nbsp;&nbsp;
+                                                            <button
+                                                                type="submit"
+                                                                className="just-text-btn green text-hover"
+                                                                disabled={!props.dirty || props.isSubmitting}
+                                                            >
+                                                                save
+                                                            </button>
+                                                        </Form>
+                                                    )}
+                                                </Formik>
+                                                </td>
                                                 <td>{building.zip}</td>
                                                 <td>{building.billUrl ? <a href={building.billUrl} target="_blank" rel="noopener noreferrer">View Bill URL</a> : "Not provided"}</td>
                                                 <td>{building.shaded}</td>
@@ -151,20 +205,12 @@ export default class AdminPanel extends Component {
     }
 }
 
+export default withAlert()(AdminPanel)
 
 // TODO: for edittable fields like assigned to, 
 // {this.state.question.status !== constant.RESOLVED && this.state.question.currentTechnician.id === this.props.user.uid && (
 //     <td>
-//       <Formik
-//         initialValues={initialInPersonCountFormState}
-//         validationSchema={inPersonCountSchema}
-//         enableReinitialize={true}
-//         onSubmit={(values, actions) => {
-//           this.addInPersonCount(values);
-//         }}
-//       >
-//         {props => (
-//           <Form onSubmit={props.handleSubmit}>
+//       
 //             <span className="text-inline-field">
 //               <Field
 //                 className=""
@@ -175,21 +221,19 @@ export default class AdminPanel extends Component {
 //                 placeholder={props.values.count || `0`}
 //               />
 //             </span> 
-//             &nbsp;&nbsp;
-//             <button
-//               type="submit"
-//               className="just-text-btn green text-hover"
-//               disabled={!props.dirty || props.isSubmitting}
-//             >
-//               save
-//             </button>
+            // &nbsp;&nbsp;
+            // <button
+            //   type="submit"
+            //   className="just-text-btn green text-hover"
+            //   disabled={!props.dirty || props.isSubmitting}
+            // >
+            //   save
+            // </button>
 //             {props.errors.count && props.touched.count ? (
 //                 <div className="red">{props.errors.count}</div>
 //               ) : (
 //                 ""
 //               )}
-//           </Form>
-//         )}
-//       </Formik>
+
 //     </td>
 //   )}
