@@ -52,9 +52,8 @@ class ReferralForm extends Component {
         }
     }   
 
-    addReferral(values){
+    addReferral(values, resetForm){
         if(this.props.user){
-            // TODO: grab user info from db and place in here
             firestore.collection('referrals').add({
                 referee: {
                     firstName: values.refereeFirstName,
@@ -71,9 +70,10 @@ class ReferralForm extends Component {
                 relation: values.relation,
                 salesRep: values.salesRep,
                 timestamp: Date.now(),
-            }).then(
+            }).then(() => {
+                resetForm()
                 this.props.alert.success("Referral submitted successfully")
-            );
+            });
         } else {
             firestore.collection('referrals').add({
                 referee: {
@@ -91,15 +91,14 @@ class ReferralForm extends Component {
                 relation: values.relation,
                 salesRep: values.salesRep,
                 timestamp: Date.now(),
-            }).then(
+            }).then(() => {
+                resetForm()
                 this.props.alert.success("Referral submitted successfully")
-            );
+            });
         }
-        
       }
       
     render() {
-        // TODO: if signed in, auto fill based on current logged in user data! probably have to turn on formik revalid
         const initialFormState = {
             refereeFirstName: "",
             refereeLastName: "",
@@ -118,8 +117,7 @@ class ReferralForm extends Component {
                 <Formik
                     initialValues={initialFormState}
                     onSubmit={(values, actions) => {
-                        this.addReferral(values);
-                        actions.resetForm()
+                        this.addReferral(values, actions.resetForm);
                     }}
                     validationSchema={referralFormSchema}
                     >

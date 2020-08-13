@@ -3,6 +3,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import '../../assets/css/Hamburger.css';
 import "../../assets/css/Header.css";
 import { fire } from "../../Fire.js";
+import { withAlert } from 'react-alert';
 
 class Header extends Component {
     constructor(props) {
@@ -103,4 +104,5 @@ class Header extends Component {
     }
 }
 
-export default withRouter(Header);
+
+export default withAlert()(withRouter(Header))

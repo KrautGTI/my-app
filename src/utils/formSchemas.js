@@ -51,8 +51,7 @@ export const referralFormSchema = yup.object().shape({
     .max(150,"Name must be at most 150 characters long.")
     .min(2,"Name must be at least 2 characters long."),
   referrerPhone: yup
-    .string()
-    .required("Your phone number is required."),
+    .string(),
   referrerEmail: yup
     .string()
     .email("Please enter a valid email.")

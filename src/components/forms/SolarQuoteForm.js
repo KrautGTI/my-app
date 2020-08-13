@@ -61,7 +61,8 @@ class SolarQuoteForm extends Component {
                         this.setState({
                             fileUrl: "",
                             filePath: "",
-                            fileProgress: 0
+                            fileProgress: 0,
+                            passwordShown: false
                         });
                         resetForm();
                         this.props.alert.success("Submitted building proposal!")
