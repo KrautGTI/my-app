@@ -13,8 +13,14 @@ service cloud.firestore {
 
     // No one can update, delete, read, or list but everyone can create
     match /referrals/{referralId} {
-      allow update, delete, read, list: if false;
+      function isAdminUser() {
+        return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+      }
+
+      // Anyone can create a referral
       allow create: if true;
+      // Only admins read, list, delete, or update referral data
+      allow read, list, update, delete: if isSignedIn() && isAdminUser();
     }
 
     // No one can update, delete, read, or list but everyone can create

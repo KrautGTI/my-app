@@ -18,6 +18,7 @@ class AdminPanel extends Component {
         this.state = {
             users: [],
             buildings: [],
+            referrals: [],
             admins: [],
             showUserNotesModal: [],
             showBuildingNotesModal: [],
@@ -85,6 +86,19 @@ class AdminPanel extends Component {
                 })
             });
 
+        this.unsubscribeReferrals = firestore.collection("referrals").orderBy("timestamp", "desc")
+            .onSnapshot((querySnapshot) => {
+                var tempRefs = [];
+                querySnapshot.forEach((doc) => {
+                    var docWithMore = Object.assign({}, doc.data());
+                    docWithMore.id = doc.id;
+                    tempRefs.push(docWithMore);
+                });
+                this.setState({
+                    referrals: tempRefs
+                })
+            });
+
         this.unsubscribeAdminUsers = firestore.collection("users").where("isAdmin", "==", true).orderBy("timestamp", "desc")
             .onSnapshot((querySnapshot) => {
                 var tempAdmins = []
@@ -106,6 +120,10 @@ class AdminPanel extends Component {
 
         if(this.unsubscribeBuildings){
             this.unsubscribeBuildings();
+        }
+
+        if(this.unsubscribeReferrals){
+            this.unsubscribeReferrals();
         }
 
         if(this.unsubscribeAdminUsers){
@@ -223,6 +241,7 @@ class AdminPanel extends Component {
                 <TabList>
                     <Tab><b className="l-text">Users</b></Tab>
                     <Tab><b className="l-text">Buildings</b></Tab>
+                    <Tab><b className="l-text">Referrals</b></Tab>
                 </TabList>
 
                 <TabPanel>
@@ -482,6 +501,51 @@ class AdminPanel extends Component {
                                                         </div>
                                                     </Modal>
                                                 </td>
+                                            </tr>
+                                        )
+                                    }) 
+                                } 
+                            </tbody>
+                        </table>
+                    </div>
+                </TabPanel>
+                <TabPanel>
+                    <div className="overflow-div s-margin-r-l">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Last 8 Referral ID</th>
+                                    <th>Referee First Name</th>
+                                    <th>Referee Last Name</th>
+                                    <th>Referee Email</th>
+                                    <th>Referee Phone</th>
+                                    <th>Referrer First Name</th>
+                                    <th>Referrer Last Name</th>
+                                    <th>Referrer Email</th>
+                                    <th>Referrer Phone</th>
+                                    <th>Relation</th>
+                                    <th>Sales Rep</th>
+                                    <th>Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                { 
+                                    this.state.referrals.map((ref, index) => {
+                                        const dateAndTime = timestampToDateTime(ref.timestamp)
+                                        return (
+                                            <tr key={index}>
+                                                <td>...{ref.id.slice(0, 8)}</td>
+                                                <td>{ref.referee.firstName}</td>
+                                                <td>{ref.referee.lastName}</td>
+                                                <td>{ref.referee.email}</td>
+                                                <td>{ref.referee.phone}</td>
+                                                <td>{ref.referrer.firstName}</td>
+                                                <td>{ref.referrer.lastName}</td>
+                                                <td>{ref.referrer.email}</td>
+                                                <td>{ref.referrer.phone}</td>
+                                                <td>{ref.relation}</td>
+                                                <td>{ref.salesRep}</td>
+                                                <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
                                             </tr>
                                         )
                                     }) 
