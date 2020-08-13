@@ -21,7 +21,6 @@ import "./assets/css/Images.css";
 import "./assets/css/Misc.css";
 import "./assets/css/Buttons.css"; 
 import "./assets/css/Forms.css"; 
-import "./assets/css/Modal.css"; 
 
 // This component fixes bug where new page load would sometimes be in the middle or bottom
 import ScrollToTop from "./components/misc/ScrollToTop";

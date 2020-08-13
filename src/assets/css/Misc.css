@@ -65,6 +65,9 @@
 .overflow-hidden {
     overflow: hidden;
 }
+.overflow-scroll {
+    overflow: scroll;
+}
 
 /*
 * Background colors 
@@ -235,37 +238,6 @@ tbody tr:hover {
     display: block;
 }
 
-/* 
-* Misc 
-*/
-.strong-blur {
-    filter: blur(6px);
-}
-
-.rounded {
-    border-radius: 50%;
-}  
-
-.cursor-pointer {
-    cursor: pointer;
-}
-
-hr {
-    height: 1px;
-    background-color: #D6D6D6 !important;
-    border: 0 none;
-    color: #D6D6D6;
-}
-
-.recaptcha {
-    max-width: 304px;
-    margin: 0 auto;
-}
-
-.content-none { 
-    content: none;
-}
-
 /* Hero */
 .hero-container-large {
     height: 600px;
@@ -349,6 +321,51 @@ hr {
         font-size: 20px;
       }
 }
+
+/* 
+* Misc 
+*/
+.strong-blur {
+    filter: blur(6px);
+}
+
+.rounded {
+    border-radius: 50%;
+}  
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+hr {
+    height: 1px;
+    background-color: #D6D6D6 !important;
+    border: 0 none;
+    color: #D6D6D6;
+}
+
+.recaptcha {
+    max-width: 304px;
+    margin: 0 auto;
+}
+
+.content-none { 
+    content: none;
+}
+
+.half-height {
+    height: 50%
+}
+
+.two-thirds-height {
+    height: 66%
+}
+
+.eighty-height {
+    height: 80%
+}
+
+
 
 
 

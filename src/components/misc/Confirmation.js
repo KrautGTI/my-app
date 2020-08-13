@@ -36,7 +36,7 @@ class Confirmation extends Component {
     return (
       <Modal
         isOpen={this.state.showModal}
-        className="l-container background-blue p-top-center"
+        className="l-container background-blue p-top-center center-text"
         contentLabel="Confirmation"
         onRequestClose={() => {
           this.handleCloseModal();

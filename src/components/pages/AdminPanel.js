@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { firestore } from '../../Fire';
 import { timestampToDateTime } from '../../utils/misc';
-import { buildingStatusUpdateSchema, userAssignedToUpdateSchema } from '../../utils/formSchemas'
+import { buildingStatusSchema, userAssignedToSchema, userNotesSchema, buildingNotesSchema } from '../../utils/formSchemas'
 import * as constant from "../../utils/constants.js";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { Field, Form, Formik } from 'formik';
 import { withAlert } from 'react-alert';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import Modal from 'react-modal';
 
 class AdminPanel extends Component {
     constructor(props) {
@@ -15,8 +18,34 @@ class AdminPanel extends Component {
         this.state = {
             users: [],
             buildings: [],
-            admins: []
+            admins: [],
+            showUserNotesModal: [],
+            showBuildingNotesModal: [],
         }
+
+        this.modules = {
+            toolbar: [
+                [{'header': '2'}],
+                [{size: []}],
+                ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                [{'list': 'ordered'}, {'list': 'bullet'}, 
+                {'indent': '-1'}, {'indent': '+1'}],
+                [{ align: '' }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
+                ['link', 'image'],
+                ['clean']
+            ],
+            // TODO: this is still adding <p><br></p> for line breaks!
+            clipboard: {
+              matchVisual: false,
+            }
+          }
+        
+        this.formats = [
+            'header', 'size',
+            'bold', 'italic', 'underline', 'strike', 'blockquote',
+            'list', 'bullet', 'indent',
+            'link', 'image', 'align'
+        ]
     }
     
     componentDidMount(){
@@ -36,27 +65,37 @@ class AdminPanel extends Component {
 
         this.unsubscribeUsers = firestore.collection("users").orderBy("timestamp", "desc")
             .onSnapshot((querySnapshot) => {
-                var tempUsers = []
+                var tempUsers = [];
+                var tempShowBuildingModals = [];
+                var count = 0;
                 querySnapshot.forEach((doc) => {
                     var docWithMore = Object.assign({}, doc.data());
                     docWithMore.id = doc.id;
                     tempUsers.push(docWithMore);
+                    tempShowBuildingModals[count] = false;
+                    count++
                 });
                 this.setState({
-                    users: tempUsers
+                    users: tempUsers,
+                    showBuildingNotesModal: tempShowBuildingModals
                 })
             });
 
         this.unsubscribeAdminUsers = firestore.collection("users").where("isAdmin", "==", true).orderBy("timestamp", "desc")
             .onSnapshot((querySnapshot) => {
                 var tempAdmins = []
+                var tempShowUserModals = []
+                var count = 0;
                 querySnapshot.forEach((doc) => {
                     var docWithMore = Object.assign({}, doc.data());
                     docWithMore.id = doc.id;
                     tempAdmins.push(docWithMore);
+                    tempShowUserModals[count] = false;
+                    count++;
                 });
                 this.setState({
-                    admins: tempAdmins
+                    admins: tempAdmins,
+                    showUserNotesModal: tempShowUserModals
                 })
             });
     }
@@ -75,6 +114,30 @@ class AdminPanel extends Component {
         }
     }   
 
+    handleOpenUserNotesModal = (index) => {
+        var tempShowUserModals = this.state.showUserNotesModal
+        tempShowUserModals[index] = true
+        this.setState({ showUserNotesModal: tempShowUserModals });
+    }
+
+    handleCloseUserNotesModal = (index) => {
+        var tempShowUserModals = this.state.showUserNotesModal
+        tempShowUserModals[index] = false
+        this.setState({ showUserNotesModal: tempShowUserModals });
+    }
+
+    handleOpenBuildingNotesModal = (index) => {
+        var tempShowBuildingModals = this.state.showBuildingNotesModal
+        tempShowBuildingModals[index] = true
+        this.setState({ showBuildingNotesModal: tempShowBuildingModals });
+    }
+
+    handleCloseBuildingNotesModal = (index) => {
+        var tempShowBuildingModals = this.state.showUserNotesModal
+        tempShowBuildingModals[index] = false
+        this.setState({ showBuildingNotesModal: tempShowBuildingModals });
+    }
+
     updateBuildingStatus = (values, buildingId) => {
             // Update firestore
             firestore.collection("buildings").doc(buildingId).set({
@@ -89,7 +152,6 @@ class AdminPanel extends Component {
     }
 
     updateUserAssignedTo = (values, userId) => {
-        
         if(values.assignedTo){
             console.log("Adding " + values.assignedTo + " to " + userId)
             const foundAdminInfo = this.state.admins.find(admin => admin.id === values.assignedTo)
@@ -120,7 +182,37 @@ class AdminPanel extends Component {
             });
         }
         
-}
+    }
+
+    updateUserNotes = (values, userId) => {
+        // See: https://github.com/zenoamaro/react-quill/issues/570
+        var removedWeirdBr = values.notes.replace(/<p><br><\/p>/g, "")
+        // Update firestore
+        firestore.collection("users").doc(userId).set({
+            notes: removedWeirdBr
+        }, { merge: true }).then(() => {
+            console.log("Successfully updated user notes.")
+            this.props.alert.success('Successfully updated user notes.')
+        }).catch((error) => {
+            this.props.alert.error('Error changing user notes on database: ' + error)
+            console.error("Error changing user notes on database: " + error);
+        });
+    }
+
+    updateBuildingNotes = (values, buildingId) => {
+        // See: https://github.com/zenoamaro/react-quill/issues/570
+        var removedWeirdBr = values.notes.replace(/<p><br><\/p>/g, "")
+        // Update firestore
+        firestore.collection("buildings").doc(buildingId).set({
+            notes: removedWeirdBr
+        }, { merge: true }).then(() => {
+            console.log("Successfully updated building notes.")
+            this.props.alert.success('Successfully updated building notes.')
+        }).catch((error) => {
+            this.props.alert.error('Error changing building notes on database: ' + error)
+            console.error("Error changing building notes on database: " + error);
+        });
+    }
 
     render() {
         return (
@@ -157,6 +249,9 @@ class AdminPanel extends Component {
                                         const initialUserAssignedToState = {
                                             assignedTo: user.assignedTo.userId
                                         }
+                                        const initialUserNotesState = {
+                                            notes: user.notes
+                                        }
                                         return (
                                             <tr key={index}>
                                                 <td>...{user.id.slice(0, 8)}</td>
@@ -169,7 +264,7 @@ class AdminPanel extends Component {
                                                 <td>
                                                     <Formik
                                                         initialValues={initialUserAssignedToState}
-                                                        validationSchema={userAssignedToUpdateSchema}
+                                                        validationSchema={userAssignedToSchema}
                                                         enableReinitialize={true}
                                                         onSubmit={(values, actions) => {
                                                             this.updateUserAssignedTo(values, user.id);
@@ -199,7 +294,61 @@ class AdminPanel extends Component {
                                                         )}
                                                     </Formik>
                                                 </td>
-                                                <td>delete | notes </td>
+                                                <td>
+                                                    {/* TODO: always opening the last item in the users array because only one handleOpenUserNotesModal state var, maybe just make this into a drop down with no modal? no that would require a state var too...  */}
+                                                    <span className="green text-hover-yellow" onClick={() => this.handleOpenUserNotesModal(index)}>notes</span> | delete |  
+                                                    <Modal
+                                                        isOpen={this.state.showUserNotesModal[index]}
+                                                        className="l-container background-blue p-top-center overflow-scroll eighty-height"
+                                                        contentLabel="Update User Notes"
+                                                        onRequestClose={() => this.handleCloseUserNotesModal(index)}
+                                                    >
+                                                        <div className="white">
+                                                            <h4 className="center-text">
+                                                                Update User Notes
+                                                                <i
+                                                                    onClick={() => this.handleCloseUserNotesModal(index)}
+                                                                    className="fas fa-times right text-hover-red"
+                                                                />
+                                                            </h4>
+                                                            
+                                                        </div>
+                                                        <div className="l-container background-white">
+                                                            <Formik
+                                                                initialValues={initialUserNotesState}
+                                                                validationSchema={userNotesSchema}
+                                                                enableReinitialize={true}
+                                                                onSubmit={(values, actions) => {
+                                                                    this.updateUserNotes(values, user.id);
+                                                                }}
+                                                            >
+                                                                {props => (
+                                                                    <Form onSubmit={props.handleSubmit}>
+                                                                        <Field name="notes">
+                                                                            {({ field }) => 
+                                                                                <ReactQuill 
+                                                                                    value={field.value || ''} 
+                                                                                    modules={this.modules}
+                                                                                    formats={this.formats}
+                                                                                    placeholder="This can be a simple or complex body of text with links to webpages, bolded text, headers, and more!"
+                                                                                    onChange={field.onChange(field.name)} />
+                                                                            }
+                                                                        </Field>
+                                                                        <br/>
+                                                                        <div className="center-text">
+                                                                            <button
+                                                                                type="submit"
+                                                                                disabled={!props.dirty || props.isSubmitting}
+                                                                            >
+                                                                                Save
+                                                                            </button>
+                                                                        </div>
+                                                                    </Form>
+                                                                )}
+                                                            </Formik>
+                                                        </div>
+                                                    </Modal>
+                                                </td>
                                             </tr>
                                         )
                                     }) 
@@ -232,6 +381,9 @@ class AdminPanel extends Component {
                                         const initialBuildingStatusState = {
                                             status: building.status
                                         }
+                                        const initialBuildingNotesState = {
+                                            notes: building.notes
+                                        }
                                         return (
                                             <tr key={index}>
                                                 <td>...{building.id.slice(0, 8)}</td>
@@ -240,7 +392,7 @@ class AdminPanel extends Component {
                                                 <td>
                                                 <Formik
                                                     initialValues={initialBuildingStatusState}
-                                                    validationSchema={buildingStatusUpdateSchema}
+                                                    validationSchema={buildingStatusSchema}
                                                     enableReinitialize={true}
                                                     onSubmit={(values, actions) => {
                                                         this.updateBuildingStatus(values, building.id);
@@ -277,7 +429,60 @@ class AdminPanel extends Component {
                                                 <td>{building.shaded}</td>
                                                 <td>{building.averageBill}</td>
                                                 <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
-                                                <td>delete | notes | </td>
+                                                <td>
+                                                <span className="green text-hover-yellow" onClick={() => this.handleOpenBuildingNotesModal(index)}>notes</span> | delete |  
+                                                    <Modal
+                                                        isOpen={this.state.showBuildingNotesModal[index]}
+                                                        className="l-container background-blue p-top-center"
+                                                        contentLabel="Update Building Notes"
+                                                        onRequestClose={() => this.handleCloseBuildingNotesModal(index)}
+                                                    >
+                                                        <div className="white">
+                                                            <h4 className="center-text">
+                                                                Update Building Notes
+                                                                <i
+                                                                    onClick={() => this.handleCloseBuildingNotesModal(index)}
+                                                                    className="fas fa-times right text-hover-red"
+                                                                />
+                                                            </h4>
+                                                            
+                                                        </div>
+                                                        <div className="l-container background-white">
+                                                            <Formik
+                                                                initialValues={initialBuildingNotesState}
+                                                                validationSchema={buildingNotesSchema}
+                                                                enableReinitialize={true}
+                                                                onSubmit={(values, actions) => {
+                                                                    this.updateBuildingNotes(values, building.id);
+                                                                }}
+                                                            >
+                                                                {props => (
+                                                                    <Form onSubmit={props.handleSubmit}>
+                                                                        <Field name="notes">
+                                                                            {({ field }) => 
+                                                                                <ReactQuill 
+                                                                                    value={field.value || ''} 
+                                                                                    modules={this.modules}
+                                                                                    formats={this.formats}
+                                                                                    placeholder="This can be a simple or complex body of text with links to webpages, bolded text, headers, and more!"
+                                                                                    onChange={field.onChange(field.name)} />
+                                                                            }
+                                                                        </Field>
+                                                                        <br/>
+                                                                        <div className="center-text">
+                                                                            <button
+                                                                                type="submit"
+                                                                                disabled={!props.dirty || props.isSubmitting}
+                                                                            >
+                                                                                Save
+                                                                            </button>
+                                                                        </div>
+                                                                    </Form>
+                                                                )}
+                                                            </Formik>
+                                                        </div>
+                                                    </Modal>
+                                                </td>
                                             </tr>
                                         )
                                     }) 

@@ -157,12 +157,22 @@ export const logInSchema = yup.object().shape({
 });
 
 
-export const buildingStatusUpdateSchema = yup.object().shape({
+export const buildingStatusSchema = yup.object().shape({
   status: yup
     .string(),
 });
 
-export const userAssignedToUpdateSchema = yup.object().shape({
+export const userAssignedToSchema = yup.object().shape({
   assignedTo: yup
+    .string(),
+});
+
+export const userNotesSchema = yup.object().shape({
+  notes: yup
+    .string(),
+});
+
+export const buildingNotesSchema = yup.object().shape({
+  notes: yup
     .string(),
 });
