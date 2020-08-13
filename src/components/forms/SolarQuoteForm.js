@@ -41,6 +41,7 @@ class SolarQuoteForm extends Component {
                         email: values.email,
                         business: values.business,
                         solarReasons: values.solarReasons,
+                        isAdmin: false,
                         assignedTo: {},
                         timestamp: Date.now(),
                     }).then((docRef) => {
@@ -80,6 +81,7 @@ class SolarQuoteForm extends Component {
                     email: values.email,
                     business: values.business,
                     solarReasons: values.solarReasons,
+                    isAdmin: false,
                     assignedTo: {},
                     timestamp: Date.now(),
                 }).then((docRef) => {
@@ -146,6 +148,7 @@ class SolarQuoteForm extends Component {
                                     email: values.email,
                                     business: values.business,
                                     solarReasons: values.solarReasons,
+                                    isAdmin: false,
                                     assignedTo: {},
                                     timestamp: Date.now(),
                                 }, { merge: true }).then(() => {

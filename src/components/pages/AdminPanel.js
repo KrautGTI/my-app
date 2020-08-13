@@ -34,7 +34,6 @@ class AdminPanel extends Component {
                 ['link', 'image'],
                 ['clean']
             ],
-            // TODO: this is still adding <p><br></p> for line breaks!
             clipboard: {
               matchVisual: false,
             }
@@ -53,49 +52,49 @@ class AdminPanel extends Component {
         this.unsubscribeBuildings = firestore.collection("buildings").orderBy("timestamp", "desc")
             .onSnapshot((querySnapshot) => {
                 var tempBuildings = []
-                querySnapshot.forEach((doc) => {
-                    var docWithMore = Object.assign({}, doc.data());
-                    docWithMore.id = doc.id;
-                    tempBuildings.push(docWithMore);
-                });
-                this.setState({
-                    buildings: tempBuildings
-                })
-            });
-
-        this.unsubscribeUsers = firestore.collection("users").orderBy("timestamp", "desc")
-            .onSnapshot((querySnapshot) => {
-                var tempUsers = [];
                 var tempShowBuildingModals = [];
                 var count = 0;
                 querySnapshot.forEach((doc) => {
                     var docWithMore = Object.assign({}, doc.data());
                     docWithMore.id = doc.id;
-                    tempUsers.push(docWithMore);
+                    tempBuildings.push(docWithMore);
                     tempShowBuildingModals[count] = false;
                     count++
                 });
                 this.setState({
-                    users: tempUsers,
+                    buildings: tempBuildings,
                     showBuildingNotesModal: tempShowBuildingModals
+                })
+            });
+
+        this.unsubscribeUsers = firestore.collection("users").where("isAdmin", "==", false).orderBy("timestamp", "desc")
+            .onSnapshot((querySnapshot) => {
+                var tempUsers = [];
+                var tempShowUserModals = [];
+                var count = 0;
+                querySnapshot.forEach((doc) => {
+                    var docWithMore = Object.assign({}, doc.data());
+                    docWithMore.id = doc.id;
+                    tempUsers.push(docWithMore);
+                    tempShowUserModals[count] = false;
+                    count++
+                });
+                this.setState({
+                    users: tempUsers,
+                    showUserNotesModal: tempShowUserModals
                 })
             });
 
         this.unsubscribeAdminUsers = firestore.collection("users").where("isAdmin", "==", true).orderBy("timestamp", "desc")
             .onSnapshot((querySnapshot) => {
                 var tempAdmins = []
-                var tempShowUserModals = []
-                var count = 0;
                 querySnapshot.forEach((doc) => {
                     var docWithMore = Object.assign({}, doc.data());
                     docWithMore.id = doc.id;
                     tempAdmins.push(docWithMore);
-                    tempShowUserModals[count] = false;
-                    count++;
                 });
                 this.setState({
-                    admins: tempAdmins,
-                    showUserNotesModal: tempShowUserModals
+                    admins: tempAdmins
                 })
             });
     }
