@@ -42,7 +42,7 @@ class SolarQuoteForm extends Component {
                         business: values.business,
                         solarReasons: values.solarReasons,
                         isAdmin: false,
-                        assignedTo: {},
+                        assignedTo: { userId: "" },
                         timestamp: Date.now(),
                     }).then((docRef) => {
                         if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
@@ -82,7 +82,7 @@ class SolarQuoteForm extends Component {
                     business: values.business,
                     solarReasons: values.solarReasons,
                     isAdmin: false,
-                    assignedTo: {},
+                    assignedTo: { userId: "" },
                     timestamp: Date.now(),
                 }).then((docRef) => {
                     if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
@@ -149,7 +149,7 @@ class SolarQuoteForm extends Component {
                                     business: values.business,
                                     solarReasons: values.solarReasons,
                                     isAdmin: false,
-                                    assignedTo: {},
+                                    assignedTo: { userId: "" },
                                     timestamp: Date.now(),
                                 }, { merge: true }).then(() => {
                                     console.log("Successful write to Firestore.");

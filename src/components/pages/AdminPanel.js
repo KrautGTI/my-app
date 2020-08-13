@@ -171,7 +171,7 @@ class AdminPanel extends Component {
             });
         } else {
             firestore.collection("users").doc(userId).set({
-                assignedTo: {}
+                assignedTo: { userId: "", firstName: "", lastName: "" },
             }, { merge: true }).then(() => {
                 console.log("Successfully updated user assigned to.")
                 this.props.alert.success('Successfully updated user assignedTo.')
@@ -295,7 +295,7 @@ class AdminPanel extends Component {
                                                 </td>
                                                 <td>
                                                     {/* TODO: always opening the last item in the users array because only one handleOpenUserNotesModal state var, maybe just make this into a drop down with no modal? no that would require a state var too...  */}
-                                                    <span className="green text-hover-yellow" onClick={() => this.handleOpenUserNotesModal(index)}>notes</span> | delete |  
+                                                    <span className="green text-hover-yellow" onClick={() => this.handleOpenUserNotesModal(index)}>notes</span>
                                                     <Modal
                                                         isOpen={this.state.showUserNotesModal[index]}
                                                         className="l-container background-blue p-top-center overflow-scroll eighty-height"
@@ -429,7 +429,7 @@ class AdminPanel extends Component {
                                                 <td>{building.averageBill}</td>
                                                 <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
                                                 <td>
-                                                <span className="green text-hover-yellow" onClick={() => this.handleOpenBuildingNotesModal(index)}>notes</span> | delete |  
+                                                <span className="green text-hover-yellow" onClick={() => this.handleOpenBuildingNotesModal(index)}>notes</span> 
                                                     <Modal
                                                         isOpen={this.state.showBuildingNotesModal[index]}
                                                         className="l-container background-blue p-top-center"

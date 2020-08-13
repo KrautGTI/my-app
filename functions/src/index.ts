@@ -2,6 +2,10 @@
 import functions = require('firebase-functions');
 import admin = require("firebase-admin");
 import nodemailer = require('nodemailer');
+import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
+import { Change, EventContext } from 'firebase-functions';
+import { BuildingStatus } from './common';
+
 admin.initializeApp(functions.config().firebase);
 
 export const onMessageCreated = functions.firestore.document('messages/{messageId}')
@@ -187,61 +191,204 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
     }
   });
 
-  export const onBuildingCreated = functions.firestore.document('buildings/{buildingId}')
-  .onCreate(async (snap: { data: () => any; }) => {
-    console.log("Building create heard! Starting inner...")
-    const newValue = snap.data();
-    try {
-        console.log("Started try{}...")
+  export const onUserUpdated = functions.firestore.document('users/{userId}')
+    .onUpdate(async (change: Change<DocumentSnapshot>, context: EventContext) => {
+        console.log("Client update heard!")
+        const previousValue = change.before.data();
+        const newValue = change.after.data();
 
-        // Template it
-        const htmlEmail = 
-        `
-        <div>
-            <h2>New <u>Prestige Power</u> Website building add</h2>
-            <p>
-                A new building was added! You can always check the admin panel to view the building details, but here are the details:
-            </p>
-            <h3>Building Details:</h3>
-            <p><u>User ID of client</u>: ${newValue.clientId}</p>
-            <p><u>ZIP</u>: ${newValue.zip}</p>
-            <p><u>Building name</u>: ${newValue.buildingName}</p>
-            <p><u>Average bill</u>: ${newValue.averageBill}</p>
-            <p><u>Shaded</u>: ${newValue.shaded}</p>
-            <p><u>Bill provided?</u>: ${newValue.billUrl ? "Yes" : "No"}</p>
-        </div>
-        `
-        // Config it
-        const transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                user: functions.config().email.user,
-                pass: functions.config().email.password
-            }
-        })
-        console.log("transporter = " + transporter)
-
-        // Pack it
-        const mailOptions = {
-            from: `drcj.dev@gmail.com`,
-            to: 'douglasrcjames@gmail.com, drcj.dev@gmail.com',
-            replyTo: `drcj.dev@gmail.com`,
-            subject: `New Prestige Power building add`,
-            text: `A new building added for the client with ID of ${newValue.clientId}.`,
-            html: htmlEmail
+        // do nothing if no data is present
+        if (newValue === null || previousValue === null  || newValue === undefined || previousValue === undefined) {
+            console.error("Some initial values are not set!")
+            return;
         }
 
-        // Send it
-        transporter.sendMail(mailOptions, (err: any) => {
-            if(err) {
-                console.error(err);
-            } else {
-                console.log("Successfully sent mail with sendMail()!");
-            }
-        })
-    } catch (error) {
-        console.error(error)
-    }
+        if (newValue.assignedTo.userId && previousValue.assignedTo.userId !== newValue.assignedTo.userId) {
+            console.log("Assigned to has been updated, sending email to admin...")
+            // Grab admin email
+            admin.firestore().collection("users").doc(newValue.assignedTo.userId).get().then(async (doc) => {
+                if (doc.exists) {
+                    // Template it
+                    const htmlEmail = 
+                    `
+                    <div>
+                        <h2>Assigned <u>Prestige Power</u> client</h2>
+                        <p>
+                            You have been assigned to a client on Prestige Power. Visit the <a href="https://www.goprestigepower.com/admin-panel">Admin Panel</a> to view your assigned clients.
+                        </p>
+                        <h3>Newly Assigned Client Details:</h3>
+                        <p><u>User ID</u>: ${context.params.userId}</p>
+                        <p><u>First name</u>: ${newValue.firstName}</p>
+                        <p><u>Last name</u>: ${newValue.lastName}</p>
+                        <p><u>Email</u>: ${newValue.email}</p>
+                        <p><u>Phone</u>: ${newValue.phone}</p>
+                        <p><u>Business</u>: ${newValue.name}</p>
+                    </div>
+                    `
+                    // Config it
+                    const transporter = nodemailer.createTransport({
+                        host: "smtp.gmail.com",
+                        port: 465,
+                        secure: true,
+                        auth: {
+                            user: functions.config().email.user,
+                            pass: functions.config().email.password
+                        }
+                    })
+                    console.log("transporter = " + transporter)
+
+                    // Pack it
+                    const mailOptions = {
+                        from: `drcj.dev@gmail.com`,
+                        to: doc.data()?.email,
+                        replyTo: `drcj.dev@gmail.com`,
+                        subject: `Assigned Prestige Power client`,
+                        text: `You've been assigned a Prestige Power client with the ID of ${newValue.clientId} and name of ${newValue.firstName} ${newValue.lastName}. Go to the admin panel at www.goprestigepower.com to view the details.`,
+                        html: htmlEmail
+                    }
+
+                    // Send it
+                    transporter.sendMail(mailOptions, (err: any) => {
+                        if(err) {
+                            console.error(err);
+                        } else {
+                            console.log("Successfully sent mail with sendMail()!");
+                        }
+                    })
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such user document!");
+                }
+            }).catch((error) => {
+                console.error("Error grabbing user document: " + error)
+            })
+        }
+
   });
+
+  export const onBuildingCreated = functions.firestore.document('buildings/{buildingId}')
+    .onCreate(async (snap: { data: () => any; }) => {
+        console.log("Building create heard! Starting inner...")
+        const newValue = snap.data();
+        try {
+            console.log("Started try{}...")
+
+            // Template it
+            const htmlEmail = 
+            `
+            <div>
+                <h2>New <u>Prestige Power</u> Website building add</h2>
+                <p>
+                    A new building was added! You can always check the admin panel to view the building details, but here are the details:
+                </p>
+                <h3>Building Details:</h3>
+                <p><u>User ID of client</u>: ${newValue.clientId}</p>
+                <p><u>ZIP</u>: ${newValue.zip}</p>
+                <p><u>Building name</u>: ${newValue.buildingName}</p>
+                <p><u>Average bill</u>: ${newValue.averageBill}</p>
+                <p><u>Shaded</u>: ${newValue.shaded}</p>
+                <p><u>Bill provided?</u>: ${newValue.billUrl ? "Yes" : "No"}</p>
+            </div>
+            `
+            // Config it
+            const transporter = nodemailer.createTransport({
+                host: "smtp.gmail.com",
+                port: 465,
+                secure: true,
+                auth: {
+                    user: functions.config().email.user,
+                    pass: functions.config().email.password
+                }
+            })
+            console.log("transporter = " + transporter)
+
+            // Pack it
+            const mailOptions = {
+                from: `drcj.dev@gmail.com`,
+                to: 'douglasrcjames@gmail.com, drcj.dev@gmail.com',
+                replyTo: `drcj.dev@gmail.com`,
+                subject: `New Prestige Power building add`,
+                text: `A new building added for the client with ID of ${newValue.clientId}.`,
+                html: htmlEmail
+            }
+
+            // Send it
+            transporter.sendMail(mailOptions, (err: any) => {
+                if(err) {
+                    console.error(err);
+                } else {
+                    console.log("Successfully sent mail with sendMail()!");
+                }
+            })
+        } catch (error) {
+            console.error(error)
+        }
+  });
+
+  export const onBuildingUpdated = functions.firestore.document('buildings/{buildingId}')
+    .onUpdate(async (change: Change<DocumentSnapshot>, context: EventContext) => {
+        console.log("Building update heard!")
+        const previousValue = change.before.data();
+        const newValue = change.after.data();
+
+        // do nothing if no data is present
+        if (newValue === null || previousValue === null  || newValue === undefined || previousValue === undefined) {
+            console.error("Some initial values are not set!")
+            return;
+        }
+
+        if (previousValue.status === BuildingStatus.PENDING && newValue.status === BuildingStatus.READY) {
+            const buildingName = newValue.buildingName ? newValue.buildingName : `Building ${newValue.zip} `
+            // Grab client email
+            admin.firestore().collection("users").doc(newValue.clientId).get().then(async (doc) => {
+                if (doc.exists) {
+                    // Template it
+                    const htmlEmail = 
+                    `
+                    <div>
+                        <h2>Your <u>Prestige Power</u> solar proposal is ready to view!</h2>
+                        <p>
+                            We have reviewed your proposal for solar at your building ${buildingName} you submitted and the results are ready for you to view. Click below to view!
+                        </p>
+                        <a href="https://goprestigepower.com"><button>View proposal</button></a>
+                    </div>
+                    `
+                    // Config it
+                    const transporter = nodemailer.createTransport({
+                        host: "smtp.gmail.com",
+                        port: 465,
+                        secure: true,
+                        auth: {
+                            user: functions.config().email.user,
+                            pass: functions.config().email.password
+                        }
+                    })
+                    console.log("transporter = " + transporter)
+
+                    // Pack it
+                    const mailOptions = {
+                        from: `drcj.dev@gmail.com`,
+                        to: doc.data()?.email,
+                        replyTo: `drcj.dev@gmail.com`,
+                        subject: `Prestige Power proposal ready`,
+                        text: `Your <u>Prestige Power</u> solar proposal is ready to view.`,
+                        html: htmlEmail
+                    }
+
+                    // Send it
+                    transporter.sendMail(mailOptions, (err: any) => {
+                        if(err) {
+                            console.error(err);
+                        } else {
+                            console.log("Successfully sent mail with sendMail()!");
+                        }
+                    })
+                } else {
+                    // doc.data() will be undefined in this case
+                    console.log("No such user document!");
+                }
+            }).catch((error) => {
+                console.error("Error grabbing user document: " + error)
+            })
+        }
+});
