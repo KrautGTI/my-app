@@ -33,7 +33,7 @@ export const ForgotPassword = React.memo(function(props) {
             
           </div>
           <div>
-            <p>
+            <p className="white">
                 Please enter your address email below and we will send that email a password reset link. When you click that link in your email, you will be able to create a new password.
                 <br/>
                 If this doesn't work within 10 or so minutes, contact us at <u>help@minute.tech</u>.
@@ -49,9 +49,10 @@ export const ForgotPassword = React.memo(function(props) {
                 >
                 {props => (
                     <form onSubmit={props.handleSubmit}>
-                        <label htmlFor="white">Email on file: </label>
+                        <label htmlFor="email" className="white">Email on file: </label>
                         <Field
                             type="email"
+                            className="m-width center"
                             onChange={props.handleChange}
                             name="email"
                             value={props.values.email}

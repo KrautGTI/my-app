@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { firebase, fire } from "../../Fire.js";
 import { logInSchema } from "../../utils/formSchemas"
 import { ForgotPassword } from '../forms/ForgotPassword.js';
+import { withAlert } from 'react-alert';
 
 class LogIn extends Component {
     constructor(props) {
@@ -145,4 +146,4 @@ class LogIn extends Component {
   }
 }
 
-export default withRouter(LogIn);
+export default withAlert()(withRouter(LogIn))

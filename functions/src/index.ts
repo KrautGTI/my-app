@@ -12,6 +12,14 @@ export const onMessageCreated = functions.firestore.document('messages/{messageI
   .onCreate(async (snap: { data: () => any; }) => {
     console.log("Message create heard! Starting inner...")
     const newValue = snap.data();
+    // Increment stat for all referrals on system
+    admin.firestore().collection("other").doc("stats").set({
+        messagesTotal: admin.firestore.FieldValue.increment(1)
+    }, { merge: true }).then(function() {
+        console.log("Total messages successfully increment!");
+    }).catch(function(error) {
+        console.error("Error incrementing Total messages: ", error);
+    });
     try {
         console.log("Started try{}...")
 
@@ -71,8 +79,8 @@ export const onReferralCreated = functions.firestore.document('referrals/{referr
     console.log("Referral create heard! Starting inner...")
     const newValue = snap.data();
     // Increment stat for all referrals on system
-    admin.firestore().collection("stats").doc("referrals").set({
-        total: admin.firestore.FieldValue.increment(1)
+    admin.firestore().collection("other").doc("stats").set({
+        referralsTotal: admin.firestore.FieldValue.increment(1)
     }, { merge: true }).then(function() {
         console.log("Total referrals successfully increment!");
     }).catch(function(error) {
@@ -147,8 +155,8 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
     const newValue = snap.data();
 
     // Increment stat for all users on system
-    admin.firestore().collection("stats").doc("users").set({
-        total: admin.firestore.FieldValue.increment(1)
+    admin.firestore().collection("other").doc("stats").set({
+        usersTotal: admin.firestore.FieldValue.increment(1)
     }, { merge: true }).then(function() {
         console.log("Total users successfully increment!");
     }).catch(function(error) {
@@ -291,8 +299,8 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
         const newValue = snap.data();
 
         // Increment stat for all buildings on system
-        admin.firestore().collection("stats").doc("buildings").set({
-            total: admin.firestore.FieldValue.increment(1)
+        admin.firestore().collection("other").doc("stats").set({
+            buildingsTotal: admin.firestore.FieldValue.increment(1)
         }, { merge: true }).then(function() {
             console.log("Total buildings successfully increment!");
         }).catch(function(error) {
