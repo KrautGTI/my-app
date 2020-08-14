@@ -63,6 +63,12 @@ export const referralFormSchema = yup.object().shape({
     .min(2,"Sales rep must be at least 2 characters long."),
 })
 
+export const forgotPasswordSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email("Please enter a valid email address.")
+    .required("Please enter your email."),
+})
 
 export const visitorSolarQuoteFormSchema = yup.object().shape({
   firstName: yup

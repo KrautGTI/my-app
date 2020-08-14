@@ -18,7 +18,7 @@ class ReferralForm extends Component {
     }
     
     componentDidMount(){
-        if(this.props.user.uid){
+        if(this.props.user){
             // Listen for Firestore changes
             this.unsubscribeUsers = firestore.collection("users").doc(this.props.user.uid)
                 .onSnapshot((doc) => {

@@ -348,10 +348,16 @@ time {
     cursor: pointer;
 }
 
+.underline-hover:hover {
+    text-decoration: underline !important; 
+}
+
 /* Misc */
 .center-text {
     text-align: center !important; 
 }
+
+
 
 .anchor {
     font-size: 0;

@@ -4,6 +4,7 @@ import { withRouter, Link } from 'react-router-dom';
 
 import { firebase, fire } from "../../Fire.js";
 import { logInSchema } from "../../utils/formSchemas"
+import { ForgotPassword } from '../forms/ForgotPassword.js';
 
 class LogIn extends Component {
     constructor(props) {
@@ -11,6 +12,10 @@ class LogIn extends Component {
         this.signIn = this.signIn.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+
+        this.state = {
+          showModal: false
+        }
     }
     
     handleChange(e) {
@@ -21,6 +26,14 @@ class LogIn extends Component {
       e.preventDefault();
     }
   
+    handleOpenModal = () => {
+      this.setState({ showModal: true });
+    }
+
+    handleCloseModal = () => {
+      this.setState({ showModal: false });
+    }
+
     signIn(values) {
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
         'callback': (response) => {
@@ -46,6 +59,14 @@ class LogIn extends Component {
         }
       })
       window.recaptchaVerifier.render()
+    }
+
+    sendPasswordReset = (values) => {
+      fire.auth().sendPasswordResetEmail(values.email).then(() => {
+        this.props.alert.success("Reset link has been sent to your email.")
+      }).catch(function(error) {
+        this.props.alert.error(error.message)
+      });
     }
 
   render() {
@@ -99,9 +120,19 @@ class LogIn extends Component {
                 </div>
                 <br/>
                 <div className="center-text">
-                  <Link to="/solar-quote" className="grey-text-btn s-padding-b">
+                  <Link to="/solar-quote" className="s-padding-b">
                     Don't have an account?
                   </Link>
+                </div>
+                <div className="center-text">
+                  <ForgotPassword
+                    handleOpenModal={this.handleOpenModal}
+                    showModal={this.state.showModal}
+                    handleChange={this.handleChange}
+                    sendPasswordReset={this.sendPasswordReset}
+                    handleCloseModal={this.handleCloseModal}
+                    wording={"Forgot password?"}
+                    linkClass={"just-text-btn underline-hover text-hover"} />
                 </div>
                 <br/>
                 <div id="recaptcha" className="p-container recaptcha"></div>

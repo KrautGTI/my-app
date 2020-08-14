@@ -19,6 +19,7 @@ class AdminPanel extends Component {
             users: [],
             buildings: [],
             referrals: [],
+            messages: [],
             admins: [],
             showUserNotesModal: [],
             showBuildingNotesModal: [],
@@ -99,6 +100,19 @@ class AdminPanel extends Component {
                 })
             });
 
+        this.unsubscribeMessages = firestore.collection("messages").orderBy("timestamp", "desc")
+            .onSnapshot((querySnapshot) => {
+                var tempMessages = [];
+                querySnapshot.forEach((doc) => {
+                    var docWithMore = Object.assign({}, doc.data());
+                    docWithMore.id = doc.id;
+                    tempMessages.push(docWithMore);
+                });
+                this.setState({
+                    messages: tempMessages
+                })
+            });
+
         this.unsubscribeAdminUsers = firestore.collection("users").where("isAdmin", "==", true).orderBy("timestamp", "desc")
             .onSnapshot((querySnapshot) => {
                 var tempAdmins = []
@@ -124,6 +138,10 @@ class AdminPanel extends Component {
 
         if(this.unsubscribeReferrals){
             this.unsubscribeReferrals();
+        }
+
+        if(this.unsubscribeMessages){
+            this.unsubscribeMessages();
         }
 
         if(this.unsubscribeAdminUsers){
@@ -242,6 +260,7 @@ class AdminPanel extends Component {
                     <Tab><b className="l-text">Users</b></Tab>
                     <Tab><b className="l-text">Buildings</b></Tab>
                     <Tab><b className="l-text">Referrals</b></Tab>
+                    <Tab><b className="l-text">Messages</b></Tab>
                 </TabList>
 
                 <TabPanel>
@@ -545,6 +564,37 @@ class AdminPanel extends Component {
                                                 <td>{ref.referrer.phone}</td>
                                                 <td>{ref.relation}</td>
                                                 <td>{ref.salesRep}</td>
+                                                <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
+                                            </tr>
+                                        )
+                                    }) 
+                                } 
+                            </tbody>
+                        </table>
+                    </div>
+                </TabPanel>
+                <TabPanel>
+                    <div className="overflow-div s-margin-r-l">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Last 8 Message ID</th>
+                                    <th>Sender Name</th>
+                                    <th>Sender Email</th>
+                                    <th>Message Body</th>
+                                    <th>Timestamp</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                { 
+                                    this.state.messages.map((message, index) => {
+                                        const dateAndTime = timestampToDateTime(message.timestamp)
+                                        return (
+                                            <tr key={index}>
+                                                <td>...{message.id.slice(0, 8)}</td>
+                                                <td>{message.name}</td>
+                                                <td>{message.email}</td>
+                                                <td>{message.message}</td>
                                                 <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
                                             </tr>
                                         )

@@ -21,7 +21,7 @@ class Account extends Component {
     }
     
     componentDidMount(){
-        if(this.props.user.uid){
+        if(this.props.user){
             // Listen for Firestore changes
             this.unsubscribeUsers = firestore.collection("users").doc(this.props.user.uid)
                 .onSnapshot((doc) => {
@@ -186,7 +186,7 @@ class Account extends Component {
             phone: this.state.user.phone,
             business: this.state.user.business
         };
-        if(!this.state.user.timestamp){
+        if(!this.state.user && !this.state.user.timestamp){
             return(<div className="wrapper"><h2>Loading your user data...</h2></div>)
         } else {
             return (

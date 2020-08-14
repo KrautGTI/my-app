@@ -5,13 +5,17 @@ service cloud.firestore {
       return request.auth != null;
     }
     
-    // No one can update, delete, read, or list but everyone can create
     match /messages/{messageId} {
-      allow update, delete, read, list: if false;
+      function isAdminUser() {
+        return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+      }
+
+      // Anyone can create a message
       allow create: if true;
+      // Only admins read, list, delete, or update message data
+      allow read, list, update, delete: if isSignedIn() && isAdminUser();
     }
 
-    // No one can update, delete, read, or list but everyone can create
     match /referrals/{referralId} {
       function isAdminUser() {
         return get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
@@ -23,7 +27,6 @@ service cloud.firestore {
       allow read, list, update, delete: if isSignedIn() && isAdminUser();
     }
 
-    // No one can update, delete, read, or list but everyone can create
     match /users/{userId} {
       function isTrueUser() {
         return userId == request.auth.uid;
@@ -40,7 +43,6 @@ service cloud.firestore {
       // Only admins may delete users
       allow delete: if isAdminUser();
     }
-
 
     match /buildings/{buildingId} {
       function isTrueUser() {

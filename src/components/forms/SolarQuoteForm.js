@@ -57,6 +57,9 @@ class SolarQuoteForm extends Component {
                                 billUrl: this.state.fileUrl,
                                 timestamp: Date.now(),
                             })
+                            this.props.alert.success("Submitted building proposal, you will hear from us soon.")
+                        } else {
+                            this.props.alert.success("Submitted your inquiry, you will hear from us soon.")
                         }
                         
                         this.setState({
@@ -66,7 +69,7 @@ class SolarQuoteForm extends Component {
                             passwordShown: false
                         });
                         resetForm();
-                        this.props.alert.success("Submitted building proposal!")
+                        
                     });
                 } else {
                     // Case: User wants to stay and input password.
@@ -97,6 +100,9 @@ class SolarQuoteForm extends Component {
                             billUrl: this.state.fileUrl,
                             timestamp: Date.now(),
                         })
+                        this.props.alert.success("Submitted building proposal, you will hear from us soon.")
+                    } else {
+                        this.props.alert.success("Submitted your inquiry, you will hear from us soon.")
                     }
                     this.setState({
                         fileUrl: "",
@@ -104,7 +110,7 @@ class SolarQuoteForm extends Component {
                         fileProgress: 0
                     });
                     resetForm();
-                    this.props.alert.success("Submitted building proposal!")
+                    
                 });
             } else if(this.state.passwordShown && values.password && values.confirmPassword) {
                 // Case: User is creating an account!
@@ -215,9 +221,6 @@ class SolarQuoteForm extends Component {
                     this.props.alert.error("Error adding building: " + error)
                 })
             }
-           
-                
-            
         }
     }
 

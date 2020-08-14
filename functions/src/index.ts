@@ -70,6 +70,15 @@ export const onReferralCreated = functions.firestore.document('referrals/{referr
   .onCreate(async (snap: { data: () => any; }) => {
     console.log("Referral create heard! Starting inner...")
     const newValue = snap.data();
+    // Increment stat for all referrals on system
+    admin.firestore().collection("stats").doc("referrals").set({
+        total: admin.firestore.FieldValue.increment(1)
+    }, { merge: true }).then(function() {
+        console.log("Total referrals successfully increment!");
+    }).catch(function(error) {
+        console.error("Error incrementing Total referrals: ", error);
+    });
+
     try {
         console.log("Started try{}...")
 
@@ -136,6 +145,16 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
   .onCreate(async (snap: { data: () => any; }) => {
     console.log("Client create heard! Starting inner...")
     const newValue = snap.data();
+
+    // Increment stat for all users on system
+    admin.firestore().collection("stats").doc("users").set({
+        total: admin.firestore.FieldValue.increment(1)
+    }, { merge: true }).then(function() {
+        console.log("Total users successfully increment!");
+    }).catch(function(error) {
+        console.error("Error incrementing Total users: ", error);
+    });
+
     try {
         console.log("Started try{}...")
 
@@ -270,6 +289,16 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
     .onCreate(async (snap: { data: () => any; }) => {
         console.log("Building create heard! Starting inner...")
         const newValue = snap.data();
+
+        // Increment stat for all buildings on system
+        admin.firestore().collection("stats").doc("buildings").set({
+            total: admin.firestore.FieldValue.increment(1)
+        }, { merge: true }).then(function() {
+            console.log("Total buildings successfully increment!");
+        }).catch(function(error) {
+            console.error("Error incrementing Total buildings: ", error);
+        });
+
         try {
             console.log("Started try{}...")
 
