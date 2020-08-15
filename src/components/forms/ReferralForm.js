@@ -65,7 +65,8 @@ class ReferralForm extends Component {
                     firstName: this.state.user.firstName,
                     lastName: this.state.user.lastName,
                     phone: this.state.user.phone,
-                    email: this.state.user.email
+                    email: this.state.user.email,
+                    userId: this.props.user.uid
                 },
                 relation: values.relation,
                 salesRep: values.salesRep,

@@ -10,11 +10,11 @@ import { withAlert } from 'react-alert';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Modal from 'react-modal';
+import { Col, Grid, Row } from 'react-flexbox-grid';
 
 class AdminPanel extends Component {
     constructor(props) {
         super(props)
-    
         this.state = {
             users: [],
             buildings: [],
@@ -30,7 +30,9 @@ class AdminPanel extends Component {
             usersTotal: 0,
             buildingsTotal: 0,
             referralsTotal: 0,
-            messagesTotal: 0
+            messagesTotal: 0,
+            myClientsShown: false,
+            thisClientDataShown: ""
         }
 
         this.modules = {
@@ -113,7 +115,35 @@ class AdminPanel extends Component {
         if(this.unsubscribeLoadMessages){
             this.unsubscribeLoadMessages();
         }
+
+        if(this.unsubscribeLoadMyUsers){
+            this.unsubscribeLoadMyUsers();
+        }
+
+        if(this.unsubscribeLoadClientBuildings){
+            this.unsubscribeLoadClientBuildings();
+        }
+
+        if(this.unsubscribeLoadClientReferrals){
+            this.unsubscribeLoadClientReferrals();
+        }
+
+        if(this.unsubscribeLoadClientMessages){
+            this.unsubscribeLoadClientMessages();
+        }
     }   
+
+    componentDidUpdate(prevProps, prevState){
+        if(this.state.myClientsShown !== prevState.myClientsShown){
+            this.loadMoreUsers();
+        }
+
+        if(this.state.thisClientDataShown  !== prevState.thisClientDataShown){
+            this.loadMoreBuildings();
+            this.unsubscribeLoadReferrals();
+            this.unsubscribeLoadMessages();
+        }
+    }
 
     handleOpenUserNotesModal = (index) => {
         var tempShowUserModals = this.state.showUserNotesModal
@@ -139,33 +169,6 @@ class AdminPanel extends Component {
         this.setState({ showBuildingNotesModal: tempShowBuildingModals });
     }
 
-    loadMoreBuildings(){
-        var newNumToLoad = this.state.numBuildingsLoaded;
-        newNumToLoad = newNumToLoad+20
-    
-        this.setState({
-            numBuildingsLoaded: newNumToLoad
-        })
-        
-        this.unsubscribeLoadBuildings = firestore.collection("buildings").orderBy("timestamp", "desc").limit(newNumToLoad)
-            .onSnapshot((querySnapshot) => {
-                var tempBuildings = []
-                var tempShowBuildingModals = [];
-                var count = 0;
-                querySnapshot.forEach((doc) => {
-                    var docWithMore = Object.assign({}, doc.data());
-                    docWithMore.id = doc.id;
-                    tempBuildings.push(docWithMore);
-                    tempShowBuildingModals[count] = false;
-                    count++
-                });
-                this.setState({
-                    buildings: tempBuildings,
-                    showBuildingNotesModal: tempShowBuildingModals
-                })
-            });
-    }
-
     loadMoreUsers(){
         var newNumToLoad = this.state.numUsersLoaded;
         newNumToLoad = newNumToLoad+20
@@ -174,23 +177,107 @@ class AdminPanel extends Component {
             numUsersLoaded: newNumToLoad
         })
 
-        this.unsubscribeLoadUsers = firestore.collection("users").where("isAdmin", "==", false).orderBy("timestamp", "desc").limit(newNumToLoad)
-            .onSnapshot((querySnapshot) => {
-                var tempUsers = [];
-                var tempShowUserModals = [];
-                var count = 0;
-                querySnapshot.forEach((doc) => {
-                    var docWithMore = Object.assign({}, doc.data());
-                    docWithMore.id = doc.id;
-                    tempUsers.push(docWithMore);
-                    tempShowUserModals[count] = false;
-                    count++
+        if(this.state.myClientsShown){
+            this.unsubscribeLoadMyUsers = firestore.collection("users").where("isAdmin", "==", false).where("assignedTo.userId", "==", this.props.user.uid).orderBy("timestamp", "desc").limit(newNumToLoad)
+                .onSnapshot((querySnapshot) => {
+                    var tempUsers = [];
+                    var tempShowUserModals = [];
+                    var count = 0;
+                    querySnapshot.forEach((doc) => {
+                        var docWithMore = Object.assign({}, doc.data());
+                        docWithMore.id = doc.id;
+                        tempUsers.push(docWithMore);
+                        tempShowUserModals[count] = false;
+                        count++
+                    });
+                    this.setState({
+                        users: tempUsers,
+                        showUserNotesModal: tempShowUserModals
+                    })
                 });
-                this.setState({
-                    users: tempUsers,
-                    showUserNotesModal: tempShowUserModals
-                })
-            });
+
+            if(this.unsubscribeLoadUsers){
+                this.unsubscribeLoadUsers();
+            }
+        } else {
+            this.unsubscribeLoadUsers = firestore.collection("users").where("isAdmin", "==", false).orderBy("timestamp", "desc").limit(newNumToLoad)
+                .onSnapshot((querySnapshot) => {
+                    var tempUsers = [];
+                    var tempShowUserModals = [];
+                    var count = 0;
+                    querySnapshot.forEach((doc) => {
+                        var docWithMore = Object.assign({}, doc.data());
+                        docWithMore.id = doc.id;
+                        tempUsers.push(docWithMore);
+                        tempShowUserModals[count] = false;
+                        count++
+                    });
+                    this.setState({
+                        users: tempUsers,
+                        showUserNotesModal: tempShowUserModals
+                    })
+                });
+
+            if(this.unsubscribeLoadMyUsers){
+                this.unsubscribeLoadMyUsers();
+            }
+        }
+    }
+
+    loadMoreBuildings(){
+        var newNumToLoad = this.state.numBuildingsLoaded;
+        newNumToLoad = newNumToLoad+20
+    
+        this.setState({
+            numBuildingsLoaded: newNumToLoad
+        })
+
+        if(this.state.thisClientDataShown){
+            this.unsubscribeLoadClientBuildings = firestore.collection("buildings").where("clientId", "==", this.state.thisClientDataShown).orderBy("timestamp", "desc").limit(newNumToLoad)
+                .onSnapshot((querySnapshot) => {
+                    var tempBuildings = []
+                    var tempShowBuildingModals = [];
+                    var count = 0;
+                    querySnapshot.forEach((doc) => {
+                        var docWithMore = Object.assign({}, doc.data());
+                        docWithMore.id = doc.id;
+                        tempBuildings.push(docWithMore);
+                        tempShowBuildingModals[count] = false;
+                        count++
+                    });
+                    this.setState({
+                        buildings: tempBuildings,
+                        showBuildingNotesModal: tempShowBuildingModals
+                    })
+                });
+
+            if(this.unsubscribeLoadBuildings){
+                this.unsubscribeLoadBuildings();
+            }
+        
+        } else {
+            this.unsubscribeLoadBuildings = firestore.collection("buildings").orderBy("timestamp", "desc").limit(newNumToLoad)
+                .onSnapshot((querySnapshot) => {
+                    var tempBuildings = []
+                    var tempShowBuildingModals = [];
+                    var count = 0;
+                    querySnapshot.forEach((doc) => {
+                        var docWithMore = Object.assign({}, doc.data());
+                        docWithMore.id = doc.id;
+                        tempBuildings.push(docWithMore);
+                        tempShowBuildingModals[count] = false;
+                        count++
+                    });
+                    this.setState({
+                        buildings: tempBuildings,
+                        showBuildingNotesModal: tempShowBuildingModals
+                    })
+                });
+
+            if(this.unsubscribeLoadClientBuildings){
+                this.unsubscribeLoadClientBuildings();
+            }
+        }
     }
 
     loadMoreReferrals(){
@@ -200,19 +287,43 @@ class AdminPanel extends Component {
         this.setState({
             numReferralsLoaded: newNumToLoad
         })
-        
-        this.unsubscribeLoadReferrals = firestore.collection("referrals").orderBy("timestamp", "desc").limit(newNumToLoad)
-            .onSnapshot((querySnapshot) => {
-                var tempRefs = [];
-                querySnapshot.forEach((doc) => {
-                    var docWithMore = Object.assign({}, doc.data());
-                    docWithMore.id = doc.id;
-                    tempRefs.push(docWithMore);
+
+        if(this.state.thisClientDataShown){
+            this.unsubscribeLoadClientReferrals = firestore.collection("referrals").where("userId", "==", this.state.thisClientDataShown).orderBy("timestamp", "desc").limit(newNumToLoad)
+                .onSnapshot((querySnapshot) => {
+                    var tempRefs = [];
+                    querySnapshot.forEach((doc) => {
+                        var docWithMore = Object.assign({}, doc.data());
+                        docWithMore.id = doc.id;
+                        tempRefs.push(docWithMore);
+                    });
+                    this.setState({
+                        referrals: tempRefs
+                    })
                 });
-                this.setState({
-                    referrals: tempRefs
-                })
-            });
+
+            if(this.unsubscribeLoadReferrals){
+                this.unsubscribeLoadReferrals();
+            }
+        
+        } else {
+            this.unsubscribeLoadReferrals = firestore.collection("referrals").orderBy("timestamp", "desc").limit(newNumToLoad)
+                .onSnapshot((querySnapshot) => {
+                    var tempRefs = [];
+                    querySnapshot.forEach((doc) => {
+                        var docWithMore = Object.assign({}, doc.data());
+                        docWithMore.id = doc.id;
+                        tempRefs.push(docWithMore);
+                    });
+                    this.setState({
+                        referrals: tempRefs
+                    })
+                });
+
+            if(this.unsubscribeLoadClientReferrals){
+                this.unsubscribeLoadClientReferrals();
+            }
+        }
     }
 
     loadMoreMessages(){
@@ -223,18 +334,42 @@ class AdminPanel extends Component {
             numMessagesLoaded: newNumToLoad
         })
 
-        this.unsubscribeLoadMessages = firestore.collection("messages").orderBy("timestamp", "desc").limit(newNumToLoad)
-            .onSnapshot((querySnapshot) => {
-                var tempMessages = [];
-                querySnapshot.forEach((doc) => {
-                    var docWithMore = Object.assign({}, doc.data());
-                    docWithMore.id = doc.id;
-                    tempMessages.push(docWithMore);
+        if(this.state.thisClientDataShown){
+            this.unsubscribeLoadClientMessages = firestore.collection("messages").where("userId", "==", this.state.thisClientDataShown).orderBy("timestamp", "desc").limit(newNumToLoad)
+                .onSnapshot((querySnapshot) => {
+                    var tempMessages = [];
+                    querySnapshot.forEach((doc) => {
+                        var docWithMore = Object.assign({}, doc.data());
+                        docWithMore.id = doc.id;
+                        tempMessages.push(docWithMore);
+                    });
+                    this.setState({
+                        messages: tempMessages
+                    })
                 });
-                this.setState({
-                    messages: tempMessages
-                })
-            });
+
+            if(this.unsubscribeLoadMessages){
+                this.unsubscribeLoadMessages();
+            }
+        
+        } else {
+            this.unsubscribeLoadMessages = firestore.collection("messages").orderBy("timestamp", "desc").limit(newNumToLoad)
+                .onSnapshot((querySnapshot) => {
+                    var tempMessages = [];
+                    querySnapshot.forEach((doc) => {
+                        var docWithMore = Object.assign({}, doc.data());
+                        docWithMore.id = doc.id;
+                        tempMessages.push(docWithMore);
+                    });
+                    this.setState({
+                        messages: tempMessages
+                    })
+                });
+
+            if(this.unsubscribeLoadClientMessages){
+                this.unsubscribeLoadClientMessages();
+            }
+        }
         
     }
 
@@ -314,14 +449,52 @@ class AdminPanel extends Component {
         });
     }
 
+    toggleMyClients = (e) => {
+        e.preventDefault()
+        this.setState({
+            myClientsShown: !this.state.myClientsShown
+        });
+    }
+
+    toggleFilterByClient = (e, clientId = "") => {
+        e.preventDefault()
+        if(clientId){
+            this.props.alert.success(`Showing only client "...${clientId.slice(0, 8)}" data.`)
+            this.setState({
+                thisClientDataShown: clientId
+            });
+        } else {
+            this.props.alert.success('Showing all data again.')
+            this.setState({
+                thisClientDataShown: ""
+            });
+        }
+    }
+
     render() {
         return (
             <>
             <div className="xl-container s-padding-t-b">
                 <h1>Admin Panel</h1>
+                <Grid fluid className="s-margin-b">
+                    <Row>
+                        <Col sm={12} md={3} className="s-margin-b">
+                            <a className="btn btn-sm animated-button victoria-one" href="# " onClick={(e) => this.toggleMyClients(e)}>
+                                <button type="button" className="just-text-btn">{this.state.myClientsShown ? "Hide" : "Show only"} my clients</button>
+                            </a>
+                        </Col>
+                        {this.state.thisClientDataShown && (
+                            <Col sm={12} md={3} className="s-margin-b">
+                                <a className="btn btn-sm animated-button thar-four" href="# " onClick={(e) => this.toggleFilterByClient(e)}>
+                                    <button type="button" className="just-text-btn">Show all data again</button>
+                                </a>
+                            </Col>
+                        )} 
+                    </Row>
+                </Grid>
                 <Tabs>
                     <TabList>
-                        <Tab><b className="l-text">Users</b></Tab>
+                        <Tab><b className="l-text">Clients</b></Tab>
                         <Tab><b className="l-text">Buildings</b></Tab>
                         <Tab><b className="l-text">Referrals</b></Tab>
                         <Tab><b className="l-text">Messages</b></Tab>
@@ -354,7 +527,7 @@ class AdminPanel extends Component {
                                                 notes: user.notes
                                             }
                                             return (
-                                                <tr key={index}>
+                                                <tr key={index} className={this.state.thisClientDataShown === user.id ? "background-xlight-blue" : ""}>
                                                     <td>...{user.id.slice(0, 8)}</td>
                                                     <td>{user.firstName}</td>
                                                     <td>{user.lastName}</td>
@@ -396,8 +569,7 @@ class AdminPanel extends Component {
                                                         </Formik>
                                                     </td>
                                                     <td>
-                                                        {/* TODO: always opening the last item in the users array because only one handleOpenUserNotesModal state var, maybe just make this into a drop down with no modal? no that would require a state var too...  */}
-                                                        <span className="green text-hover-yellow" onClick={() => this.handleOpenUserNotesModal(index)}>notes</span>
+                                                        <span className="green text-hover-yellow" onClick={() => this.handleOpenUserNotesModal(index)}>notes</span> || <span className="green text-hover-yellow" onClick={(e) => this.toggleFilterByClient(e, user.id)}>filter by me</span> 
                                                         <Modal
                                                             isOpen={this.state.showUserNotesModal[index]}
                                                             className="l-container background-blue p-top-center overflow-scroll eighty-height"
@@ -598,7 +770,10 @@ class AdminPanel extends Component {
                                 </tbody>
                             </table>
                             <div className="center-text l-text s-padding-t-b">
-                                System total: {this.state.buildingsTotal}  
+                                System total: {this.state.buildingsTotal}
+                                {this.state.thisClientDataShown && (
+                                    <>&nbsp;&nbsp;||&nbsp;&nbsp;Client's total: {this.state.buildings.length}</>
+                                )}  
                                 {((this.state.buildings.length+1)%20 !== 0) && !(this.state.buildings.length < this.state.numBuildingsLoaded) && (
                                     <>&nbsp;&nbsp;||&nbsp;&nbsp;<span className="l-text blue text-hover-green underline-hover cursor-pointer" onClick={()=>this.loadMoreBuildings()}>load more...</span> </>
                                 )}

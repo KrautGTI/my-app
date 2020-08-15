@@ -13,14 +13,28 @@ class ContactForm extends Component {
     }
     
     addMessage(values){
-        firestore.collection('messages').add({
-            email: values.email,
-            name: values.name,
-            message: values.message,
-            timestamp: Date.now(),
-        }).then(
-            this.props.alert.success('Message submitted successfully.')
-        );
+        if(this.props.user){
+            firestore.collection('messages').add({
+                email: values.email,
+                name: values.name,
+                message: values.message,
+                userId: this.props.user.uid,
+                timestamp: Date.now(),
+            }).then(
+                this.props.alert.success('Message submitted successfully.')
+            );
+        } else {
+            firestore.collection('messages').add({
+                email: values.email,
+                name: values.name,
+                message: values.message,
+                userId: "",
+                timestamp: Date.now(),
+            }).then(
+                this.props.alert.success('Message submitted successfully.')
+            );
+        }
+        
       }
       
     render() {

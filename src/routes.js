@@ -23,7 +23,7 @@ class Routes extends Component {
     render() {
         return (
             <Switch>
-                <Route exact path="/" component={withTracker(Home)} />
+                <Route exact path="/" component={withTracker(() => <Home user={this.props.user} />) } />
                 <Route exact path="/about" component={withTracker(About)} />
                 <Route exact path="/why-solar" component={withTracker(WhySolar)} />
                 <Route exact path="/faq" component={withTracker(FAQ)} />

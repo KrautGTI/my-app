@@ -106,7 +106,7 @@ export default class Home extends Component {
                
                 <div className="wrapper">
                     <h2>Have a question? Contact Us!</h2>
-                    <ContactForm />
+                    <ContactForm user={this.props.user} />
                 </div>
                 
             </div>
