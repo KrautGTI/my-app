@@ -517,6 +517,7 @@ class AdminPanel extends Component {
                                                                     <option defaultValue value="">N/A</option> 
                                                                     <option value={constant.PENDING}>Pending</option>
                                                                     <option value={constant.READY}>Ready</option>
+                                                                    <option value={constant.DONE}>Done</option>
                                                                     <option value={constant.EXPIRED}>Expired</option>
                                                                 </Field>
                                                                 &nbsp;&nbsp;
