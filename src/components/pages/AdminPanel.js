@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { firestore } from '../../Fire';
+import { firestore, storage } from '../../Fire';
 import { timestampToDateTime } from '../../utils/misc';
 import { buildingStatusSchema, userAssignedToSchema, userNotesSchema, buildingNotesSchema } from '../../utils/formSchemas'
 import * as constant from "../../utils/constants.js";
@@ -11,6 +11,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Modal from 'react-modal';
 import { Col, Grid, Row } from 'react-flexbox-grid';
+import { genId } from '../../utils/misc';
 
 class AdminPanel extends Component {
     constructor(props) {
@@ -23,6 +24,7 @@ class AdminPanel extends Component {
             admins: [],
             showUserNotesModal: [],
             showBuildingNotesModal: [],
+            showUploadProposalModal: [],
             numBuildingsLoaded: 0,
             numUsersLoaded: 0,
             numReferralsLoaded: 0,
@@ -32,7 +34,11 @@ class AdminPanel extends Component {
             referralsTotal: 0,
             messagesTotal: 0,
             myClientsShown: false,
-            thisClientDataShown: ""
+            thisClientDataShown: "",
+            filePath: null,
+            fileUrl: "",
+            fileProgress: 0,
+            proposalSavedToDb: false
         }
 
         this.modules = {
@@ -167,6 +173,43 @@ class AdminPanel extends Component {
         var tempShowBuildingModals = this.state.showUserNotesModal
         tempShowBuildingModals[index] = false
         this.setState({ showBuildingNotesModal: tempShowBuildingModals });
+    }
+
+    handleOpenUploadProposalModal = (index) => {
+        var tempShowUploadProposalModal = this.state.showUploadProposalModal
+        tempShowUploadProposalModal[index] = true
+        this.setState({ showUploadProposalModal: tempShowUploadProposalModal });
+    }
+
+    handleCloseUploadProposalModal = (index) => {
+        var choseToLeave = false;
+        if(this.state.filePath && !this.state.fileUrl){
+            const confirmFilePath = window.confirm("Looks like you've selected a file, but haven't uploaded it. Are you sure you want to close?");
+            if(confirmFilePath){
+                choseToLeave = true
+            } else {
+                console.log("User chose to stay.")
+            }
+        } else if(this.state.fileUrl && !this.state.proposalSavedToDb){
+            const confirmFileUrl = window.confirm("Looks like you've uploaded a file, but haven't saved it to the database. Are you sure you want to close?");
+            if(confirmFileUrl){
+                choseToLeave = true
+            } else {
+                console.log("User chose to stay.")
+            }
+        } else {
+            choseToLeave = true
+        }
+
+        if(choseToLeave){
+            var tempShowUploadProposalModal = this.state.showUploadProposalModal
+            tempShowUploadProposalModal[index] = false
+            this.setState({ 
+                showUploadProposalModal: tempShowUploadProposalModal,
+                proposalSavedToDb: false
+            });
+        }
+        
     }
 
     loadMoreUsers(){
@@ -449,6 +492,60 @@ class AdminPanel extends Component {
         });
     }
 
+    handleFileChange = e => {
+        if (e.target.files[0]) {
+          const filePath = e.target.files[0];
+          this.setState(() => ({ filePath }));
+        }
+      };
+
+    handleFileUpload = (file) => {
+        const randomId = genId(5)
+        const uploadTask = storage.ref(`proposals/${randomId}-${file.name}`).put(file);
+        uploadTask.on(
+          "state_changed",
+          snapshot => {
+            // progress function ...
+            const fileProgress = Math.round(
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            this.setState({ fileProgress });
+          },
+          error => {
+            // Error function ...
+            console.log(error);
+          },
+          () => {
+            // complete function ...
+            storage
+              .ref(`proposals/${randomId}-${file.name}`)
+              .getDownloadURL()
+              .then(fileUrl => {
+                this.setState({ 
+                    fileUrl
+                 });
+              });
+          }
+        );
+      };
+
+    uploadProposal = (buildingId) => {
+        firestore.collection("buildings").doc(buildingId).set({
+            proposalUrl: this.state.fileUrl,
+            status: constant.READY
+        }, { merge: true }).then(() => {
+            this.setState({
+                proposalSavedToDb: true,
+                showUploadProposalModal: false
+            })
+            console.log("Successfully updated building proposal URL.")
+            this.props.alert.success('Successfully updated building proposal URL.')
+        }).catch((error) => {
+            this.props.alert.error('Error changing building proposal URL on database: ' + error)
+            console.error("Error changing building proposal URL on database: " + error);
+        });
+    }
+
     toggleMyClients = (e) => {
         e.preventDefault()
         this.setState({
@@ -647,6 +744,9 @@ class AdminPanel extends Component {
                                         <th>Status</th>
                                         <th>ZIP</th>
                                         <th>Bill URL</th>
+                                        <th>Proposal URL</th>
+                                        <th>Proposal Preference</th>
+                                        <th>Commercial</th>
                                         <th>Shaded</th>
                                         <th>Average Bill</th>
                                         <th>Timestamp</th>
@@ -705,12 +805,23 @@ class AdminPanel extends Component {
                                                     </Formik>
                                                     </td>
                                                     <td>{building.zip}</td>
-                                                    <td>{building.billUrl ? <a href={building.billUrl} target="_blank" rel="noopener noreferrer">View Bill URL</a> : "Not provided"}</td>
+                                                    <td>{building.billUrl ? <a href={building.billUrl} target="_blank" rel="noopener noreferrer">View Bill</a> : "N/A"}</td>
+                                                    <td>{building.proposalUrl ? <a href={building.proposalUrl} target="_blank" rel="noopener noreferrer">View Proposal</a> : "N/A"}</td>
+                                                    <td>{building.proposalPref}</td>
+                                                    <td>{building.isCommercial}</td>
                                                     <td>{building.shaded}</td>
                                                     <td>{building.averageBill}</td>
                                                     <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
                                                     <td>
-                                                    <span className="green text-hover-yellow" onClick={() => this.handleOpenBuildingNotesModal(index)}>notes</span> 
+                                                        <span className="green text-hover-yellow" onClick={() => this.handleOpenBuildingNotesModal(index)}>notes</span> 
+                                                        {building.status === constant.PENDING && (
+                                                            <>
+                                                            &nbsp;&nbsp;||&nbsp;&nbsp;
+                                                            <span className="green text-hover-yellow" onClick={() => this.handleOpenUploadProposalModal(index)}>upload proposal</span> 
+                                                            </>
+                                                        )}
+                                                        
+                                                        {/* Building notes */}
                                                         <Modal
                                                             isOpen={this.state.showBuildingNotesModal[index]}
                                                             className="l-container background-blue p-top-center"
@@ -762,6 +873,54 @@ class AdminPanel extends Component {
                                                                 </Formik>
                                                             </div>
                                                         </Modal>
+                                                        {/* Upload Proposal */}
+                                                        <Modal
+                                                            isOpen={this.state.showUploadProposalModal[index]}
+                                                            className="l-container background-blue p-top-center"
+                                                            contentLabel="Upload Client Proposal"
+                                                            onRequestClose={() => this.handleCloseUploadProposalModal(index)}
+                                                        >
+                                                            <div className="white">
+                                                                <h4 className="center-text">
+                                                                    Update Client Proposal
+                                                                    <i
+                                                                        onClick={() => this.handleCloseUploadProposalModal(index)}
+                                                                        className="fas fa-times right text-hover-red"
+                                                                    />
+                                                                </h4>
+                                                                
+                                                            </div>
+                                                            <div className="l-container background-white">
+                                                                <label className="no-margin">Upload the proposal:</label>
+                                                                {!this.state.fileUrl && (
+                                                                    <input type="file" onChange={this.handleFileChange} />
+                                                                )}
+                                                                <br/>
+                                                                {this.state.fileProgress > 0 && ( 
+                                                                    <div className="box-text-v-align">
+                                                                        <progress value={this.state.fileProgress} max="100"/> <b className="s-padding-l">{this.state.fileProgress}%</b>
+                                                                    </div>
+                                                                )}
+                                                                {this.state.filePath && !this.state.fileUrl && (
+                                                                    <button type="button" onClick={() => this.handleFileUpload(this.state.filePath)}>
+                                                                        Upload the file
+                                                                    </button>
+                                                                )}
+                                                                {this.state.fileUrl && (
+                                                                    <div>
+                                                                        <b className="green">Uploaded successfully (<a rel="noopener noreferrer" href={this.state.fileUrl} target="_blank">click to view</a>), now save the URL to the database.</b>
+                                                                    </div>
+                                                                )}
+                                                                <div className="center-text">
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => this.uploadProposal(building.id)}
+                                                                    >
+                                                                        Save to database
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </Modal>
                                                     </td>
                                                 </tr>
                                             )
@@ -790,6 +949,7 @@ class AdminPanel extends Component {
                                         <th>Referee Last Name</th>
                                         <th>Referee Email</th>
                                         <th>Referee Phone</th>
+                                        <th>Last 8 Referrer ID</th>
                                         <th>Referrer First Name</th>
                                         <th>Referrer Last Name</th>
                                         <th>Referrer Email</th>
@@ -810,6 +970,7 @@ class AdminPanel extends Component {
                                                     <td>{ref.referee.lastName}</td>
                                                     <td>{ref.referee.email}</td>
                                                     <td>{ref.referee.phone}</td>
+                                                    <td>...{ref.referrer.userId.slice(0, 8)}</td>
                                                     <td>{ref.referrer.firstName}</td>
                                                     <td>{ref.referrer.lastName}</td>
                                                     <td>{ref.referrer.email}</td>
@@ -837,6 +998,7 @@ class AdminPanel extends Component {
                                 <thead>
                                     <tr>
                                         <th>Last 8 Message ID</th>
+                                        <th>Last 8 User ID</th>
                                         <th>Sender Name</th>
                                         <th>Sender Email</th>
                                         <th>Message Body</th>
@@ -850,6 +1012,7 @@ class AdminPanel extends Component {
                                             return (
                                                 <tr key={index}>
                                                     <td>...{message.id.slice(0, 8)}</td>
+                                                    <td>{`...${message.userId.slice(0, 8)}` || "N/A"} </td>
                                                     <td>{message.name}</td>
                                                     <td>{message.email}</td>
                                                     <td>{message.message}</td>

@@ -10,7 +10,6 @@ import { withAlert } from 'react-alert';
 class LogIn extends Component {
     constructor(props) {
         super(props);
-        this.signIn = this.signIn.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
@@ -35,17 +34,15 @@ class LogIn extends Component {
       this.setState({ showModal: false });
     }
 
-    signIn(values) {
+    signIn = (values) => {
       window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
         'callback': (response) => {
           // reCAPTCHA solved, allow signIn.
-          fire.auth().signInWithEmailAndPassword(values.email, values.password)
-          .then(function(user) {
+          fire.auth().signInWithEmailAndPassword(values.email, values.password).then((user) => {
               console.log("Sign in success!")
               this.props.history.push("/logging-in");
               window.location.reload();
-          }.bind(this))
-          .catch(function(error) {
+          }).catch((error) => {
               var errorCode = error.code;
               var errorMessage = error.message;
               console.log("Error signing in: " + errorCode + ": " + errorMessage)

@@ -144,7 +144,7 @@ class Account extends Component {
         }
     }
 
-    renderStatus(status){
+    renderStatus(status, proposalUrl = ""){
         if(status === constant.PENDING){
             return(
                 <>
@@ -158,10 +158,18 @@ class Account extends Component {
                 <>
                     <label>Status:</label>&nbsp;
                     <div className="green s-margin-b">
-                        <Link to="/" className="btn btn-sm animated-button victoria-one">
-                            <button type="button" className="just-text-btn">Proposal ready to view <i className="fas fa-check"/></button>
-                        </Link>
+                        <a href={proposalUrl} rel="noopener noreferrer" target="_blank" className="btn btn-sm animated-button victoria-one">
+                            <button type="button" className="just-text-btn">Proposal ready to view&nbsp; <i className="fas fa-file-alt"/></button>
+                        </a>
                     </div> 
+                </>
+            )
+        } else if(status === constant.DONE){
+            return (
+                <>
+                    <label>Status:</label>&nbsp;
+                    <span className="green">Done <i className="fas fa-check"/></span> 
+                    <div className="s-text s-margin-b">Your request is complete, you can <a href={proposalUrl} rel="noopener noreferrer" target="_blank">view your proposal here</a>. Thank you for choosing Prestige Power!</div>
                 </>
             )
         } else if(status === constant.EXPIRED){
@@ -209,7 +217,7 @@ class Account extends Component {
                                         </Row>
                                         <Row>
                                             <Col xs={12}>
-                                                {this.renderStatus(building.status)}
+                                                {this.renderStatus(building.status, building.proposalUrl)}
                                             </Col>
                                         </Row>
                                         <Row>
