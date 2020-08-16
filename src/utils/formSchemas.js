@@ -93,6 +93,7 @@ export const visitorSolarQuoteFormSchema = yup.object().shape({
     .string()
     .max(150,"Field can be at most 400 characters long.")
     .min(2,"Field must be at least 2 characters long."),
+  isCommercial: yup.string(),
   buildingName: yup
     .string()
     .max(100, "The building name should be less than 100 characters long.")
@@ -103,6 +104,7 @@ export const visitorSolarQuoteFormSchema = yup.object().shape({
   averageBill: yup.string(),
   shaded: yup.string(),
   solarReasons: yup.string(),
+  proposalPref: yup.string(),
   billUrl: yup.string().url("Not a valid URL. Example: https://www.website.com"),
   password: yup
     .string()
@@ -122,7 +124,9 @@ export const userSolarQuoteFormSchema = yup.object().shape({
   zip: yup
     .string()
     .max(10, "ZIP should be less than 10 digits."),
+  isCommercial: yup.string(),
   averageBill: yup.string(),
+  proposalPref: yup.string(),
   shaded: yup.string(),
   billUrl: yup.string().url("Not a valid URL. Example: https://www.website.com"),
 })

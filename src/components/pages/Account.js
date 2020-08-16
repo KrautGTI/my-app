@@ -80,7 +80,6 @@ class Account extends Component {
         ).then(
           () => {   
             // Update firebase user data first
-            //TODO: what about the email?
             if(values.firstName !== this.state.user.firstName || values.lastName !== this.state.user.lastName){
                 // Only update if name values have changed
                 var currentUser = fire.auth().currentUser;
@@ -292,11 +291,11 @@ class Account extends Component {
                                         <Col xs={12} md={6} lg={4}>
                                             <label htmlFor="email">
                                                 Email:&nbsp; 
-                                                <span className="red s-text">*required</span>
-                                                &nbsp;&nbsp;  
+                                                <span className="grey s-text">*currently not changeable</span>
+                                                {/* &nbsp;&nbsp;  
                                                 <Link to="/account/profile/change-email">
                                                     <span className="grey s-text">edit</span>
-                                                </Link> 
+                                                </Link>  */}
                                             </label>
                                             <Field
                                                 disabled
@@ -366,7 +365,6 @@ class Account extends Component {
                                             </a>
                                         </Col>
                                     </Row>
-                                    {/* TODO: send verification link? */}
                                     <Row className="s-padding-t">
                                         <label>Registered: </label>&nbsp;
                                         <time className="box-text-v-align">

@@ -30,7 +30,6 @@ class SolarQuoteForm extends Component {
             // Case: User either didn't select a file or selected a file properly
             if(this.state.passwordShown && (!values.password || !values.confirmPassword)){
                 // Case: User may have intended to insert password for account, but didn't fill one of the password fields
-                // TODO: change to our confirm
                 const confirmPasswordResponse = window.confirm("The password field was opened, but not finished. Did you want to continue anyways?");
                 if(confirmPasswordResponse){
                     // Case: User doesn't care that the password wasn't inputted, creating client and building without account
@@ -53,8 +52,11 @@ class SolarQuoteForm extends Component {
                                 buildingName: values.buildingName,
                                 status: constant.PENDING,
                                 averageBill: values.averageBill,
+                                proposalPref: values.proposalPref,
+                                isCommercial: values.isCommercial,
                                 shaded: values.shaded,
                                 billUrl: this.state.fileUrl,
+                                proposalUrl: "",
                                 timestamp: Date.now(),
                             })
                             this.props.alert.success("Submitted building proposal, you will hear from us soon.")
@@ -96,8 +98,11 @@ class SolarQuoteForm extends Component {
                             buildingName: values.buildingName,
                             status: constant.PENDING,
                             averageBill: values.averageBill,
+                            proposalPref: values.proposalPref,
                             shaded: values.shaded,
+                            isCommercial: values.isCommercial,
                             billUrl: this.state.fileUrl,
+                            proposalUrl: "",
                             timestamp: Date.now(),
                         })
                         this.props.alert.success("Submitted building proposal, you will hear from us soon.")
@@ -139,10 +144,13 @@ class SolarQuoteForm extends Component {
                                         clientId: userData.user.uid,
                                         buildingName: values.buildingName,
                                         status: constant.PENDING,
+                                        proposalPref: values.proposalPref,
                                         zip: values.zip,
                                         averageBill: values.averageBill,
+                                        isCommercial: values.isCommercial,
                                         shaded: values.shaded,
                                         billUrl: this.state.fileUrl,
+                                        proposalUrl: "",
                                         timestamp: Date.now(),
                                     })
                                 }
@@ -172,7 +180,6 @@ class SolarQuoteForm extends Component {
                                 this.props.alert.error("Error registering: " + error)
                                 window.recaptchaVerifier.clear()
                               });
-                            //   TODO: if register email is taken,needs to throw error on what to do!
                         },
                         'expired-callback': () => {
                           // Response expired. Ask user to solve reCAPTCHA again.
@@ -196,18 +203,20 @@ class SolarQuoteForm extends Component {
             this.props.alert.error("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.")
         } else {
             if(!values.zip){
-                // TODO: discuss with reed
                 this.props.alert.error("You must enter at least the ZIP code for us to help the property.")
             } else {
                 // Case: User inputted at least one of the building fields
                 firestore.collection('buildings').add({
                     clientId: this.props.user.uid,
                     status: constant.PENDING,
+                    proposalPref: values.proposalPref,
                     zip: values.zip,
                     buildingName: values.buildingName,
                     averageBill: values.averageBill,
+                    isCommercial: values.isCommercial,
                     shaded: values.shaded,
                     billUrl: this.state.fileUrl,
+                    proposalUrl: "",
                     timestamp: Date.now(),
                 }).then(() => {
                     this.setState({
@@ -224,8 +233,6 @@ class SolarQuoteForm extends Component {
         }
     }
 
-    // TODO: allow user to delete file selection
-
     handleFileChange = e => {
         if (e.target.files[0]) {
           const filePath = e.target.files[0];
@@ -235,7 +242,6 @@ class SolarQuoteForm extends Component {
 
     handleFileUpload = (file) => {
         const randomId = genId(5)
-        // TODO: set max file size allowed
         const uploadTask = storage.ref(`bills/${randomId}-${file.name}`).put(file);
         uploadTask.on(
           "state_changed",
@@ -269,7 +275,6 @@ class SolarQuoteForm extends Component {
     
       
     render() {
-        // TODO: if signed in, auto fill based on current logged in user data! probably have to turn on formik revalid
         const initialFormState = {
             firstName: "",
             lastName: "",
@@ -280,7 +285,9 @@ class SolarQuoteForm extends Component {
             averageBill: "",
             shaded: "",
             solarReasons: [],
+            proposalPref: "",
             business: "",
+            isCommercial: "",
             password: "",
             confirmPassword: ""
           };
@@ -378,7 +385,6 @@ class SolarQuoteForm extends Component {
                                 <Row className={this.props.user ? "hide" : "s-margin-b"}>
                                     <Col xs={12} sm={6}>
                                         <label>Business/Organization:</label>
-                                        {/* TODO: If user fills this in, perhaps just ask if they are looking for a commercial quote? */}
                                         <br/>
                                         <Field
                                             type="text"
@@ -389,6 +395,27 @@ class SolarQuoteForm extends Component {
                                         />
                                         {props.errors.business && props.touched.business ? (
                                             <span className="red">{props.errors.business}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                    <Col xs={12} sm={6} className={(props.values.business || this.props.user) ? "" : "hide"}>
+                                        <label>Is this a commercial inquiry?</label>
+                                        <br/>
+                                        <Field
+                                            component={RadioButton}
+                                            name="isCommercial"
+                                            id="yes"
+                                            label="Yes"
+                                        />
+                                        <Field
+                                            component={RadioButton}
+                                            name="isCommercial"
+                                            id="no"
+                                            label="No"
+                                        />
+                                        {props.errors.isCommercial && props.touched.isCommercial ? (
+                                            <span className="red">{props.errors.isCommercial}</span>
                                         ) : (
                                             ""
                                         )}
@@ -461,13 +488,13 @@ class SolarQuoteForm extends Component {
                                         <Field
                                             component={RadioButton}
                                             name="shaded"
-                                            id="yes"
+                                            id="true"
                                             label="Yes"
                                         />
                                         <Field
                                             component={RadioButton}
                                             name="shaded"
-                                            id="no"
+                                            id="false"
                                             label="No"
                                         />
                                         {props.errors.shaded && props.touched.shaded ? (
@@ -477,16 +504,34 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                 </Row>
-                                <Row className={this.props.user ? "hide" : "s-margin-b"}>
+                                <Row className="s-margin-b">
                                     <Col xs={12} sm={6}>
+                                        <label>How would you like to have your proposal presented when it is ready?</label>
+                                        <br/>
+                                        <Field 
+                                            component="select" 
+                                            name="proposalPref" 
+                                            value={props.values.proposalPref}
+                                            onChange={props.handleChange}
+                                            >
+                                            <option defaultValue value="">Not selected</option> 
+                                            <option value={constant.PDF}>PDF viewable via email &amp; on this site</option>
+                                            <option value={constant.PHONE}>Phone call with Prestige Power sales</option>
+                                            <option value={constant.INPERSON}>In person meeting (socially distanced!)</option>
+                                        </Field>
+                                        {props.errors.proposalPref && props.touched.proposalPref ? (
+                                            <span className="red">{props.errors.proposalPref}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                    <Col xs={12} sm={6} className={this.props.user ? "hide" : ""}>
                                         <label>What are your reasons for going solar?</label>
                                         <br/>
                                         <Checkbox name="solarReasons" label="Savings" value="savings" />
                                         <Checkbox name="solarReasons" label="Tax credit" value="tax-credit" />
                                         <Checkbox name="solarReasons" label="Environment" value="environment" />
                                         <Checkbox name="solarReasons" label="Other" value="other" />
-                                        {/* TODO: isnt savings and tax credit the same thing? */}
-                                        {/* TODO: Custom field for other to enter something? */}
                                     </Col>
                                 </Row>
                                 <Row className="s-margin-b">
@@ -580,7 +625,7 @@ class SolarQuoteForm extends Component {
     }
 }
 
-
+// TODO: import these from utils folder file
 function Checkbox(props) {
     return (
       <Field name={props.name}>
@@ -610,6 +655,7 @@ function Checkbox(props) {
     );
   }
 
+// TODO: if there are two radio button sets, with the same id's (i.e. yes and no fields like we had with Commercial Inquiry and Building Shaded), the input toggling breaks
   const RadioButton = ({
     field: { name, value, onChange, onBlur },
     id,

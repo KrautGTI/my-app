@@ -4,3 +4,9 @@ export const enum BuildingStatus {
     DONE = "done",
     EXPIRED = "expired"
 }
+
+export const enum ProposalPreference {
+    PDF = "pdf",
+    PHONE = "phone",
+    INPERSON = "inperson"
+}

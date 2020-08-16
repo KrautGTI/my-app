@@ -12,7 +12,6 @@ export default class Footer extends Component {
     }
 
     render() {
-        // TODO: remove login link if user already logged in
         return (
             <footer>
                 <div className="f-container">
@@ -71,7 +70,6 @@ export default class Footer extends Component {
                             {' '}
                             {this.state.year}
                             {' '}
-                            {/* TODO: update name */}
                             Prestige Power
                         </div>
                         <div>
