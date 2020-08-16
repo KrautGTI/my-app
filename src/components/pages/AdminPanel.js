@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { firestore, storage } from '../../Fire';
 import { timestampToDateTime } from '../../utils/misc';
-import { buildingStatusSchema, userAssignedToSchema, userNotesSchema, buildingNotesSchema } from '../../utils/formSchemas'
+import { statusSchema, userAssignedToSchema, userNotesSchema, buildingNotesSchema } from '../../utils/formSchemas'
 import * as constant from "../../utils/constants.js";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
@@ -459,7 +459,30 @@ class AdminPanel extends Component {
                 console.error("Error changing user assignedTo on database: " + error);
             });
         }
-        
+    }
+
+    updateReferralStatus = (values, referralId) => {
+        firestore.collection("referrals").doc(referralId).set({
+            status: values.status
+        }, { merge: true }).then(() => {
+            console.log("Successfully updated referral status.")
+            this.props.alert.success('Successfully updated referral status.')
+        }).catch((error) => {
+            this.props.alert.error('Error changing referral status on database: ' + error)
+            console.error("Error changing referral status on database: " + error);
+        });
+    }
+
+    updateMessageStatus = (values, messageId) => {
+        firestore.collection("messages").doc(messageId).set({
+            status: values.status
+        }, { merge: true }).then(() => {
+            console.log("Successfully updated message status.")
+            this.props.alert.success('Successfully updated message status.')
+        }).catch((error) => {
+            this.props.alert.error('Error changing message status on database: ' + error)
+            console.error("Error changing message status on database: " + error);
+        });
     }
 
     updateUserNotes = (values, userId) => {
@@ -666,7 +689,9 @@ class AdminPanel extends Component {
                                                         </Formik>
                                                     </td>
                                                     <td>
-                                                        <span className="green text-hover-yellow" onClick={() => this.handleOpenUserNotesModal(index)}>notes</span> || <span className="green text-hover-yellow" onClick={(e) => this.toggleFilterByClient(e, user.id)}>filter by me</span> 
+                                                        <span className="green text-hover-yellow" onClick={() => this.handleOpenUserNotesModal(index)}>notes</span> 
+                                                        &nbsp;&nbsp;||&nbsp;&nbsp;
+                                                        <span className="green text-hover-yellow" onClick={(e) => this.toggleFilterByClient(e, user.id)}>{this.state.toggleMyClients === user.id ? "un-" : ""}filter by me</span> 
                                                         <Modal
                                                             isOpen={this.state.showUserNotesModal[index]}
                                                             className="l-container background-blue p-top-center overflow-scroll eighty-height"
@@ -771,7 +796,7 @@ class AdminPanel extends Component {
                                                     <td>
                                                     <Formik
                                                         initialValues={initialBuildingStatusState}
-                                                        validationSchema={buildingStatusSchema}
+                                                        validationSchema={statusSchema}
                                                         enableReinitialize={true}
                                                         onSubmit={(values, actions) => {
                                                             this.updateBuildingStatus(values, building.id);
@@ -956,6 +981,7 @@ class AdminPanel extends Component {
                                         <th>Referrer Phone</th>
                                         <th>Relation</th>
                                         <th>Sales Rep</th>
+                                        <th>Status</th>
                                         <th>Timestamp</th>
                                     </tr>
                                 </thead>
@@ -963,6 +989,9 @@ class AdminPanel extends Component {
                                     { 
                                         this.state.referrals.map((ref, index) => {
                                             const dateAndTime = timestampToDateTime(ref.timestamp)
+                                            const initialReferralStatusState = {
+                                                status: ref.status
+                                            }
                                             return (
                                                 <tr key={index}>
                                                     <td>...{ref.id.slice(0, 8)}</td>
@@ -977,6 +1006,40 @@ class AdminPanel extends Component {
                                                     <td>{ref.referrer.phone}</td>
                                                     <td>{ref.relation}</td>
                                                     <td>{ref.salesRep}</td>
+                                                    <td>
+                                                        <Formik
+                                                            initialValues={initialReferralStatusState}
+                                                            validationSchema={statusSchema}
+                                                            enableReinitialize={true}
+                                                            onSubmit={(values, actions) => {
+                                                                this.updateReferralStatus(values, ref.id);
+                                                            }}
+                                                        >
+                                                            {props => (
+                                                                <Form onSubmit={props.handleSubmit}>
+                                                                    <Field
+                                                                        component="select" 
+                                                                        name="status" 
+                                                                        className="table-select"
+                                                                        value={props.values.status}
+                                                                        onChange={props.handleChange}
+                                                                        >
+                                                                        <option defaultValue value="">N/A</option> 
+                                                                        <option value={constant.PENDING}>Pending</option>
+                                                                        <option value={constant.DONE}>Done</option>
+                                                                    </Field>
+                                                                    &nbsp;&nbsp;
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="just-text-btn green text-hover"
+                                                                        disabled={!props.dirty || props.isSubmitting}
+                                                                    >
+                                                                        save
+                                                                    </button>
+                                                                </Form>
+                                                            )}
+                                                        </Formik>
+                                                    </td>
                                                     <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
                                                 </tr>
                                             )
@@ -1001,7 +1064,8 @@ class AdminPanel extends Component {
                                         <th>Last 8 User ID</th>
                                         <th>Sender Name</th>
                                         <th>Sender Email</th>
-                                        <th>Message Body</th>
+                                        <th>Body</th>
+                                        <th>Status</th>
                                         <th>Timestamp</th>
                                     </tr>
                                 </thead>
@@ -1009,6 +1073,9 @@ class AdminPanel extends Component {
                                     { 
                                         this.state.messages.map((message, index) => {
                                             const dateAndTime = timestampToDateTime(message.timestamp)
+                                            const initialMessageStatusState = {
+                                                status: message.status
+                                            }
                                             return (
                                                 <tr key={index}>
                                                     <td>...{message.id.slice(0, 8)}</td>
@@ -1016,6 +1083,40 @@ class AdminPanel extends Component {
                                                     <td>{message.name}</td>
                                                     <td>{message.email}</td>
                                                     <td>{message.message}</td>
+                                                    <td>
+                                                        <Formik
+                                                            initialValues={initialMessageStatusState}
+                                                            validationSchema={statusSchema}
+                                                            enableReinitialize={true}
+                                                            onSubmit={(values, actions) => {
+                                                                this.updateMessageStatus(values, message.id);
+                                                            }}
+                                                        >
+                                                            {props => (
+                                                                <Form onSubmit={props.handleSubmit}>
+                                                                    <Field
+                                                                        component="select" 
+                                                                        name="status" 
+                                                                        className="table-select"
+                                                                        value={props.values.status}
+                                                                        onChange={props.handleChange}
+                                                                        >
+                                                                        <option defaultValue value="">N/A</option> 
+                                                                        <option value={constant.PENDING}>Pending</option>
+                                                                        <option value={constant.DONE}>Done</option>
+                                                                    </Field>
+                                                                    &nbsp;&nbsp;
+                                                                    <button
+                                                                        type="submit"
+                                                                        className="just-text-btn green text-hover"
+                                                                        disabled={!props.dirty || props.isSubmitting}
+                                                                    >
+                                                                        save
+                                                                    </button>
+                                                                </Form>
+                                                            )}
+                                                        </Formik>
+                                                    </td>
                                                     <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
                                                 </tr>
                                             )

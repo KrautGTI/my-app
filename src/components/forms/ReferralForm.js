@@ -6,6 +6,7 @@ import { referralFormSchema } from '../../utils/formSchemas'
 import { firestore, fire } from "../../Fire.js";
 import { validatePhone, timestampToDateTime } from '../../utils/misc';
 import { withAlert } from 'react-alert';
+import * as constant from "../../utils/constants.js";
 
 class ReferralForm extends Component {
     constructor(props) {
@@ -71,6 +72,7 @@ class ReferralForm extends Component {
                 relation: values.relation,
                 salesRep: values.salesRep,
                 timestamp: Date.now(),
+                status: constant.PENDING
             }).then(() => {
                 resetForm()
                 this.props.alert.success("Referral submitted successfully")
@@ -92,6 +94,7 @@ class ReferralForm extends Component {
                 relation: values.relation,
                 salesRep: values.salesRep,
                 timestamp: Date.now(),
+                status: constant.PENDING
             }).then(() => {
                 resetForm()
                 this.props.alert.success("Referral submitted successfully")

@@ -5,6 +5,7 @@ import { Formik, Field } from 'formik';
 import { contactFormSchema } from '../../utils/formSchemas'
 import { firestore } from "../../Fire.js";
 import { withAlert  } from 'react-alert'
+import * as constant from "../../utils/constants.js";
 
 class ContactForm extends Component {
     constructor(props) {
@@ -20,6 +21,7 @@ class ContactForm extends Component {
                 message: values.message,
                 userId: this.props.user.uid,
                 timestamp: Date.now(),
+                status: constant.PENDING
             }).then(
                 this.props.alert.success('Message submitted successfully.')
             );
@@ -30,6 +32,7 @@ class ContactForm extends Component {
                 message: values.message,
                 userId: "",
                 timestamp: Date.now(),
+                status: constant.PENDING
             }).then(
                 this.props.alert.success('Message submitted successfully.')
             );

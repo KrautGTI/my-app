@@ -165,8 +165,7 @@ export const logInSchema = yup.object().shape({
     .min(6, "Too short")
 });
 
-
-export const buildingStatusSchema = yup.object().shape({
+export const statusSchema = yup.object().shape({
   status: yup
     .string(),
 });

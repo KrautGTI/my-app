@@ -387,7 +387,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
                         <p>
                             We have reviewed your proposal for solar at your building ${buildingName} you submitted and the results are ready for you to view. Click below to view!
                         </p>
-                        <a href="${newValue.proposalUrl}" target="_blank><button>View proposal</button></a>
+                        <a href="${newValue.proposalUrl}" target="_blank"><button>View proposal</button></a>
                     </div>
                     `
                     // Config it
