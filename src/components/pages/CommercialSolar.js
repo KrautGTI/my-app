@@ -28,14 +28,7 @@ export default class CommercialSolar extends Component {
                 </ul>
                 <hr/>
                 <h2>Your Business Information</h2>
-                <SolarQuoteForm user={this.props.user} />
-                {/* 
-                    First, Last name
-                    Phone
-                    Email
-                    Business name/address
-                    More information 
-                */}
+                <SolarQuoteForm user={this.props.user} commercialPage={true}/>
 
                 <h4 className="center-text">Contact us directly @ <u>commercial@goprestigepower.com</u> for more questions!</h4>
             </div>

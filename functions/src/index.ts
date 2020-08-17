@@ -4,7 +4,7 @@ import admin = require("firebase-admin");
 import nodemailer = require('nodemailer');
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import { Change, EventContext } from 'firebase-functions';
-import { BuildingStatus } from './common';
+import { Status } from './common';
 
 admin.initializeApp(functions.config().firebase);
 
@@ -374,7 +374,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
             return;
         }
 
-        if (previousValue.status === BuildingStatus.PENDING && newValue.status === BuildingStatus.READY) {
+        if (previousValue.status === Status.PENDING && newValue.status === Status.READY) {
             const buildingName = newValue.buildingName ? newValue.buildingName : `Building ${newValue.zip} `
             // Grab client email
             admin.firestore().collection("users").doc(newValue.clientId).get().then(async (doc) => {

@@ -3,7 +3,7 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Formik, Field } from 'formik';
 
 import { referralFormSchema } from '../../utils/formSchemas'
-import { firestore, fire } from "../../Fire.js";
+import { firestore } from "../../Fire.js";
 import { validatePhone, timestampToDateTime } from '../../utils/misc';
 import { withAlert } from 'react-alert';
 import * as constant from "../../utils/constants.js";
@@ -26,19 +26,6 @@ class ReferralForm extends Component {
                     var docWithMore = Object.assign({}, doc.data());
                     docWithMore.id = doc.id;
                     docWithMore.timestamp = timestampToDateTime(doc.data().timestamp)
-                    // Check for corner case where user clicks link to change email back when it is changed
-                    // In this case, we just change it to the Firebase value again.
-                    var currentUser = fire.auth().currentUser;
-                    if(currentUser && currentUser.email && currentUser.email !== doc.data().email){
-                        firestore.collection("users").doc(this.props.user.uid).set({
-                            email: currentUser.email
-                        }, { merge: true }).then(() => {
-                            console.log("Updated email on Firestore to new value from Firebase.")
-                        }).catch((error) => {
-                            console.error("Error changing your email to changed value from Firebase: " + error);
-                        });
-                        docWithMore.email = currentUser.email;
-                    } 
 
                     this.setState({
                         user: docWithMore
@@ -89,7 +76,8 @@ class ReferralForm extends Component {
                     firstName: values.referrerFirstName,
                     lastName: values.referrerLastName,
                     phone: values.referrerPhone,
-                    email: values.referrerEmail
+                    email: values.referrerEmail,
+                    userId: ""
                 },
                 relation: values.relation,
                 salesRep: values.salesRep,

@@ -130,9 +130,9 @@ class SolarQuoteForm extends Component {
                                 var currentUser = fire.auth().currentUser;
                                 currentUser.updateProfile({
                                   displayName: (values.firstName + " " + values.lastName)
-                                }).then(function() {
+                                }).then(() => {
                                   console.log("Successfully added display name to Firebase.");
-                                }).catch(function(error) {
+                                }).catch((error) => {
                                   console.error("Error adding your display name to database: ", error);
                                   this.props.alert.error("Error adding your display name to database: " + error)
                                   window.recaptchaVerifier.clear()
@@ -151,7 +151,7 @@ class SolarQuoteForm extends Component {
                                         shaded: values.shaded,
                                         billUrl: this.state.fileUrl,
                                         proposalUrl: "",
-                                        timestamp: Date.now(),
+                                        timestamp: Date.now()
                                     })
                                 }
                                 
@@ -164,7 +164,7 @@ class SolarQuoteForm extends Component {
                                     solarReasons: values.solarReasons,
                                     isAdmin: false,
                                     assignedTo: { userId: "" },
-                                    timestamp: Date.now(),
+                                    timestamp: Date.now()
                                 }, { merge: true }).then(() => {
                                     console.log("Successful write to Firestore.");
                                     this.props.history.push("/account");
@@ -287,7 +287,7 @@ class SolarQuoteForm extends Component {
             solarReasons: [],
             proposalPref: "",
             business: "",
-            isCommercial: "",
+            isCommercial: this.props.commercialPage === true ? "yes" : "",
             password: "",
             confirmPassword: ""
           };
@@ -383,13 +383,13 @@ class SolarQuoteForm extends Component {
                                     </Col>
                                 </Row>
                                 <Row className={this.props.user ? "hide" : "s-margin-b"}>
-                                    <Col xs={12} sm={6}>
+                                    <Col xs={12} sm={6} >
                                         <label>Business/Organization:</label>
                                         <br/>
                                         <Field
                                             type="text"
                                             onChange={props.handleChange}
-                                            placeholder="Big Business Boys LLC"
+                                            placeholder="Biz Movers LLC"
                                             name="business"
                                             value={props.values.business}
                                         />
@@ -399,7 +399,7 @@ class SolarQuoteForm extends Component {
                                             ""
                                         )}
                                     </Col>
-                                    <Col xs={12} sm={6} className={(props.values.business || this.props.user) ? "" : "hide"}>
+                                    <Col xs={12} sm={6} className={props.values.business ? "" : "hide"}>
                                         <label>Is this a commercial inquiry?</label>
                                         <br/>
                                         <Field

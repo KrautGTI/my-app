@@ -416,19 +416,6 @@ class AdminPanel extends Component {
         
     }
 
-    updateBuildingStatus = (values, buildingId) => {
-            // Update firestore
-            firestore.collection("buildings").doc(buildingId).set({
-                status: values.status
-            }, { merge: true }).then(() => {
-                console.log("Successfully updated building status.")
-                this.props.alert.success('Successfully updated building status.')
-            }).catch((error) => {
-                this.props.alert.error('Error changing building status on database: ' + error)
-                console.error("Error changing building status on database: " + error);
-            });
-    }
-
     updateUserAssignedTo = (values, userId) => {
         if(values.assignedTo){
             console.log("Adding " + values.assignedTo + " to " + userId)
@@ -460,6 +447,18 @@ class AdminPanel extends Component {
             });
         }
     }
+
+    updateBuildingStatus = (values, buildingId) => {
+        firestore.collection("buildings").doc(buildingId).set({
+            status: values.status
+        }, { merge: true }).then(() => {
+            console.log("Successfully updated building status.")
+            this.props.alert.success('Successfully updated building status.')
+        }).catch((error) => {
+            this.props.alert.error('Error changing building status on database: ' + error)
+            console.error("Error changing building status on database: " + error);
+        });
+}
 
     updateReferralStatus = (values, referralId) => {
         firestore.collection("referrals").doc(referralId).set({

@@ -1,4 +1,4 @@
-// Building statuses
+// Statuses
 export const PENDING = "pending";
 export const READY = "ready";
 export const DONE = "done";

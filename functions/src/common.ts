@@ -1,4 +1,4 @@
-export const enum BuildingStatus {
+export const enum Status {
     PENDING = "pending",
     READY = "ready",
     DONE = "done",

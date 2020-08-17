@@ -11,13 +11,38 @@ class ContactForm extends Component {
     constructor(props) {
         super(props);
         this.addMessage = this.addMessage.bind(this);
+
+        this.state = {
+            user: {}
+        }
+    }
+
+    componentDidMount(){
+        if(this.props.user){
+            // Listen for Firestore changes
+            this.unsubscribeUsers = firestore.collection("users").doc(this.props.user.uid)
+            .onSnapshot((doc) => {
+                var docWithMore = Object.assign({}, doc.data());
+                docWithMore.id = doc.id;
+
+                this.setState({
+                    user: docWithMore
+                }) 
+            });
+        }
+    }
+
+    componentWillUnmount() {
+        if(this.unsubscribeUsers){
+            this.unsubscribeUsers();
+        }
     }
     
     addMessage(values){
         if(this.props.user){
             firestore.collection('messages').add({
-                email: values.email,
-                name: values.name,
+                email: this.state.user.email,
+                name: `${this.state.user.firstName} ${this.state.user.lastName}`,
                 message: values.message,
                 userId: this.props.user.uid,
                 timestamp: Date.now(),
@@ -60,7 +85,7 @@ class ContactForm extends Component {
                     {props => (
                         <form onSubmit={props.handleSubmit}>
                             <Grid fluid>
-                                <Row>
+                                <Row className={this.props.user ? "hide" : ""}>
                                     <Col sm={12} md={6} className="s-margin-b">
                                         <label>Name:</label>
                                         <br/>
