@@ -40,7 +40,6 @@ export default class Footer extends Component {
                             {this.state.year}
                             {' '}
                             Prestige Power
-                            {/* TODO: put logo tiny here */}
                         </div>
 
                         <div className="right">

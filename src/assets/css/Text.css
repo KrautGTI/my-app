@@ -30,7 +30,13 @@ Fonts: LinLibertine (Headings) & Multicolore (Subheadings) & LouisGeorgeCafe (Bo
 */
 /*//*//*//*//*//*//*//*/
 
-/* Headings */
+/* Heading */
+@font-face {
+    font-family: "JuliusSansOne";
+    src: url(../fonts/julius-sans-one/JuliusSansOne-Regular.ttf);
+}
+
+/* Subheading */
 @font-face {
     font-family: "LinLibertine-Regular";
     src: url(../fonts/linux_libertine/LinLibertine_R.ttf);
@@ -66,12 +72,6 @@ Fonts: LinLibertine (Headings) & Multicolore (Subheadings) & LouisGeorgeCafe (Bo
     src: url(../fonts/louis_george_caf/LouisGeorgeCafeBold.ttf);
 }
 
-@font-face {
-    font-family: "Multicolore";
-    src: url(../fonts/multicolore/Multicolore.otf);
-}
-
-
 .louis-george-cafe-light {
     font-family: "LouisGeorgeCafe-Light" !important;
 }
@@ -92,8 +92,8 @@ Fonts: LinLibertine (Headings) & Multicolore (Subheadings) & LouisGeorgeCafe (Bo
     font-family: "LinLibertine-Bold" !important;
 }
 
-.multicolore {
-    font-family: "Multicolore" !important;
+.julius-sans-one {
+    font-family: "JuliusSansOne" !important;
 }
 
 /* 
@@ -101,7 +101,7 @@ Fonts: LinLibertine (Headings) & Multicolore (Subheadings) & LouisGeorgeCafe (Bo
 */
 h1 {
     font-size: 3.5em !important;
-    font-family: "LouisGeorgeCafe-Bold" !important;
+    font-family: "JuliusSansOne" !important;
 }
 
 h2 {
@@ -356,8 +356,6 @@ time {
 .center-text {
     text-align: center !important; 
 }
-
-
 
 .anchor {
     font-size: 0;

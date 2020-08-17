@@ -7,11 +7,14 @@ export default class About extends Component {
                
                 <h1>
                     About Us  
-                    <img
-                        className="responsive right medium s-padding"
-                        alt="sunrun"
-                        src={require("../../assets/images/logos/sunrun-partner.png")}
-                        /> 
+                    <a href="https://www.sunrun.com/" target="_blank" rel="noopener noreferrer">
+                        <img
+                            className="responsive right medium s-padding"
+                            alt="sunrun"
+                            src={require("../../assets/images/logos/sunrun-partner.png")}
+                            /> 
+                    </a>
+                    
                 </h1>
                 
                 <p>
