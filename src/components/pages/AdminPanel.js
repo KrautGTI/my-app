@@ -12,6 +12,7 @@ import 'react-quill/dist/quill.snow.css';
 import Modal from 'react-modal';
 import { Col, Grid, Row } from 'react-flexbox-grid';
 import { genId } from '../../utils/misc';
+import { Helmet } from 'react-helmet';
 
 class AdminPanel extends Component {
     constructor(props) {
@@ -144,10 +145,10 @@ class AdminPanel extends Component {
             this.loadMoreUsers();
         }
 
-        if(this.state.thisClientDataShown  !== prevState.thisClientDataShown){
+        if(this.state.thisClientDataShown !== prevState.thisClientDataShown){
             this.loadMoreBuildings();
-            this.unsubscribeLoadReferrals();
-            this.unsubscribeLoadMessages();
+            this.loadMoreReferrals();
+            this.loadMoreMessages();
         }
     }
 
@@ -332,7 +333,7 @@ class AdminPanel extends Component {
         })
 
         if(this.state.thisClientDataShown){
-            this.unsubscribeLoadClientReferrals = firestore.collection("referrals").where("userId", "==", this.state.thisClientDataShown).orderBy("timestamp", "desc").limit(newNumToLoad)
+            this.unsubscribeLoadClientReferrals = firestore.collection("referrals").where("referrer.userId", "==", this.state.thisClientDataShown).orderBy("timestamp", "desc").limit(newNumToLoad)
                 .onSnapshot((querySnapshot) => {
                     var tempRefs = [];
                     querySnapshot.forEach((doc) => {
@@ -394,8 +395,7 @@ class AdminPanel extends Component {
             if(this.unsubscribeLoadMessages){
                 this.unsubscribeLoadMessages();
             }
-        
-        } else {
+        } else { 
             this.unsubscribeLoadMessages = firestore.collection("messages").orderBy("timestamp", "desc").limit(newNumToLoad)
                 .onSnapshot((querySnapshot) => {
                     var tempMessages = [];
@@ -413,7 +413,6 @@ class AdminPanel extends Component {
                 this.unsubscribeLoadClientMessages();
             }
         }
-        
     }
 
     updateUserAssignedTo = (values, userId) => {
@@ -519,7 +518,7 @@ class AdminPanel extends Component {
           const filePath = e.target.files[0];
           this.setState(() => ({ filePath }));
         }
-      };
+    };
 
     handleFileUpload = (file) => {
         const randomId = genId(5)
@@ -549,7 +548,7 @@ class AdminPanel extends Component {
               });
           }
         );
-      };
+    };
 
     uploadProposal = (buildingId) => {
         firestore.collection("buildings").doc(buildingId).set({
@@ -593,6 +592,9 @@ class AdminPanel extends Component {
     render() {
         return (
             <>
+            <Helmet>
+                <title>Admin Panel | Prestige Power</title>
+            </Helmet>
             <div className="xl-container s-padding-t-b">
                 <h1>Admin Panel</h1>
                 <Grid fluid className="s-margin-b">
@@ -998,7 +1000,7 @@ class AdminPanel extends Component {
                                                     <td>{ref.referee.lastName}</td>
                                                     <td>{ref.referee.email}</td>
                                                     <td>{ref.referee.phone}</td>
-                                                    <td>...{ref.referrer.userId.slice(0, 8)}</td>
+                                                    <td>{ref.referrer.userId ? `...${ref.referrer.userId.slice(0, 8)}` : "N/A"}</td>
                                                     <td>{ref.referrer.firstName}</td>
                                                     <td>{ref.referrer.lastName}</td>
                                                     <td>{ref.referrer.email}</td>
@@ -1048,6 +1050,9 @@ class AdminPanel extends Component {
                             </table>
                             <div className="center-text l-text s-padding-t-b">
                                 System total: {this.state.referralsTotal}  
+                                {this.state.thisClientDataShown && (
+                                    <>&nbsp;&nbsp;||&nbsp;&nbsp;Client's total: {this.state.referrals.length}</>
+                                )}  
                                 {((this.state.referrals.length+1)%20 !== 0) && !(this.state.referrals.length < this.state.numReferralsLoaded) && (
                                     <>&nbsp;&nbsp;||&nbsp;&nbsp;<span className="l-text blue text-hover-green underline-hover cursor-pointer" onClick={()=>this.loadMoreReferrals()}>load more...</span> </>
                                 )}
@@ -1078,7 +1083,7 @@ class AdminPanel extends Component {
                                             return (
                                                 <tr key={index}>
                                                     <td>...{message.id.slice(0, 8)}</td>
-                                                    <td>{`...${message.userId.slice(0, 8)}` || "N/A"} </td>
+                                                    <td>{message.userId ? `...${message.userId.slice(0, 8)}` : "N/A"} </td>
                                                     <td>{message.name}</td>
                                                     <td>{message.email}</td>
                                                     <td>{message.message}</td>
@@ -1125,6 +1130,9 @@ class AdminPanel extends Component {
                             </table>
                             <div className="center-text l-text s-padding-t-b">
                                 System total: {this.state.messagesTotal}  
+                                {this.state.thisClientDataShown && (
+                                    <>&nbsp;&nbsp;||&nbsp;&nbsp;Client's total: {this.state.messages.length}</>
+                                )}  
                                 {((this.state.messages.length+1)%20 !== 0) && !(this.state.messages.length < this.state.numMessagesLoaded) && (
                                     <>&nbsp;&nbsp;||&nbsp;&nbsp;<span className="blue text-hover-green underline-hover cursor-pointer" onClick={()=>this.loadMoreMessages()}>load more...</span> </>
                                 )}

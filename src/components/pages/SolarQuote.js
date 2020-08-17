@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import SolarQuoteForm from '../forms/SolarQuoteForm'
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 export default class SolarQuote extends Component {
     render() {
         return (
             <div className="wrapper">
+                <Helmet>
+                    <title>Solar Quote | Prestige Power</title>
+                </Helmet>
                 <h1>Solar Quote</h1>
                 <h3>LIMITED TIME OFFER: $1/Mo For 6 Months</h3>
                 <p>Want to talk to one of our sales representatives right now? Give us a call at 949-636-8339!</p>

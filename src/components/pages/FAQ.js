@@ -6,6 +6,7 @@ import {
     AccordionItemButton,
     AccordionItemPanel,
 } from 'react-accessible-accordion';
+import { Helmet } from 'react-helmet';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 
@@ -13,6 +14,9 @@ export default class FAQ extends Component {
     render() {
         return (
             <div className="wrapper">
+                <Helmet>
+                    <title>F.A.Q | Prestige Power</title>
+                </Helmet>
                 <h1 className="s-padding-b">Frequently Asked Questions</h1>
                 <Accordion allowZeroExpanded>
                     {questions.map((question, index) => (

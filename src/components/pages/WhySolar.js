@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
+import { Helmet } from 'react-helmet';
 
 export default class WhySolar extends Component {
     render() {
         return (
             <div className="wrapper">
+                <Helmet>
+                    <title>Why Solar? | Prestige Power</title>
+                </Helmet>
                 <h1>Why Solar?</h1>
                 <p>
                     In today’s world, people are concerned about the impact that everyday living has on the

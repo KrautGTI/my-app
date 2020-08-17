@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
-
+import { Helmet } from 'react-helmet';
 export default class About extends Component {
     render() {
         return (
             <div className="wrapper">
-               
+                <Helmet>
+                    <title>About Us | Prestige Power</title>
+                </Helmet>
                 <h1>
                     About Us  
                     <a href="https://www.sunrun.com/" target="_blank" rel="noopener noreferrer">

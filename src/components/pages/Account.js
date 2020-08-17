@@ -3,6 +3,7 @@ import { Formik, Form, Field } from "formik";
 import { Link } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { withAlert  } from 'react-alert'
+import { Helmet } from 'react-helmet';
 
 import { fire, firestore } from "../../Fire.js";
 import { confirm } from "../misc/Confirmation";
@@ -198,6 +199,9 @@ class Account extends Component {
         } else {
             return (
                 <div className="wrapper">
+                    <Helmet>
+                        <title>Account | Prestige Power</title>
+                    </Helmet>
                     <h1>Your Account</h1>
                     {this.state.user.isAdmin && (
                          <Link to="/admin-panel/" className="btn btn-sm animated-button doug-two s-width">

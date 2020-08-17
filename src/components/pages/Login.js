@@ -6,6 +6,7 @@ import { firebase, fire } from "../../Fire.js";
 import { logInSchema } from "../../utils/formSchemas"
 import { ForgotPassword } from '../forms/ForgotPassword.js';
 import { withAlert } from 'react-alert';
+import { Helmet } from 'react-helmet';
 
 class LogIn extends Component {
     constructor(props) {
@@ -75,6 +76,9 @@ class LogIn extends Component {
     
     return (
         <div className="m-container">
+          <Helmet>
+            <title>Log in | Prestige Power</title>
+          </Helmet>
           <h1>Log in</h1>
           <Formik
             initialValues={initialFormState}

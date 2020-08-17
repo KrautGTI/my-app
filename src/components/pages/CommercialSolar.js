@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import SolarQuoteForm from '../forms/SolarQuoteForm'
+import { Helmet } from 'react-helmet';
 
 export default class CommercialSolar extends Component {
     render() {
         return (
             <div className="wrapper">
+                <Helmet>
+                    <title>Commercial Solar | Prestige Power</title>
+                </Helmet>
                 <h1>Commercial Solar</h1>
                 <p>
                     Do you know a business owner who is looking to reduce recurring energy costs? Prestige
