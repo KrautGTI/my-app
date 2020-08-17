@@ -39,7 +39,12 @@ class AdminPanel extends Component {
             filePath: null,
             fileUrl: "",
             fileProgress: 0,
-            proposalSavedToDb: false
+            proposalSavedToDb: false,
+            queryDirection: "desc",
+            usersOrder: "timestamp",
+            buildingsOrder: "timestamp",
+            referralsOrder: "timestamp",
+            messagesOrder: "timestamp",
         }
 
         this.modules = {
@@ -150,6 +155,17 @@ class AdminPanel extends Component {
             this.loadMoreReferrals();
             this.loadMoreMessages();
         }
+
+        if(this.state.queryDirection !== prevState.queryDirection || 
+            this.state.usersOrder !== prevState.usersOrder || 
+            this.state.buildingsOrder !== prevState.buildingsOrder || 
+            this.state.referralsOrder !== prevState.referralsOrder || 
+            this.state.messagesOrder !== prevState.messagesOrder){
+            this.loadMoreUsers();
+            this.loadMoreBuildings();
+            this.loadMoreReferrals();
+            this.loadMoreMessages();
+        }
     }
 
     handleOpenUserNotesModal = (index) => {
@@ -222,7 +238,7 @@ class AdminPanel extends Component {
         })
 
         if(this.state.myClientsShown){
-            this.unsubscribeLoadMyUsers = firestore.collection("users").where("isAdmin", "==", false).where("assignedTo.userId", "==", this.props.user.uid).orderBy("timestamp", "desc").limit(newNumToLoad)
+            this.unsubscribeLoadMyUsers = firestore.collection("users").where("isAdmin", "==", false).where("assignedTo.userId", "==", this.props.user.uid).orderBy(this.state.usersOrder, this.state.queryDirection).limit(newNumToLoad)
                 .onSnapshot((querySnapshot) => {
                     var tempUsers = [];
                     var tempShowUserModals = [];
@@ -244,7 +260,7 @@ class AdminPanel extends Component {
                 this.unsubscribeLoadUsers();
             }
         } else {
-            this.unsubscribeLoadUsers = firestore.collection("users").where("isAdmin", "==", false).orderBy("timestamp", "desc").limit(newNumToLoad)
+            this.unsubscribeLoadUsers = firestore.collection("users").where("isAdmin", "==", false).orderBy(this.state.usersOrder, this.state.queryDirection).limit(newNumToLoad)
                 .onSnapshot((querySnapshot) => {
                     var tempUsers = [];
                     var tempShowUserModals = [];
@@ -277,7 +293,7 @@ class AdminPanel extends Component {
         })
 
         if(this.state.thisClientDataShown){
-            this.unsubscribeLoadClientBuildings = firestore.collection("buildings").where("clientId", "==", this.state.thisClientDataShown).orderBy("timestamp", "desc").limit(newNumToLoad)
+            this.unsubscribeLoadClientBuildings = firestore.collection("buildings").where("clientId", "==", this.state.thisClientDataShown).orderBy(this.state.buildingsOrder, this.state.queryDirection).limit(newNumToLoad)
                 .onSnapshot((querySnapshot) => {
                     var tempBuildings = []
                     var tempShowBuildingModals = [];
@@ -300,7 +316,7 @@ class AdminPanel extends Component {
             }
         
         } else {
-            this.unsubscribeLoadBuildings = firestore.collection("buildings").orderBy("timestamp", "desc").limit(newNumToLoad)
+            this.unsubscribeLoadBuildings = firestore.collection("buildings").orderBy(this.state.buildingsOrder, this.state.queryDirection).limit(newNumToLoad)
                 .onSnapshot((querySnapshot) => {
                     var tempBuildings = []
                     var tempShowBuildingModals = [];
@@ -333,7 +349,7 @@ class AdminPanel extends Component {
         })
 
         if(this.state.thisClientDataShown){
-            this.unsubscribeLoadClientReferrals = firestore.collection("referrals").where("referrer.userId", "==", this.state.thisClientDataShown).orderBy("timestamp", "desc").limit(newNumToLoad)
+            this.unsubscribeLoadClientReferrals = firestore.collection("referrals").where("referrer.userId", "==", this.state.thisClientDataShown).orderBy(this.state.referralsOrder, this.state.queryDirection).limit(newNumToLoad)
                 .onSnapshot((querySnapshot) => {
                     var tempRefs = [];
                     querySnapshot.forEach((doc) => {
@@ -351,7 +367,7 @@ class AdminPanel extends Component {
             }
         
         } else {
-            this.unsubscribeLoadReferrals = firestore.collection("referrals").orderBy("timestamp", "desc").limit(newNumToLoad)
+            this.unsubscribeLoadReferrals = firestore.collection("referrals").orderBy(this.state.referralsOrder, this.state.queryDirection).limit(newNumToLoad)
                 .onSnapshot((querySnapshot) => {
                     var tempRefs = [];
                     querySnapshot.forEach((doc) => {
@@ -379,7 +395,7 @@ class AdminPanel extends Component {
         })
 
         if(this.state.thisClientDataShown){
-            this.unsubscribeLoadClientMessages = firestore.collection("messages").where("userId", "==", this.state.thisClientDataShown).orderBy("timestamp", "desc").limit(newNumToLoad)
+            this.unsubscribeLoadClientMessages = firestore.collection("messages").where("userId", "==", this.state.thisClientDataShown).orderBy(this.state.messagesOrder, this.state.queryDirection).limit(newNumToLoad)
                 .onSnapshot((querySnapshot) => {
                     var tempMessages = [];
                     querySnapshot.forEach((doc) => {
@@ -396,7 +412,7 @@ class AdminPanel extends Component {
                 this.unsubscribeLoadMessages();
             }
         } else { 
-            this.unsubscribeLoadMessages = firestore.collection("messages").orderBy("timestamp", "desc").limit(newNumToLoad)
+            this.unsubscribeLoadMessages = firestore.collection("messages").orderBy(this.state.messagesOrder, this.state.queryDirection).limit(newNumToLoad)
                 .onSnapshot((querySnapshot) => {
                     var tempMessages = [];
                     querySnapshot.forEach((doc) => {
@@ -589,6 +605,47 @@ class AdminPanel extends Component {
         }
     }
 
+    toggleQueryDirection = (e) => {
+        e.preventDefault()
+        if(this.state.queryDirection === "desc"){
+            this.setState({
+                queryDirection: "asc"
+            });
+        } else {
+            this.setState({
+                queryDirection: "desc"
+            });
+        }
+    }
+
+    orderUsers = (e, field) => {
+        e.preventDefault()
+        this.setState({
+            usersOrder: field
+        });
+    }
+
+    orderBuildings = (e, field) => {
+        e.preventDefault()
+        this.setState({
+            buildingsOrder: field
+        });
+    }
+
+    orderReferrals = (e, field) => {
+        e.preventDefault()
+        this.setState({
+            referralsOrder: field
+        });
+    }
+
+    orderMessages = (e, field) => {
+        e.preventDefault()
+        this.setState({
+            messagesOrder: field
+        });
+    }
+
     render() {
         return (
             <>
@@ -602,6 +659,18 @@ class AdminPanel extends Component {
                         <Col sm={12} md={3} className="s-margin-b">
                             <a className="btn btn-sm animated-button victoria-one" href="# " onClick={(e) => this.toggleMyClients(e)}>
                                 <button type="button" className="just-text-btn">{this.state.myClientsShown ? "Hide" : "Show only"} my clients</button>
+                            </a>
+                        </Col>
+                        <Col sm={12} md={3} className="s-margin-b">
+                            <a className="btn btn-sm animated-button victoria-one" href="# " onClick={(e) => this.toggleQueryDirection(e)}>
+                                <button type="button" className="just-text-btn">
+                                    Change direction to&nbsp;
+                                    <span className="blue">
+                                        {this.state.queryDirection === "desc" ? "descending" : "ascending"} 
+                                        &nbsp;order&nbsp;
+                                        {this.state.queryDirection === "desc" ? <i className="fas fa-chevron-down"/> : <i className="fas fa-chevron-up"/>}
+                                    </span>
+                                </button>
                             </a>
                         </Col>
                         {this.state.thisClientDataShown && (
@@ -627,12 +696,12 @@ class AdminPanel extends Component {
                                 <thead>
                                     <tr>
                                         <th>Last 8 Client ID</th>
-                                        <th>First Name</th>
-                                        <th>Last Name</th>
+                                        <th><span className={this.state.usersOrder === "firstName" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderUsers(e, "firstName")}>First Name</span></th>
+                                        <th><span className={this.state.usersOrder === "lastName" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderUsers(e, "lastName")}>Last Name</span></th>
                                         <th>Email</th>
                                         <th>Phone</th>
                                         <th>Solar Reasons</th>
-                                        <th>Timestamp</th>
+                                        <th><span className={this.state.usersOrder === "timestamp" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderUsers(e, "timestamp")}>Timestamp</span></th>
                                         <th>Assigned To</th>
                                         <th>Actions</th>
                                     </tr>
@@ -692,7 +761,7 @@ class AdminPanel extends Component {
                                                     <td>
                                                         <span className="green text-hover-yellow" onClick={() => this.handleOpenUserNotesModal(index)}>notes</span> 
                                                         &nbsp;&nbsp;||&nbsp;&nbsp;
-                                                        <span className="green text-hover-yellow" onClick={(e) => this.toggleFilterByClient(e, user.id)}>{this.state.toggleMyClients === user.id ? "un-" : ""}filter by me</span> 
+                                                        <span className="green text-hover-yellow" onClick={(e) => this.toggleFilterByClient(e, user.id)}>{this.state.thisClientDataShown === user.id ? "un-" : ""}filter by me</span> 
                                                         <Modal
                                                             isOpen={this.state.showUserNotesModal[index]}
                                                             className="l-container background-blue p-top-center overflow-scroll eighty-height"
@@ -766,16 +835,16 @@ class AdminPanel extends Component {
                                     <tr>
                                         <th>Last 8 Building ID</th>
                                         <th>Last 8 Client ID</th>
-                                        <th>Name</th>
-                                        <th>Status</th>
-                                        <th>ZIP</th>
+                                        <th><span className={this.state.buildingsOrder === "buildingName" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderBuildings(e, "buildingName")}>Name</span></th>
+                                        <th><span className={this.state.buildingsOrder === "status" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderBuildings(e, "status")}>Status</span></th>
+                                        <th><span className={this.state.buildingsOrder === "zip" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderBuildings(e, "zip")}>ZIP</span></th>
                                         <th>Bill URL</th>
                                         <th>Proposal URL</th>
                                         <th>Proposal Preference</th>
-                                        <th>Commercial</th>
-                                        <th>Shaded</th>
+                                        <th><span className={this.state.buildingsOrder === "isCommercial" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderBuildings(e, "isCommercial")}>Commercial</span></th>
+                                        <th><span className={this.state.buildingsOrder === "shaded" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderBuildings(e, "shaded")}>Shaded</span></th>
                                         <th>Average Bill</th>
-                                        <th>Timestamp</th>
+                                        <th><span className={this.state.buildingsOrder === "timestamp" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderBuildings(e, "timestamp")}>Timestamp</span></th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -971,19 +1040,19 @@ class AdminPanel extends Component {
                                 <thead>
                                     <tr>
                                         <th>Last 8 Referral ID</th>
-                                        <th>Referee First Name</th>
-                                        <th>Referee Last Name</th>
+                                        <th><span className={this.state.referralsOrder === "referee.firstName" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderReferrals(e, "referee.firstName")}>Referee First Name</span></th>
+                                        <th><span className={this.state.referralsOrder === "referee.lastName" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderReferrals(e, "referee.lastName")}>Referee Last Name</span></th>
                                         <th>Referee Email</th>
                                         <th>Referee Phone</th>
                                         <th>Last 8 Referrer ID</th>
-                                        <th>Referrer First Name</th>
-                                        <th>Referrer Last Name</th>
+                                        <th><span className={this.state.referralsOrder === "referrer.firstName" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderReferrals(e, "referrer.firstName")}>Referrer First Name</span></th>
+                                        <th><span className={this.state.referralsOrder === "referrer.lastName" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderReferrals(e, "referrer.lastName")}>Referrer Last Name</span></th>
                                         <th>Referrer Email</th>
                                         <th>Referrer Phone</th>
                                         <th>Relation</th>
-                                        <th>Sales Rep</th>
-                                        <th>Status</th>
-                                        <th>Timestamp</th>
+                                        <th><span className={this.state.referralsOrder === "salesRep" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderReferrals(e, "salesRep")}>Sales Rep</span></th>
+                                        <th><span className={this.state.referralsOrder === "status" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderReferrals(e, "status")}>Status</span></th>
+                                        <th><span className={this.state.referralsOrder === "timestamp" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderReferrals(e, "timestamp")}>Timestamp</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1066,11 +1135,11 @@ class AdminPanel extends Component {
                                     <tr>
                                         <th>Last 8 Message ID</th>
                                         <th>Last 8 User ID</th>
-                                        <th>Sender Name</th>
+                                        <th><span className={this.state.messagesOrder === "name" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderMessages(e, "name")}>Sender Name</span></th>
                                         <th>Sender Email</th>
                                         <th>Body</th>
-                                        <th>Status</th>
-                                        <th>Timestamp</th>
+                                        <th><span className={this.state.messagesOrder === "status" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderMessages(e, "status")}>Status</span></th>
+                                        <th><span className={this.state.messagesOrder === "timestamp" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderMessages(e, "timestamp")}>Timestamp</span></th>
                                     </tr>
                                 </thead>
                                 <tbody>
