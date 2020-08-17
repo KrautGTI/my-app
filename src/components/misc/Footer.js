@@ -17,7 +17,7 @@ export default class Footer extends Component {
                 <div className="f-container">
                     <MediaQuery minWidth={901}>
                         <div className="left">
-                            &nbsp;&nbsp;<Link to="/faq">F.A.Q</Link> | <Link to="/commercial-solar">Commercial Solar</Link> | <Link to="/login">Login</Link>&nbsp;&nbsp;
+                            &nbsp;&nbsp;<Link to="/faq">F.A.Q</Link> | <Link to="/commercial-solar">Commercial Solar</Link>{!this.props.user && (<>&nbsp;| <Link to="/login">Login</Link></>)}&nbsp;&nbsp;
                         </div>
 
                         <div className="center">
@@ -76,7 +76,7 @@ export default class Footer extends Component {
                         <a href="https://www.douglasrcjames.com" target="_blank" rel="noopener noreferrer"><i className="fas fa-tools"/> by douglasrcjames</a> 
                         </div>
                         <div>
-                            <Link to="/about">About</Link> | <Link to="/terms">Terms &amp; Conditions</Link> | <Link to="/more">More</Link> 
+                            &nbsp;&nbsp;<Link to="/faq">F.A.Q</Link> | <Link to="/commercial-solar">Commercial Solar</Link>{!this.props.user && (<>&nbsp;| <Link to="/login">Login</Link></>)}&nbsp;&nbsp;
                         </div>
                     </MediaQuery>
                 </div>

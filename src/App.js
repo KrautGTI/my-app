@@ -76,7 +76,7 @@ class App extends Component {
                     <h2 className="wrapper">Loading...</h2> 
                   </div>
                 )}
-                <Footer />
+                <Footer user={this.state.user} />
             </ScrollToTop>
           </Router>
         </AlertProvider>
