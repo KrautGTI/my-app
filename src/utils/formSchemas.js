@@ -103,6 +103,7 @@ export const visitorSolarQuoteFormSchema = yup.object().shape({
     .max(150,"Field can be at most 400 characters long.")
     .min(2,"Field must be at least 2 characters long."),
   isCommercial: yup.string(),
+  acquisition: yup.string(),
   buildingName: yup
     .string()
     .max(100, "The building name should be less than 100 characters long.")

@@ -28,7 +28,7 @@ class SolarQuoteForm extends Component {
             store.addNotification({
                 title: "Error",
                 message: "A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.",
-                type: "error",
+                type: "danger",
                 insert: "top",
                 container: "top-center",
                 animationIn: ["animate__animated", "animate__fadeIn"],
@@ -51,6 +51,7 @@ class SolarQuoteForm extends Component {
                         phone: values.phone,
                         email: values.email,
                         business: values.business,
+                        acquisition: values.acquisition,
                         solarReasons: values.solarReasons,
                         isAdmin: false,
                         assignedTo: { userId: "" },
@@ -121,6 +122,7 @@ class SolarQuoteForm extends Component {
                     phone: values.phone,
                     email: values.email,
                     business: values.business,
+                    acquisition: values.acquisition,
                     solarReasons: values.solarReasons,
                     isAdmin: false,
                     assignedTo: { userId: "" },
@@ -209,7 +211,7 @@ class SolarQuoteForm extends Component {
                                   store.addNotification({
                                     title: "Error",
                                     message: `Error adding your display name to database: ${error}`,
-                                    type: "error",
+                                    type: "danger",
                                     insert: "top",
                                     container: "top-center",
                                     animationIn: ["animate__animated", "animate__fadeIn"],
@@ -245,6 +247,7 @@ class SolarQuoteForm extends Component {
                                     phone: values.phone,
                                     email: values.email,
                                     business: values.business,
+                                    acquisition: values.acquisition,
                                     solarReasons: values.solarReasons,
                                     isAdmin: false,
                                     assignedTo: { userId: "" },
@@ -257,7 +260,7 @@ class SolarQuoteForm extends Component {
                                     store.addNotification({
                                         title: "Error",
                                         message: `Error adding document: ${error}`,
-                                        type: "error",
+                                        type: "danger",
                                         insert: "top",
                                         container: "top-center",
                                         animationIn: ["animate__animated", "animate__fadeIn"],
@@ -276,7 +279,7 @@ class SolarQuoteForm extends Component {
                                 store.addNotification({
                                     title: "Error",
                                     message: `Error registering: ${error}`,
-                                    type: "error",
+                                    type: "danger",
                                     insert: "top",
                                     container: "top-center",
                                     animationIn: ["animate__animated", "animate__fadeIn"],
@@ -294,7 +297,7 @@ class SolarQuoteForm extends Component {
                           store.addNotification({
                             title: "Error",
                             message: "Please solve the reCAPTCHA again.",
-                            type: "error",
+                            type: "danger",
                             insert: "top",
                             container: "top-center",
                             animationIn: ["animate__animated", "animate__fadeIn"],
@@ -312,7 +315,7 @@ class SolarQuoteForm extends Component {
                     store.addNotification({
                         title: "Error",
                         message: "Passwords you entered do not match! Try again.",
-                        type: "error",
+                        type: "danger",
                         insert: "top",
                         container: "top-center",
                         animationIn: ["animate__animated", "animate__fadeIn"],
@@ -327,7 +330,7 @@ class SolarQuoteForm extends Component {
                 store.addNotification({
                     title: "Error",
                     message: "Unknown case, please check fields and try again!",
-                    type: "error",
+                    type: "danger",
                     insert: "top",
                     container: "top-center",
                     animationIn: ["animate__animated", "animate__fadeIn"],
@@ -347,7 +350,7 @@ class SolarQuoteForm extends Component {
             store.addNotification({
                 title: "Error",
                 message: "A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.",
-                type: "error",
+                type: "danger",
                 insert: "top",
                 container: "top-center",
                 animationIn: ["animate__animated", "animate__fadeIn"],
@@ -362,7 +365,7 @@ class SolarQuoteForm extends Component {
                 store.addNotification({
                     title: "Error",
                     message: "You must enter at least the ZIP code for us to help the property.",
-                    type: "error",
+                    type: "danger",
                     insert: "top",
                     container: "top-center",
                     animationIn: ["animate__animated", "animate__fadeIn"],
@@ -410,7 +413,7 @@ class SolarQuoteForm extends Component {
                     store.addNotification({
                         title: "Error",
                         message: `Error adding building: ${error}`,
-                        type: "error",
+                        type: "danger",
                         insert: "top",
                         container: "top-center",
                         animationIn: ["animate__animated", "animate__fadeIn"],
@@ -472,6 +475,7 @@ class SolarQuoteForm extends Component {
             lastName: "",
             phone: "",
             email: "",
+            acquisition: "",
             buildingName: "",
             zip: "",
             averageBill: "",
@@ -609,6 +613,31 @@ class SolarQuoteForm extends Component {
                                         />
                                         {props.errors.isCommercial && props.touched.isCommercial ? (
                                             <span className="red">{props.errors.isCommercial}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                    </Col>
+                                </Row>
+                                <Row className={this.props.user ? "hide" : "s-margin-b"}>
+                                    <Col sm={12} md={6}>
+                                        <label>How did you hear about us?: </label>
+                                        <br/>
+                                        <Field 
+                                            component="select" 
+                                            name="acquisition" 
+                                            value={props.values.acquisition}
+                                            onChange={props.handleChange}
+                                            >
+                                            <option defaultValue value="">Not selected</option> 
+                                            <option value="search">Search Engine</option>
+                                            <option value="friend">Recommended by friend, family, or colleague</option>
+                                            <option value="social">Social Media</option>
+                                            <option value="publication">Blog or publication</option>
+                                            <option value="partners">One of our partners</option>
+                                            <option value="other">Other</option>
+                                        </Field>
+                                        {props.errors.acquisition && props.touched.acquisition ? (
+                                            <span className="red">{props.errors.acquisition}</span>
                                         ) : (
                                             ""
                                         )}

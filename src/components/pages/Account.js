@@ -97,7 +97,7 @@ class Account extends Component {
                         store.addNotification({
                             title: "Error",
                             message: `Error changing your name on database:  ${error}`,
-                            type: "error",
+                            type: "danger",
                             insert: "top",
                             container: "top-center",
                             animationIn: ["animate__animated", "animate__fadeIn"],
@@ -114,7 +114,7 @@ class Account extends Component {
                         store.addNotification({
                             title: "Error",
                             message: 'Your log in status has changed. Please sign out and sign back in with your credentials.',
-                            type: "error",
+                            type: "danger",
                             insert: "top",
                             container: "top-center",
                             animationIn: ["animate__animated", "animate__fadeIn"],
@@ -129,7 +129,7 @@ class Account extends Component {
                         store.addNotification({
                             title: "Error",
                             message: `Error updating display name on Firebase: ${error}`,
-                            type: "error",
+                            type: "danger",
                             insert: "top",
                             container: "top-center",
                             animationIn: ["animate__animated", "animate__fadeIn"],
@@ -168,7 +168,7 @@ class Account extends Component {
                 store.addNotification({
                     title: "Error",
                     message: `Error changing your info on database:  ${error}`,
-                    type: "error",
+                    type: "danger",
                     insert: "top",
                     container: "top-center",
                     animationIn: ["animate__animated", "animate__fadeIn"],
@@ -210,7 +210,7 @@ class Account extends Component {
                 store.addNotification({
                     title: "Error",
                     message: `Error sending password reset: ${error.message}`,
-                    type: "error",
+                    type: "danger",
                     insert: "top",
                     container: "top-center",
                     animationIn: ["animate__animated", "animate__fadeIn"],
@@ -225,7 +225,7 @@ class Account extends Component {
             store.addNotification({
                 title: "Error",
                 message: 'Your log in status has changed. Please sign out and sign back in with your credentials.',
-                type: "error",
+                type: "danger",
                 insert: "top",
                 container: "top-center",
                 animationIn: ["animate__animated", "animate__fadeIn"],

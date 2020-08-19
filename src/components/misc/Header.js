@@ -52,7 +52,7 @@ class Header extends Component {
           store.addNotification({
             title: "Error",
             message: `Error signing out: ${error}`,
-            type: "error",
+            type: "danger",
             insert: "top",
             container: "top-center",
             animationIn: ["animate__animated", "animate__fadeIn"],

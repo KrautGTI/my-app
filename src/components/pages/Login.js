@@ -50,7 +50,7 @@ class LogIn extends Component {
               store.addNotification({
                 title: "Error",
                 message: `Error signing in: ${errorMessage}`,
-                type: "error",
+                type: "danger",
                 insert: "top",
                 container: "top-center",
                 animationIn: ["animate__animated", "animate__fadeIn"],
@@ -68,7 +68,7 @@ class LogIn extends Component {
           store.addNotification({
             title: "Error",
             message: `Please solve the reCAPTCHA again.`,
-            type: "error",
+            type: "danger",
             insert: "top",
             container: "top-center",
             animationIn: ["animate__animated", "animate__fadeIn"],
@@ -103,7 +103,7 @@ class LogIn extends Component {
         store.addNotification({
           title: "Error",
           message: `Error sending password reset link: ${error.message}`,
-          type: "error",
+          type: "danger",
           insert: "top",
           container: "top-center",
           animationIn: ["animate__animated", "animate__fadeIn"],
