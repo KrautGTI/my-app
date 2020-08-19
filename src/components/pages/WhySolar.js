@@ -1,11 +1,21 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Helmet } from 'react-helmet';
+import Background from '../../assets/images/backgrounds/solar-2.jpg';
 
 export default class WhySolar extends Component {
     render() {
+        var topBgImageStyle = {
+            width: "100%",
+            height: "200px",
+            backgroundImage: `url(${Background})`,
+            backgroundPosition: "50% 50%", // change me around to move up and down!
+            backgroundSize: "cover"
+          };
         return (
-            <div className="wrapper">
+            <>
+            <div style ={ topBgImageStyle }></div>
+            <div className="wrapper-w-img">
                 <Helmet>
                     <title>Why Solar? | Prestige Power</title>
                 </Helmet>
@@ -132,6 +142,7 @@ export default class WhySolar extends Component {
                 <br/>
                 <br/>
             </div>
+            </>
         )
     }
 }

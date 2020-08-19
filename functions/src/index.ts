@@ -115,7 +115,7 @@ export const onReferralCreated = functions.firestore.document('referrals/{referr
         </div>
         `
         // Config it
-        const transporter = nodemailer.createTransport({
+        let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
             port: 465,
             secure: true,
@@ -127,7 +127,7 @@ export const onReferralCreated = functions.firestore.document('referrals/{referr
         console.log("transporter = " + transporter)
 
         // Pack it
-        const mailOptions = {
+        let mailOptions = {
             from: `drcj.dev@gmail.com`,
             to: 'douglasrcjames@gmail.com, drcj.dev@gmail.com',
             replyTo: `${newValue.referee.email}`,
@@ -184,7 +184,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
         </div>
         `
         // Config it
-        const transporter = nodemailer.createTransport({
+        let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
             port: 465,
             secure: true,
@@ -196,7 +196,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
         console.log("transporter = " + transporter)
 
         // Pack it
-        const mailOptions = {
+        let mailOptions = {
             from: `drcj.dev@gmail.com`,
             to: 'douglasrcjames@gmail.com, drcj.dev@gmail.com',
             replyTo: `${newValue.email}`,
@@ -253,7 +253,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
                     </div>
                     `
                     // Config it
-                    const transporter = nodemailer.createTransport({
+                    let transporter = nodemailer.createTransport({
                         host: "smtp.gmail.com",
                         port: 465,
                         secure: true,
@@ -265,7 +265,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
                     console.log("transporter = " + transporter)
 
                     // Pack it
-                    const mailOptions = {
+                    let mailOptions = {
                         from: `drcj.dev@gmail.com`,
                         to: doc.data()?.email,
                         replyTo: `drcj.dev@gmail.com`,
@@ -328,7 +328,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
             </div>
             `
             // Config it
-            const transporter = nodemailer.createTransport({
+            let transporter = nodemailer.createTransport({
                 host: "smtp.gmail.com",
                 port: 465,
                 secure: true,
@@ -340,7 +340,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
             console.log("transporter = " + transporter)
 
             // Pack it
-            const mailOptions = {
+            let mailOptions = {
                 from: `drcj.dev@gmail.com`,
                 to: 'douglasrcjames@gmail.com, drcj.dev@gmail.com',
                 replyTo: `drcj.dev@gmail.com`,
@@ -391,7 +391,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
                     </div>
                     `
                     // Config it
-                    const transporter = nodemailer.createTransport({
+                    let transporter = nodemailer.createTransport({
                         host: "smtp.gmail.com",
                         port: 465,
                         secure: true,
@@ -403,7 +403,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
                     console.log("transporter = " + transporter)
 
                     // Pack it
-                    const mailOptions = {
+                    let mailOptions = {
                         from: `drcj.dev@gmail.com`,
                         to: doc.data()?.email,
                         replyTo: `drcj.dev@gmail.com`,

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Formik, Field } from 'formik';
 
-import { contactFormSchema } from '../../utils/formSchemas'
+import { contactFormSchema, userContactFormSchema } from '../../utils/formSchemas'
 import { firestore } from "../../Fire.js";
 import { withAlert  } from 'react-alert'
 import * as constant from "../../utils/constants.js";
@@ -80,13 +80,13 @@ class ContactForm extends Component {
                         this.addMessage(values);
                         actions.resetForm()
                     }}
-                    validationSchema={contactFormSchema}
+                    validationSchema={this.props.user ? userContactFormSchema : contactFormSchema}
                     >
                     {props => (
                         <form onSubmit={props.handleSubmit}>
                             <Grid fluid>
                                 <Row className={this.props.user ? "hide" : ""}>
-                                    <Col sm={12} md={6} className="s-margin-b">
+                                    <Col xs={12} sm={6} className="s-margin-b">
                                         <label>Name:</label>
                                         <br/>
                                         <Field
@@ -104,7 +104,7 @@ class ContactForm extends Component {
                                         )}
                                         
                                     </Col>
-                                    <Col sm={12} md={6} className="s-margin-b">
+                                    <Col xs={12} sm={6} className="s-margin-b">
                                         <label>Email:</label>
                                         <br/>
                                         <Field

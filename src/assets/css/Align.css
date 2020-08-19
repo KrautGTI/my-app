@@ -8,12 +8,12 @@ body {
     margin: 0;
     position: relative;
     min-height: 100vh;
-    padding-bottom: 10rem;    /* Footer height */
+    padding-bottom: 12rem;    /* Footer height */
 }
 
 @media screen and (max-width: 900px) {
     body {
-        padding-bottom: 13rem;    /* Footer height */
+        padding-bottom: 14rem;    /* Footer height */
     }
   }
 

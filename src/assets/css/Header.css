@@ -81,7 +81,7 @@
 }
 
 /* Mobile */
-@media screen and (max-width: 901px) {
+@media screen and (max-width: 1000px) {
     .nav-l-text {
         font-size: 1.8rem !important;
     }

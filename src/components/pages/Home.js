@@ -14,8 +14,8 @@ export default class Home extends Component {
                 <div className="hero-container-large">
                     <div className="hero-image-1">
                         <div className="hero-text text-shadow">
-                            <h1 className="s-margin-b no-padding ">Solar &amp; Storage</h1>
-                            <h2 className="s-margin-b no-padding">Just $1 a month for 6 months</h2>
+                            <h1 className="s-margin-b no-padding ">Solar &amp; Battery</h1>
+                            <h2 className="s-margin-b no-padding">Sustainability for your future</h2>
                             <Link to="/solar-quote" className="btn btn-md animated-button doug-one">Request Free Quote</Link>
                         </div>
                     </div>
@@ -26,7 +26,7 @@ export default class Home extends Component {
                     <p className="l-width center">
                         In today’s world, many people are concerned about the impact that everyday living has on the environment. 
                         Solar power allows homeowners to produce their own, clean energy, while saving tens of thousands of dollars doing so. 
-                        A solar installation adds value to a homeowner’s property at no cost to the homeowner. That’s truly a no brainer, right?
+                        A solar installation even adds value to a homeowner’s property at no cost to the homeowner. That’s truly a no brainer, right?
                     </p>
                     
                     <div className="center-text m-margin-b">
@@ -34,7 +34,7 @@ export default class Home extends Component {
                     </div>
                     <Grid fluid>
                         <Row center="xs">
-                            <Col sm={12} md={4}>
+                            <Col sm={12} md={3}>
                                 <img
                                     className="responsive small"
                                     alt="light bulb"
@@ -47,7 +47,7 @@ export default class Home extends Component {
                                     but all homeowners save money using solar energy.
                                 </p>
                             </Col>
-                            <Col sm={12} md={4}>
+                            <Col sm={12} md={3}>
                                 <img
                                     className="responsive small"
                                     alt="wholesale"
@@ -59,7 +59,7 @@ export default class Home extends Component {
                                     design, permitting, installation, and monitoring. All at <i>no cost</i>!
                                 </p>
                             </Col>
-                            <Col sm={12} md={4}>
+                            <Col sm={12} md={3}>
                                 <img
                                     className="responsive small"
                                     alt="eco home"

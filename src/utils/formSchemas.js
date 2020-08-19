@@ -19,6 +19,15 @@ export const contactFormSchema = yup.object().shape({
       .min(10,"Message must be at least 10 characters long."),
 })
 
+
+export const userContactFormSchema = yup.object().shape({
+  message: yup
+    .string()
+    .required("A message body is required.")
+    .max(30000,"Message must be at most 30000 characters long.")
+    .min(10,"Message must be at least 10 characters long."),
+})
+
 export const referralFormSchema = yup.object().shape({
   refereeFirstName: yup
     .string()

@@ -1,11 +1,21 @@
 import React, { Component } from 'react'
 import SolarQuoteForm from '../forms/SolarQuoteForm'
 import { Helmet } from 'react-helmet';
+import Background from '../../assets/images/backgrounds/commercial-1.jpg';
 
 export default class CommercialSolar extends Component {
     render() {
+        var topBgImageStyle = {
+            width: "100%",
+            height: "200px",
+            backgroundImage: `url(${Background})`,
+            backgroundPosition: "50% 50%", // change me around to move up and down!
+            backgroundSize: "cover"
+          };
         return (
-            <div className="wrapper">
+            <>
+            <div style ={ topBgImageStyle }></div>
+            <div className="wrapper-w-img">
                 <Helmet>
                     <title>Commercial Solar | Prestige Power</title>
                 </Helmet>
@@ -36,6 +46,7 @@ export default class CommercialSolar extends Component {
 
                 <h4 className="center-text">Contact us directly @ <u>commercial@goprestigepower.com</u> for more questions!</h4>
             </div>
+            </>
         )
     }
 }

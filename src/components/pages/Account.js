@@ -361,17 +361,17 @@ class Account extends Component {
                                    
                                     {/* Row 9 */}
                                     <Row>
-                                        <Col xs={12} lg={3} className="s-padding-t">
+                                        <Col xs={12} sm={3} className="s-margin">
                                             <a className="btn btn-sm animated-button victoria-one big-width" href="# " onClick={(e) => props.handleSubmit(e)}>
                                                 <button type="submit" className="just-text-btn" disabled={!props.dirty && !props.isSubmitting}>Update changes</button>
                                             </a>
                                         </Col>
-                                        <Col xs={12} lg={3} className="s-padding-t">
+                                        <Col xs={12} sm={3} className="s-margin">
                                             <a className="btn btn-sm animated-button thar-four" href="# " onClick={props.handleReset}>
                                                 <button type="button" className="just-text-btn">Reset changes</button>
                                             </a>
                                         </Col>
-                                        <Col xs={12} lg={3} className="s-padding-t">
+                                        <Col xs={12} sm={3} className="s-margin">
                                             <a className="btn btn-sm animated-button thar-three" href="# " onClick={this.sendPasswordReset}>
                                                 <button type="button" className="just-text-btn">Change password</button>
                                             </a>
