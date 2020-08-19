@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Formik, Form, Field } from 'formik';
 import { withRouter, Link } from "react-router-dom";
-import { withAlert  } from 'react-alert'
+import { store } from 'react-notifications-component';
 
 import { visitorSolarQuoteFormSchema, userSolarQuoteFormSchema } from '../../utils/formSchemas'
 import { storage, firestore, firebase, fire } from "../../Fire.js";
@@ -25,7 +25,19 @@ class SolarQuoteForm extends Component {
     addVisitorQuote = (values, resetForm) => {
         if(this.state.filePath && !this.state.fileUrl){
             // Case: User selected file, but didn't upload before submit
-            this.props.alert.error("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.")
+            store.addNotification({
+                title: "Error",
+                message: "A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.",
+                type: "error",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
         } else {
             // Case: User either didn't select a file or selected a file properly
             if(this.state.passwordShown && (!values.password || !values.confirmPassword)){
@@ -59,9 +71,33 @@ class SolarQuoteForm extends Component {
                                 proposalUrl: "",
                                 timestamp: Date.now(),
                             })
-                            this.props.alert.success("Submitted building proposal, you will hear from us soon.")
+                            store.addNotification({
+                                title: "Success",
+                                message: "Submitted building proposal, you will hear from us soon.",
+                                type: "success",
+                                insert: "top",
+                                container: "top-center",
+                                animationIn: ["animate__animated", "animate__fadeIn"],
+                                animationOut: ["animate__animated", "animate__fadeOut"],
+                                dismiss: {
+                                  duration: 5000,
+                                  onScreen: true
+                                }
+                              })
                         } else {
-                            this.props.alert.success("Submitted your inquiry, you will hear from us soon.")
+                            store.addNotification({
+                                title: "Success",
+                                message: "Submitted your inquiry, you will hear from us soon.",
+                                type: "success",
+                                insert: "top",
+                                container: "top-center",
+                                animationIn: ["animate__animated", "animate__fadeIn"],
+                                animationOut: ["animate__animated", "animate__fadeOut"],
+                                dismiss: {
+                                  duration: 5000,
+                                  onScreen: true
+                                }
+                              })
                         }
                         
                         this.setState({
@@ -105,9 +141,33 @@ class SolarQuoteForm extends Component {
                             proposalUrl: "",
                             timestamp: Date.now(),
                         })
-                        this.props.alert.success("Submitted building proposal, you will hear from us soon.")
+                        store.addNotification({
+                            title: "Success",
+                            message: "Submitted building proposal, you will hear from us soon.",
+                            type: "success",
+                            insert: "top",
+                            container: "top-center",
+                            animationIn: ["animate__animated", "animate__fadeIn"],
+                            animationOut: ["animate__animated", "animate__fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true
+                            }
+                          })
                     } else {
-                        this.props.alert.success("Submitted your inquiry, you will hear from us soon.")
+                        store.addNotification({
+                            title: "Success",
+                            message: "Submitted your inquiry, you will hear from us soon.",
+                            type: "success",
+                            insert: "top",
+                            container: "top-center",
+                            animationIn: ["animate__animated", "animate__fadeIn"],
+                            animationOut: ["animate__animated", "animate__fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true
+                            }
+                          })
                     }
                     this.setState({
                         fileUrl: "",
@@ -120,7 +180,19 @@ class SolarQuoteForm extends Component {
             } else if(this.state.passwordShown && values.password && values.confirmPassword) {
                 // Case: User is creating an account!
                 if(values.password === values.confirmPassword){
-                    this.props.alert.info("Please fill out the recaptcha challenge before continuing!")
+                    store.addNotification({
+                        title: "Info",
+                        message: `Please fill out the recaptcha challenge before continuing!`,
+                        type: "info",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animate__animated", "animate__fadeIn"],
+                        animationOut: ["animate__animated", "animate__fadeOut"],
+                        dismiss: {
+                          duration: 5000,
+                          onScreen: true
+                        }
+                      })
                     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha', {
                         'callback': (response) => {
                           // reCAPTCHA solved, allow Ask.
@@ -134,7 +206,19 @@ class SolarQuoteForm extends Component {
                                   console.log("Successfully added display name to Firebase.");
                                 }).catch((error) => {
                                   console.error("Error adding your display name to database: ", error);
-                                  this.props.alert.error("Error adding your display name to database: " + error)
+                                  store.addNotification({
+                                    title: "Error",
+                                    message: `Error adding your display name to database: ${error}`,
+                                    type: "error",
+                                    insert: "top",
+                                    container: "top-center",
+                                    animationIn: ["animate__animated", "animate__fadeIn"],
+                                    animationOut: ["animate__animated", "animate__fadeOut"],
+                                    dismiss: {
+                                      duration: 5000,
+                                      onScreen: true
+                                    }
+                                  })
                                   window.recaptchaVerifier.clear()
                                 });
                                 
@@ -170,29 +254,89 @@ class SolarQuoteForm extends Component {
                                     this.props.history.push("/account");
                                 }).catch((error) => {
                                     console.error("Error adding document: ", error);
-                                    this.props.alert.error("Error adding document: " + error)
+                                    store.addNotification({
+                                        title: "Error",
+                                        message: `Error adding document: ${error}`,
+                                        type: "error",
+                                        insert: "top",
+                                        container: "top-center",
+                                        animationIn: ["animate__animated", "animate__fadeIn"],
+                                        animationOut: ["animate__animated", "animate__fadeOut"],
+                                        dismiss: {
+                                          duration: 5000,
+                                          onScreen: true
+                                        }
+                                      })
                                     window.recaptchaVerifier.clear()
                                 });
                             }).catch((error) => {
                                 var errorCode = error.code;
                                 var errorMessage = error.message;
                                 console.log("Error registering: " + errorCode + ": " + errorMessage)
-                                this.props.alert.error("Error registering: " + error)
+                                store.addNotification({
+                                    title: "Error",
+                                    message: `Error registering: ${error}`,
+                                    type: "error",
+                                    insert: "top",
+                                    container: "top-center",
+                                    animationIn: ["animate__animated", "animate__fadeIn"],
+                                    animationOut: ["animate__animated", "animate__fadeOut"],
+                                    dismiss: {
+                                      duration: 5000,
+                                      onScreen: true
+                                    }
+                                  })
                                 window.recaptchaVerifier.clear()
                               });
                         },
                         'expired-callback': () => {
                           // Response expired. Ask user to solve reCAPTCHA again.
-                          this.props.alert.error("Please solve the reCAPTCHA again.")
+                          store.addNotification({
+                            title: "Error",
+                            message: "Please solve the reCAPTCHA again.",
+                            type: "error",
+                            insert: "top",
+                            container: "top-center",
+                            animationIn: ["animate__animated", "animate__fadeIn"],
+                            animationOut: ["animate__animated", "animate__fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true
+                            }
+                          })
                           window.recaptchaVerifier.clear()
                         }
                       })
                       window.recaptchaVerifier.render()
                 } else {
-                    this.props.alert.error("Passwords you entered do not match! Try again.")
+                    store.addNotification({
+                        title: "Error",
+                        message: "Passwords you entered do not match! Try again.",
+                        type: "error",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animate__animated", "animate__fadeIn"],
+                        animationOut: ["animate__animated", "animate__fadeOut"],
+                        dismiss: {
+                          duration: 5000,
+                          onScreen: true
+                        }
+                      })
                 }
             } else {
-                this.props.alert.error("Unknown case, please check fields and try again!")
+                store.addNotification({
+                    title: "Error",
+                    message: "Unknown case, please check fields and try again!",
+                    type: "error",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             }
         }
     }
@@ -200,10 +344,34 @@ class SolarQuoteForm extends Component {
     addUserQuote = (values, resetForm) => {
         if(this.state.filePath && !this.state.fileUrl){
             // Case: User selected file, but didn't upload before submit
-            this.props.alert.error("A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.")
+            store.addNotification({
+                title: "Error",
+                message: "A file was selected, but never uploaded. Tap the 'Upload bill' button before submitting or delete the file selection to continue.",
+                type: "error",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
         } else {
             if(!values.zip){
-                this.props.alert.error("You must enter at least the ZIP code for us to help the property.")
+                store.addNotification({
+                    title: "Error",
+                    message: "You must enter at least the ZIP code for us to help the property.",
+                    type: "error",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             } else {
                 // Case: User inputted at least one of the building fields
                 firestore.collection('buildings').add({
@@ -225,9 +393,33 @@ class SolarQuoteForm extends Component {
                         fileProgress: 0
                     });
                     resetForm();
-                    this.props.alert.success("Submitted building proposal!")
+                    store.addNotification({
+                        title: "Success",
+                        message: "Submitted building proposal, you will hear from us soon.",
+                        type: "success",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animate__animated", "animate__fadeIn"],
+                        animationOut: ["animate__animated", "animate__fadeOut"],
+                        dismiss: {
+                          duration: 5000,
+                          onScreen: true
+                        }
+                      })
                 }).catch((error) => {
-                    this.props.alert.error("Error adding building: " + error)
+                    store.addNotification({
+                        title: "Error",
+                        message: `Error adding building: ${error}`,
+                        type: "error",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animate__animated", "animate__fadeIn"],
+                        animationOut: ["animate__animated", "animate__fadeOut"],
+                        dismiss: {
+                          duration: 5000,
+                          onScreen: true
+                        }
+                      })
                 })
             }
         }
@@ -682,4 +874,4 @@ function Checkbox(props) {
     );
   };
 
-  export default withAlert()(withRouter(SolarQuoteForm));
+  export default withRouter(SolarQuoteForm);

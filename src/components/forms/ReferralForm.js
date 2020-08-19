@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Formik, Field } from 'formik';
-
+import { store } from 'react-notifications-component';
 import { referralFormSchema } from '../../utils/formSchemas'
 import { firestore } from "../../Fire.js";
 import { validatePhone, timestampToDateTime } from '../../utils/misc';
-import { withAlert } from 'react-alert';
 import * as constant from "../../utils/constants.js";
 
 class ReferralForm extends Component {
@@ -62,7 +61,19 @@ class ReferralForm extends Component {
                 status: constant.PENDING
             }).then(() => {
                 resetForm()
-                this.props.alert.success("Referral submitted successfully")
+                store.addNotification({
+                    title: "Success",
+                    message: "Referral submitted successfully.",
+                    type: "success",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             });
         } else {
             firestore.collection('referrals').add({
@@ -85,7 +96,19 @@ class ReferralForm extends Component {
                 status: constant.PENDING
             }).then(() => {
                 resetForm()
-                this.props.alert.success("Referral submitted successfully")
+                store.addNotification({
+                    title: "Success",
+                    message: "Referral submitted successfully.",
+                    type: "success",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             });
         }
       }
@@ -123,6 +146,7 @@ class ReferralForm extends Component {
                                         <br/>
                                         <Field
                                             type="text"
+                                            autoComplete="none"
                                             required
                                             onChange={props.handleChange}
                                             placeholder="John"
@@ -140,6 +164,7 @@ class ReferralForm extends Component {
                                         <br/>
                                         <Field
                                             type="text"
+                                            autoComplete="none"
                                             required
                                             onChange={props.handleChange}
                                             placeholder="Doe"
@@ -159,6 +184,7 @@ class ReferralForm extends Component {
                                         <br/>
                                         <Field
                                             name="refereePhone"
+                                            autoComplete="none"
                                             validate={validatePhone}
                                             onChange={props.handleChange}
                                             value={props.values.refereePhone}
@@ -176,6 +202,7 @@ class ReferralForm extends Component {
                                         <br/>
                                         <Field
                                             type="text"
+                                            autoComplete="none"
                                             required
                                             onChange={props.handleChange}
                                             placeholder="john_doe@gmail.com"
@@ -334,4 +361,4 @@ class ReferralForm extends Component {
     }
 }
 
-export default withAlert()(ReferralForm)
+export default ReferralForm

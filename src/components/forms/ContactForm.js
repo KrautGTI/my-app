@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Formik, Field } from 'formik';
-
+import { store } from 'react-notifications-component';
 import { contactFormSchema, userContactFormSchema } from '../../utils/formSchemas'
 import { firestore } from "../../Fire.js";
-import { withAlert  } from 'react-alert'
 import * as constant from "../../utils/constants.js";
 
 class ContactForm extends Component {
@@ -48,7 +47,19 @@ class ContactForm extends Component {
                 timestamp: Date.now(),
                 status: constant.PENDING
             }).then(
-                this.props.alert.success('Message submitted successfully.')
+                store.addNotification({
+                    title: "Success",
+                    message: "Message submitted successfully.",
+                    type: "success",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             );
         } else {
             firestore.collection('messages').add({
@@ -59,7 +70,19 @@ class ContactForm extends Component {
                 timestamp: Date.now(),
                 status: constant.PENDING
             }).then(
-                this.props.alert.success('Message submitted successfully.')
+                store.addNotification({
+                    title: "Success",
+                    message: "Message submitted successfully.",
+                    type: "success",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             );
         }
         
@@ -157,4 +180,4 @@ class ContactForm extends Component {
     }
 }
 
-export default withAlert()(ContactForm)
+export default ContactForm

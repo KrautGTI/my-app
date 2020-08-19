@@ -3,7 +3,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import '../../assets/css/Hamburger.css';
 import "../../assets/css/Header.css";
 import { fire } from "../../Fire.js";
-import { withAlert } from 'react-alert';
+import { store } from 'react-notifications-component';
 
 class Header extends Component {
     constructor(props) {
@@ -32,12 +32,36 @@ class Header extends Component {
         console.log("Signing out...")
         fire.auth().signOut().then(() => {
           console.log("Sign out successful.");
-          this.props.alert.success("Sign out successful.")
+          store.addNotification({
+            title: "Success",
+            message: "Sign out successful.",
+            type: "success",
+            insert: "top",
+            container: "top-center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            }
+          })
           this.props.history.push("/");
           window.location.reload();
         }).catch((error) => {
           console.error("Error signing out: " + error);
-          this.props.alert.error("Error signing out: " + error)
+          store.addNotification({
+            title: "Error",
+            message: `Error signing out: ${error}`,
+            type: "error",
+            insert: "top",
+            container: "top-center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            }
+          })
         });
       }
 
@@ -105,4 +129,4 @@ class Header extends Component {
 }
 
 
-export default withAlert()(withRouter(Header))
+export default withRouter(Header)

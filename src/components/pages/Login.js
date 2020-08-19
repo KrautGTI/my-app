@@ -5,7 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { firebase, fire } from "../../Fire.js";
 import { logInSchema } from "../../utils/formSchemas"
 import { ForgotPassword } from '../forms/ForgotPassword.js';
-import { withAlert } from 'react-alert';
+import { store } from 'react-notifications-component';
 import { Helmet } from 'react-helmet';
 
 class LogIn extends Component {
@@ -47,13 +47,37 @@ class LogIn extends Component {
               var errorCode = error.code;
               var errorMessage = error.message;
               console.log("Error signing in: " + errorCode + ": " + errorMessage)
-              this.props.alert.error("Error signing in: " + errorMessage)
+              store.addNotification({
+                title: "Error",
+                message: `Error signing in: ${errorMessage}`,
+                type: "error",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
               window.recaptchaVerifier.clear()
           });
         },
         'expired-callback': () => {
           // Response expired. Ask user to solve reCAPTCHA again.
-          this.props.alert.error("Please solve the reCAPTCHA again.")
+          store.addNotification({
+            title: "Error",
+            message: `Please solve the reCAPTCHA again.`,
+            type: "error",
+            insert: "top",
+            container: "top-center",
+            animationIn: ["animate__animated", "animate__fadeIn"],
+            animationOut: ["animate__animated", "animate__fadeOut"],
+            dismiss: {
+              duration: 5000,
+              onScreen: true
+            }
+          })
           window.recaptchaVerifier.clear()
         }
       })
@@ -62,9 +86,33 @@ class LogIn extends Component {
 
     sendPasswordReset = (values) => {
       fire.auth().sendPasswordResetEmail(values.email).then(() => {
-        this.props.alert.success("Reset link has been sent to your email.")
-      }).catch(function(error) {
-        this.props.alert.error(error.message)
+        store.addNotification({
+          title: "Success",
+          message: "Reset link has been sent to your email.",
+          type: "success",
+          insert: "top",
+          container: "top-center",
+          animationIn: ["animate__animated", "animate__fadeIn"],
+          animationOut: ["animate__animated", "animate__fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true
+          }
+        })
+      }).catch((error) => {
+        store.addNotification({
+          title: "Error",
+          message: `Error sending password reset link: ${error.message}`,
+          type: "error",
+          insert: "top",
+          container: "top-center",
+          animationIn: ["animate__animated", "animate__fadeIn"],
+          animationOut: ["animate__animated", "animate__fadeOut"],
+          dismiss: {
+            duration: 5000,
+            onScreen: true
+          }
+        })
       });
     }
 
@@ -147,4 +195,4 @@ class LogIn extends Component {
   }
 }
 
-export default withAlert()(withRouter(LogIn))
+export default withRouter(LogIn)

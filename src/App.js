@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import { Router } from 'react-router-dom';
 
 // Dialogue
-import { transitions, positions, Provider as AlertProvider } from 'react-alert'
-import AlertTemplate from 'react-alert-template-basic'
+import ReactNotification from 'react-notifications-component'
+import 'react-notifications-component/dist/theme.css'
 import Modal from 'react-modal'
 
 import history from './history';
@@ -56,30 +56,22 @@ class App extends Component {
   }
 
   render() {
-      const options = {
-        position: positions.TOP_CENTER,
-        timeout: 5000,
-        offset: '30px',
-        transition: transitions.SCALE
-      }
-      
       return (
-        <AlertProvider template={AlertTemplate} {...options}>
-          <Router history={history}>
-            <ScrollToTop>
-                <Header user={this.state.user} />
-                { !this.state.loading && (
-                  <Routes user={this.state.user} />
-                )}
-                { this.state.loading && (
-                  <div className="l-container">
-                    <h2 className="wrapper">Loading...</h2> 
-                  </div>
-                )}
-                <Footer user={this.state.user} />
-            </ScrollToTop>
-          </Router>
-        </AlertProvider>
+        <Router history={history}>
+          <ScrollToTop>
+              <ReactNotification />
+              <Header user={this.state.user} />
+              { !this.state.loading && (
+                <Routes user={this.state.user} />
+              )}
+              { this.state.loading && (
+                <div className="l-container">
+                  <h2 className="wrapper">Loading...</h2> 
+                </div>
+              )}
+              <Footer user={this.state.user} />
+          </ScrollToTop>
+        </Router>
     );
   }
 }

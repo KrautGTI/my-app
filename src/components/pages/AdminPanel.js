@@ -6,13 +6,13 @@ import * as constant from "../../utils/constants.js";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import { Field, Form, Formik } from 'formik';
-import { withAlert } from 'react-alert';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Modal from 'react-modal';
 import { Col, Grid, Row } from 'react-flexbox-grid';
 import { genId } from '../../utils/misc';
 import { Helmet } from 'react-helmet';
+import { store } from 'react-notifications-component';
 
 class AdminPanel extends Component {
     constructor(props) {
@@ -445,9 +445,33 @@ class AdminPanel extends Component {
                 }
             }, { merge: true }).then(() => {
                 console.log("Successfully updated user assigned to.")
-                this.props.alert.success('Successfully updated user assignedTo.')
+                store.addNotification({
+                    title: "Success",
+                    message: 'Successfully updated user assigned to field.',
+                    type: "success",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             }).catch((error) => {
-                this.props.alert.error('Error changing user assignedTo on database: ' + error)
+                store.addNotification({
+                    title: "Error",
+                    message: `Error changing user assigned to field on database: ${error}`,
+                    type: "error",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
                 console.error("Error changing user assignedTo on database: " + error);
             });
         } else {
@@ -455,9 +479,33 @@ class AdminPanel extends Component {
                 assignedTo: { userId: "", firstName: "", lastName: "" },
             }, { merge: true }).then(() => {
                 console.log("Successfully updated user assigned to.")
-                this.props.alert.success('Successfully updated user assignedTo.')
+                store.addNotification({
+                    title: "Success",
+                    message: 'Successfully updated user assigned to field.',
+                    type: "success",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             }).catch((error) => {
-                this.props.alert.error('Error changing user assignedTo on database: ' + error)
+                store.addNotification({
+                    title: "Error",
+                    message: `Error changing user assigned to field on database: ${error}`,
+                    type: "error",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
                 console.error("Error changing user assignedTo on database: " + error);
             });
         }
@@ -468,9 +516,33 @@ class AdminPanel extends Component {
             status: values.status
         }, { merge: true }).then(() => {
             console.log("Successfully updated building status.")
-            this.props.alert.success('Successfully updated building status.')
+            store.addNotification({
+                title: "Success",
+                message: 'Successfully updated building status.',
+                type: "success",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
         }).catch((error) => {
-            this.props.alert.error('Error changing building status on database: ' + error)
+            store.addNotification({
+                title: "Error",
+                message: `Error changing building status on database: ${error}`,
+                type: "error",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
             console.error("Error changing building status on database: " + error);
         });
 }
@@ -479,10 +551,34 @@ class AdminPanel extends Component {
         firestore.collection("referrals").doc(referralId).set({
             status: values.status
         }, { merge: true }).then(() => {
+            store.addNotification({
+                title: "Success",
+                message: 'Successfully updated referral status.',
+                type: "success",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
             console.log("Successfully updated referral status.")
-            this.props.alert.success('Successfully updated referral status.')
         }).catch((error) => {
-            this.props.alert.error('Error changing referral status on database: ' + error)
+            store.addNotification({
+                title: "Error",
+                message: `Error changing referral status on database: ${error}`,
+                type: "error",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
             console.error("Error changing referral status on database: " + error);
         });
     }
@@ -492,9 +588,33 @@ class AdminPanel extends Component {
             status: values.status
         }, { merge: true }).then(() => {
             console.log("Successfully updated message status.")
-            this.props.alert.success('Successfully updated message status.')
+            store.addNotification({
+                title: "Success",
+                message: 'Successfully updated message status.',
+                type: "success",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
         }).catch((error) => {
-            this.props.alert.error('Error changing message status on database: ' + error)
+            store.addNotification({
+                title: "Error",
+                message: `Error changing message status on database: ${error}`,
+                type: "error",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
             console.error("Error changing message status on database: " + error);
         });
     }
@@ -507,9 +627,33 @@ class AdminPanel extends Component {
             notes: removedWeirdBr
         }, { merge: true }).then(() => {
             console.log("Successfully updated user notes.")
-            this.props.alert.success('Successfully updated user notes.')
+            store.addNotification({
+                title: "Success",
+                message: 'Successfully updated user notes.',
+                type: "success",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
         }).catch((error) => {
-            this.props.alert.error('Error changing user notes on database: ' + error)
+            store.addNotification({
+                title: "Error",
+                message: `Error changing user notes on database: ${error}`,
+                type: "error",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
             console.error("Error changing user notes on database: " + error);
         });
     }
@@ -522,9 +666,33 @@ class AdminPanel extends Component {
             notes: removedWeirdBr
         }, { merge: true }).then(() => {
             console.log("Successfully updated building notes.")
-            this.props.alert.success('Successfully updated building notes.')
+            store.addNotification({
+                title: "Success",
+                message: 'Successfully updated building notes.',
+                type: "success",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
         }).catch((error) => {
-            this.props.alert.error('Error changing building notes on database: ' + error)
+            store.addNotification({
+                title: "Error",
+                message: `Error changing building notes on database: ${error}`,
+                type: "error",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
             console.error("Error changing building notes on database: " + error);
         });
     }
@@ -576,9 +744,33 @@ class AdminPanel extends Component {
                 showUploadProposalModal: false
             })
             console.log("Successfully updated building proposal URL.")
-            this.props.alert.success('Successfully updated building proposal URL.')
+            store.addNotification({
+                title: "Success",
+                message: "Successfully updated building proposal URL.",
+                type: "success",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
         }).catch((error) => {
-            this.props.alert.error('Error changing building proposal URL on database: ' + error)
+            store.addNotification({
+                title: "Error",
+                message: `Error changing building proposal URL on database: ${error}`,
+                type: "error",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
             console.error("Error changing building proposal URL on database: " + error);
         });
     }
@@ -593,12 +785,36 @@ class AdminPanel extends Component {
     toggleFilterByClient = (e, clientId = "") => {
         e.preventDefault()
         if(clientId){
-            this.props.alert.success(`Showing only client "...${clientId.slice(0, 8)}" data.`)
+            store.addNotification({
+                title: "Success",
+                message: `Showing only client "...${clientId.slice(0, 8)}" data.`,
+                type: "success",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
             this.setState({
                 thisClientDataShown: clientId
             });
         } else {
-            this.props.alert.success('Showing all data again.')
+            store.addNotification({
+                title: "Success",
+                message: `Showing all data again.`,
+                type: "success",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
             this.setState({
                 thisClientDataShown: ""
             });
@@ -1215,4 +1431,4 @@ class AdminPanel extends Component {
     }
 }
 
-export default withAlert()(AdminPanel)
+export default AdminPanel

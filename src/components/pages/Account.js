@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Formik, Form, Field } from "formik";
 import { Link } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { withAlert  } from 'react-alert'
+import { store } from 'react-notifications-component';
 import { Helmet } from 'react-helmet';
 
 import { fire, firestore } from "../../Fire.js";
@@ -94,17 +94,52 @@ class Account extends Component {
                     }, { merge: true }).then(() => {
                         console.log("Updated name details on Firestore.")
                     }).catch((error) => {
-                        console.error("Error changing your name on database: " + error);
-                        this.props.alert.error('Error changing your name on database: ' + error)
+                        store.addNotification({
+                            title: "Error",
+                            message: `Error changing your name on database:  ${error}`,
+                            type: "error",
+                            insert: "top",
+                            container: "top-center",
+                            animationIn: ["animate__animated", "animate__fadeIn"],
+                            animationOut: ["animate__animated", "animate__fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true
+                            }
+                          })
                     });
                    
                 }).catch((error) => {
                     if(error.code === "auth/user-token-expired"){
-                        this.props.alert.error('Your log in status has changed. Please sign out and sign back in with your credentials.')
+                        store.addNotification({
+                            title: "Error",
+                            message: 'Your log in status has changed. Please sign out and sign back in with your credentials.',
+                            type: "error",
+                            insert: "top",
+                            container: "top-center",
+                            animationIn: ["animate__animated", "animate__fadeIn"],
+                            animationOut: ["animate__animated", "animate__fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true
+                            }
+                          })
                         window.location.reload();
                     } else {
+                        store.addNotification({
+                            title: "Error",
+                            message: `Error updating display name on Firebase: ${error}`,
+                            type: "error",
+                            insert: "top",
+                            container: "top-center",
+                            animationIn: ["animate__animated", "animate__fadeIn"],
+                            animationOut: ["animate__animated", "animate__fadeOut"],
+                            dismiss: {
+                              duration: 5000,
+                              onScreen: true
+                            }
+                          })
                         console.error("Error updating display name on Firebase: " + error);
-                        this.props.alert.error('Error updating display name on Firebase: ' + error)
                     }  
                 });
             }
@@ -116,10 +151,33 @@ class Account extends Component {
                 business: values.business,
                 phone: values.phone,
             }, { merge: true }).then(() => {
-                console.log("Successfully updated profile details.")
-                this.props.alert.success('Successfully updated profile details.')
+                store.addNotification({
+                    title: "Success",
+                    message: 'Successfully updated profile details.',
+                    type: "success",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             }).catch((error) => {
-                this.props.alert.error('Error changing your info on database: ' + error)
+                store.addNotification({
+                    title: "Error",
+                    message: `Error changing your info on database:  ${error}`,
+                    type: "error",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
                 console.error("Error changing your info on database: " + error);
             });
           },
@@ -135,12 +193,48 @@ class Account extends Component {
         var currentUser = fire.auth().currentUser;
         if(currentUser){
             fire.auth().sendPasswordResetEmail(this.state.user.email).then(() => {
-                this.props.alert.success('Reset link has been sent to your email.')
+                store.addNotification({
+                    title: "Success",
+                    message: 'Reset link has been sent to your email.',
+                    type: "success",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             }).catch((error) => {
-                this.props.alert.error('Error sending password reset: ' + error.message)
+                store.addNotification({
+                    title: "Error",
+                    message: `Error sending password reset: ${error.message}`,
+                    type: "error",
+                    insert: "top",
+                    container: "top-center",
+                    animationIn: ["animate__animated", "animate__fadeIn"],
+                    animationOut: ["animate__animated", "animate__fadeOut"],
+                    dismiss: {
+                      duration: 5000,
+                      onScreen: true
+                    }
+                  })
             });
         } else {
-            this.props.alert.error('Your log in status has changed. Please sign out and sign back in with your credentials.')
+            store.addNotification({
+                title: "Error",
+                message: 'Your log in status has changed. Please sign out and sign back in with your credentials.',
+                type: "error",
+                insert: "top",
+                container: "top-center",
+                animationIn: ["animate__animated", "animate__fadeIn"],
+                animationOut: ["animate__animated", "animate__fadeOut"],
+                dismiss: {
+                  duration: 5000,
+                  onScreen: true
+                }
+              })
             window.location.reload();
         }
     }
@@ -394,4 +488,4 @@ class Account extends Component {
     }
 }
 
-export default withAlert()(Account)
+export default Account
