@@ -43,7 +43,7 @@ export default class Home extends Component {
                                 <h2>Save Money</h2>
                                 <p>
                                     Electricity bills are skyrocketing. By installing solar panels on your home, you can now harness
-                                    the suns energy to meet all of your electricity needs. Cost savings may vary,
+                                    the sun's energy to meet all of your electricity needs. Cost savings may vary,
                                     but all homeowners save money using solar energy.
                                 </p>
                             </Col>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import SolarQuoteForm from '../forms/SolarQuoteForm'
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import Background from '../../assets/images/backgrounds/solar-1.jpg';
+import Background from '../../assets/images/backgrounds/hero.png';
 
 export default class SolarQuote extends Component {
     render() {
@@ -10,7 +10,7 @@ export default class SolarQuote extends Component {
             width: "100%",
             height: "200px",
             backgroundImage: `url(${Background})`,
-            backgroundPosition: "50% 50%", // change me around to move up and down!
+            backgroundPosition: "50% 70%", // change me around to move up and down!
             backgroundSize: "cover"
           };
         return (
@@ -21,8 +21,8 @@ export default class SolarQuote extends Component {
                     <title>Solar Quote | Prestige Power</title>
                 </Helmet>
                 <h1>Solar Quote</h1>
-                <h3>LIMITED TIME OFFER: $1/Mo For 6 Months</h3>
-                <p>Want to talk to one of our sales representatives right now? Give us a call at 949-636-8339!</p>
+                <h3>LIMITED TIME OFFER: $1k after installation bonus</h3>
+                <p>Want to talk to one of our sales representatives right away? Give us a call at <span className="green">(949) 636-8339</span>!</p>
 
                 <SolarQuoteForm user={this.props.user} commercialPage={false} />
 

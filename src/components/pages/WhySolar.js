@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Helmet } from 'react-helmet';
-import Background from '../../assets/images/backgrounds/solar-2.jpg';
+import Background from '../../assets/images/backgrounds/solar-1.jpg';
 
 export default class WhySolar extends Component {
     render() {
@@ -59,7 +59,7 @@ export default class WhySolar extends Component {
 
                 <Grid fluid className="s-padding-t">
                     <Row center="xs">
-                        <Col sm={12} md={4}>
+                        <Col xs={12} sm={3}>
                             <img
                                 className="responsive small"
                                 alt="light bulb"
@@ -68,13 +68,13 @@ export default class WhySolar extends Component {
                             <h2>Save Money</h2>
                             <p>
                                 Electricity bills are skyrocketing. By installing solar panels on your home, you can now harness
-                                the suns energy to meet all of your electricity needs and eliminate rate increases and
+                                the sun's energy to meet all of your electricity needs and eliminate rate increases and
                                 unpredictability from your utility company. Each home has a unique solar potential based
                                 upon kilowatt usage and the direction, pitch and shading of the roof. Cost savings may vary,
                                 but all homeowners save money using solar energy.
                             </p>
                         </Col>
-                        <Col sm={12} md={4}>
+                        <Col xs={12} sm={3}>
                             <img
                                 className="responsive small"
                                 alt="wholesale"
@@ -86,7 +86,7 @@ export default class WhySolar extends Component {
                                 design, permitting, installation, and monitoring. All at <i>no cost</i>!
                             </p>
                         </Col>
-                        <Col sm={12} md={4}>
+                        <Col xs={12} sm={3}>
                             <img
                                 className="responsive small"
                                 alt="eco home"
@@ -118,7 +118,7 @@ export default class WhySolar extends Component {
                         </Col>
                     </Row>
                     <Row center="xs">
-                        <Col className="s-text m-margin-t-b">
+                        <Col className="s-text m-margin-t">
                             <b>Disclaimer:</b>
                             <p>Each home has a unique solar potential based on kilowatt usage and the direction, pitch, and shading of the roof. Cost savings may vary.</p>
                         </Col>

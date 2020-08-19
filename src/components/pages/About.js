@@ -32,12 +32,6 @@ export default class About extends Component {
                     transparency.
                 </p>
                 <p>
-                    Our mission is to rescue homeowners from their unpredictable, ever increasing electricity rates.
-                    We educate homeowners on how they are currently charged for electric power and what they
-                    can do about it by switching to solar energy. We assist homeowners in saving money while
-                    helping the planet, one footprint at a time.
-                </p>
-                <p>
                     Our mission is to rescue homeowners from their unpredictable, ever increasing utility
                     rates. As a company, we strive to educate homeowners on how they are currently
                     charged for electric power, and what they can do about it by switching to solar energy.
