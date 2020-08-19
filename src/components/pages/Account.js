@@ -282,11 +282,11 @@ class Account extends Component {
 
     render() {
         const initialFormState = {
-            firstName: this.state.user.firstName,
-            lastName: this.state.user.lastName,
-            email: this.state.user.email,
-            phone: this.state.user.phone,
-            business: this.state.user.business
+            firstName: this.state.user.firstName || "",
+            lastName: this.state.user.lastName || "",
+            email: this.state.user.email || "",
+            phone: this.state.user.phone || "",
+            business: this.state.user.business || ""
         };
         if(!this.state.user && !this.state.user.timestamp){
             return(<div className="wrapper"><h2>Loading your user data...</h2></div>)

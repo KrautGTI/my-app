@@ -488,6 +488,7 @@ class SolarQuoteForm extends Component {
             <div className="horiz-center">
                 <Formik
                     initialValues={initialFormState}
+                    
                     onSubmit={(values, actions) => {
                         if(this.props.user){
                             this.addUserQuote(values, actions.resetForm);

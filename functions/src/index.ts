@@ -54,7 +54,7 @@ export const onMessageCreated = functions.firestore.document('messages/{messageI
         // Pack it
         const mailOptions = {
             from: `drcj.dev@gmail.com`,
-            to: 'douglasrcjames@gmail.com, drcj.dev@gmail.com',
+            to: 'info@goprestigepower.com, drcj.dev@gmail.com',
             replyTo: `${newValue.email}`,
             subject: `New Prestige Power contact from ${newValue.name}`,
             text: newValue.message,
@@ -129,7 +129,7 @@ export const onReferralCreated = functions.firestore.document('referrals/{referr
         // Pack it
         let mailOptions = {
             from: `drcj.dev@gmail.com`,
-            to: 'douglasrcjames@gmail.com, drcj.dev@gmail.com',
+            to: 'info@goprestigepower.com, drcj.dev@gmail.com',
             replyTo: `${newValue.referee.email}`,
             subject: `New Prestige Power referral`,
             text: `A new client referral has been added with the email of ${newValue.referee.email}.`,
@@ -198,7 +198,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
         // Pack it
         let mailOptions = {
             from: `drcj.dev@gmail.com`,
-            to: 'douglasrcjames@gmail.com, drcj.dev@gmail.com',
+            to: 'info@goprestigepower.com, drcj.dev@gmail.com',
             replyTo: `${newValue.email}`,
             subject: `New Prestige Power user sign up`,
             text: `A new user sign up with the email of ${newValue.email}.`,
@@ -342,7 +342,7 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
             // Pack it
             let mailOptions = {
                 from: `drcj.dev@gmail.com`,
-                to: 'douglasrcjames@gmail.com, drcj.dev@gmail.com',
+                to: 'info@goprestigepower.com, drcj.dev@gmail.com',
                 replyTo: `drcj.dev@gmail.com`,
                 subject: `New Prestige Power building add`,
                 text: `A new building added for the client with ID of ${newValue.clientId}.`,
