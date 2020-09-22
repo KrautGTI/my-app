@@ -64,7 +64,7 @@ const questions = [
         title: "How does the referral bonus work?",
         body: `Once you become a Prestige Power customer, we provide a referral bonus for each residential
         or commercial customer that you refer to us and gets installed. The bonus for referral of a
-        residential customer is $1,000. The bonus for referral of a commercial customer is $3,000. All
+        residential customer is $500. The bonus for referral of a commercial customer is $3,000. All
         bonuses are paid after the referred customer’s installation and will arrive within 2-3 weeks in
         the form of a check.`
     },
