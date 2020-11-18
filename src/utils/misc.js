@@ -77,15 +77,26 @@ export function mobileCheck() {
   return check;
 };
 
-
 export function validatePhone(value) {
-  const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-  let error;
-  if(value){
-      const number = phoneUtil.parseAndKeepRawInput(value, "US");   
-      if(!phoneUtil.isValidNumber(number)){
+  if(!isNaN(value)){
+    try {
+      const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
+      console.log("Value: ")
+      console.log(value)
+      let error;
+      if(value){
+        const number = phoneUtil.parseAndKeepRawInput(value, "US");   
+        if(!phoneUtil.isValidNumber(number)){
           error = 'Invalid phone number';
+        }
       }
+      return error;
+  
+    } catch(err) {
+      return console.error(err)
+    }
+  } else {
+    return "Only numbers allowed!"
   }
-  return error;
+  
 }
