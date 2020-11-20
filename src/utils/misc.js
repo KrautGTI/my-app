@@ -81,8 +81,6 @@ export function validatePhone(value) {
   if(!isNaN(value)){
     try {
       const phoneUtil = require('google-libphonenumber').PhoneNumberUtil.getInstance();
-      console.log("Value: ")
-      console.log(value)
       let error;
       if(value){
         const number = phoneUtil.parseAndKeepRawInput(value, "US");   

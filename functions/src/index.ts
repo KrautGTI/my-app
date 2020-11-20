@@ -62,15 +62,10 @@ export const onMessageCreated = functions.firestore.document('messages/{messageI
         }
 
         // Send it
-        transporter.sendMail(mailOptions, (err: any) => {
-            if(err) {
-                console.error(err);
-            } else {
-                console.log("Successfully sent mail with sendMail()!");
-            }
-        })
+        return transporter.sendMail(mailOptions)
     } catch (error) {
         console.error(error)
+        return;
     }
   });
 
@@ -137,15 +132,10 @@ export const onReferralCreated = functions.firestore.document('referrals/{referr
         }
 
         // Send it
-        transporter.sendMail(mailOptions, (err: any) => {
-            if(err) {
-                console.error(err);
-            } else {
-                console.log("Successfully sent mail with sendMail()!");
-            }
-        })
+        return transporter.sendMail(mailOptions)
     } catch (error) {
         console.error(error)
+        return;
     }
   });
 
@@ -206,15 +196,10 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
         }
 
         // Send it
-        transporter.sendMail(mailOptions, (err: any) => {
-            if(err) {
-                console.error(err);
-            } else {
-                console.log("Successfully sent mail with sendMail()!");
-            }
-        })
+        return transporter.sendMail(mailOptions)
     } catch (error) {
         console.error(error)
+        return;
     }
   });
 
@@ -275,19 +260,15 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
                     }
 
                     // Send it
-                    transporter.sendMail(mailOptions, (err: any) => {
-                        if(err) {
-                            console.error(err);
-                        } else {
-                            console.log("Successfully sent mail with sendMail()!");
-                        }
-                    })
+                    return transporter.sendMail(mailOptions)
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such user document!");
+                    return;
                 }
             }).catch((error) => {
                 console.error("Error grabbing user document: " + error)
+                return;
             })
         }
 
@@ -350,15 +331,10 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
             }
 
             // Send it
-            transporter.sendMail(mailOptions, (err: any) => {
-                if(err) {
-                    console.error(err);
-                } else {
-                    console.log("Successfully sent mail with sendMail()!");
-                }
-            })
+            return transporter.sendMail(mailOptions)
         } catch (error) {
             console.error(error)
+            return;
         }
   });
 
@@ -413,19 +389,15 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
                     }
 
                     // Send it
-                    transporter.sendMail(mailOptions, (err: any) => {
-                        if(err) {
-                            console.error(err);
-                        } else {
-                            console.log("Successfully sent mail with sendMail()!");
-                        }
-                    })
+                    return transporter.sendMail(mailOptions)
                 } else {
                     // doc.data() will be undefined in this case
                     console.log("No such user document!");
+                    return;
                 }
             }).catch((error) => {
                 console.error("Error grabbing user document: " + error)
+                return;
             })
         }
 });
