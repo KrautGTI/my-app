@@ -787,7 +787,7 @@ class AdminPanel extends Component {
         if(clientId){
             store.addNotification({
                 title: "Success",
-                message: `Showing only client "...${clientId.slice(0, 8)}" data.`,
+                message: `Showing only client "...${clientId.substring(clientId.length-8, clientId.length)}" data.`,
                 type: "success",
                 insert: "top",
                 container: "top-center",
@@ -935,7 +935,7 @@ class AdminPanel extends Component {
                                             }
                                             return (
                                                 <tr key={index} className={this.state.thisClientDataShown === user.id ? "background-xlight-blue" : ""}>
-                                                    <td>...{user.id.slice(0, 8)}</td>
+                                                    <td>...{user.id.substring(user.id.length-8, user.id.length)}</td>
                                                     <td>{user.firstName}</td>
                                                     <td>{user.lastName}</td>
                                                     <td>{user.email}</td>
@@ -1078,8 +1078,8 @@ class AdminPanel extends Component {
                                             }
                                             return (
                                                 <tr key={index}>
-                                                    <td>...{building.id.slice(0, 8)}</td>
-                                                    <td>...{building.clientId.slice(0, 8)}</td>
+                                                    <td>...{building.id.substring(building.id.length-8, building.id.length)}</td>
+                                                    <td>...{building.clientId.substring(building.clientId.length-8, building.clientId.length)}</td>
                                                     <td>{building.buildingName}</td>
                                                     <td>
                                                     <Formik
@@ -1282,12 +1282,12 @@ class AdminPanel extends Component {
                                             }
                                             return (
                                                 <tr key={index}>
-                                                    <td>...{ref.id.slice(0, 8)}</td>
+                                                    <td>...{ref.id.substring(ref.id.length-8, ref.id.length)}</td>
                                                     <td>{ref.referee.firstName}</td>
                                                     <td>{ref.referee.lastName}</td>
                                                     <td>{ref.referee.email}</td>
                                                     <td>{ref.referee.phone}</td>
-                                                    <td>{ref.referrer.userId ? `...${ref.referrer.userId.slice(0, 8)}` : "N/A"}</td>
+                                                    <td>{ref.referrer.userId ? `...${ref.referrer.userId.substring(ref.referrer.userId.length-8, ref.referrer.userId.length)}` : "N/A"}</td>
                                                     <td>{ref.referrer.firstName}</td>
                                                     <td>{ref.referrer.lastName}</td>
                                                     <td>{ref.referrer.email}</td>
@@ -1369,8 +1369,8 @@ class AdminPanel extends Component {
                                             }
                                             return (
                                                 <tr key={index}>
-                                                    <td>...{message.id.slice(0, 8)}</td>
-                                                    <td>{message.userId ? `...${message.userId.slice(0, 8)}` : "N/A"} </td>
+                                                    <td>...{message.id.substring(message.id.length-8, message.id.length)}</td>
+                                                    <td>{message.userId ? `...${message.userId.substring(message.userId.length-8, message.userId.length)}` : "N/A"} </td>
                                                     <td>{message.name}</td>
                                                     <td>{message.email}</td>
                                                     <td>{message.message}</td>
