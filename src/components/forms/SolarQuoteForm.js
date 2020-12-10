@@ -200,12 +200,64 @@ class SolarQuoteForm extends Component {
                           // reCAPTCHA solved, allow Ask.
                           fire.auth().createUserWithEmailAndPassword(values.email, values.password)
                             .then((userData) => {
+                                console.log("userData: ")
+                                console.log(userData)
                                 // No existing user, now add to Firestore
                                 var currentUser = fire.auth().currentUser;
+                                console.log("currentUser: ")
+                                console.log(currentUser)
                                 currentUser.updateProfile({
                                   displayName: (values.firstName + " " + values.lastName)
                                 }).then(() => {
-                                  console.log("Successfully added display name to Firebase.");
+                                    console.log("Successfully added display name to Firebase. Now adding their info...");
+                                    if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
+                                        // Case: User inputted at least one of the building fields
+                                        firestore.collection('buildings').add({
+                                            clientId: userData.user.uid,
+                                            buildingName: values.buildingName,
+                                            status: constant.PENDING,
+                                            proposalPref: values.proposalPref,
+                                            zip: values.zip,
+                                            averageBill: values.averageBill,
+                                            isCommercial: values.isCommercial,
+                                            shaded: values.shaded,
+                                            billUrl: this.state.fileUrl,
+                                            proposalUrl: "",
+                                            timestamp: Date.now()
+                                        })
+                                    }
+                                    
+                                    firestore.collection("users").doc(userData.user.uid).set({
+                                        firstName: values.firstName,
+                                        lastName: values.lastName,
+                                        phone: values.phone,
+                                        email: values.email,
+                                        business: values.business,
+                                        acquisition: values.acquisition,
+                                        solarReasons: values.solarReasons,
+                                        isAdmin: false,
+                                        assignedTo: { userId: "" },
+                                        timestamp: Date.now()
+                                    }, { merge: true }).then(() => {
+                                        console.log("Successful write to Firestore.");
+                                        this.props.history.push("/account");
+                                    }).catch((error) => {
+                                        console.error("Error adding document: ", error);
+                                        store.addNotification({
+                                            title: "Error",
+                                            message: `Error adding document: ${error}`,
+                                            type: "danger",
+                                            insert: "top",
+                                            container: "top-center",
+                                            animationIn: ["animate__animated", "animate__fadeIn"],
+                                            animationOut: ["animate__animated", "animate__fadeOut"],
+                                            dismiss: {
+                                            duration: 5000,
+                                            onScreen: true
+                                            }
+                                        })
+                                        window.recaptchaVerifier.clear()
+                                    });
                                 }).catch((error) => {
                                   console.error("Error adding your display name to database: ", error);
                                   store.addNotification({
@@ -223,55 +275,7 @@ class SolarQuoteForm extends Component {
                                   })
                                   window.recaptchaVerifier.clear()
                                 });
-                                
-                                if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
-                                    // Case: User inputted at least one of the building fields
-                                    firestore.collection('buildings').add({
-                                        clientId: userData.user.uid,
-                                        buildingName: values.buildingName,
-                                        status: constant.PENDING,
-                                        proposalPref: values.proposalPref,
-                                        zip: values.zip,
-                                        averageBill: values.averageBill,
-                                        isCommercial: values.isCommercial,
-                                        shaded: values.shaded,
-                                        billUrl: this.state.fileUrl,
-                                        proposalUrl: "",
-                                        timestamp: Date.now()
-                                    })
-                                }
-                                
-                                firestore.collection("users").doc(userData.user.uid).set({
-                                    firstName: values.firstName,
-                                    lastName: values.lastName,
-                                    phone: values.phone,
-                                    email: values.email,
-                                    business: values.business,
-                                    acquisition: values.acquisition,
-                                    solarReasons: values.solarReasons,
-                                    isAdmin: false,
-                                    assignedTo: { userId: "" },
-                                    timestamp: Date.now()
-                                }, { merge: true }).then(() => {
-                                    console.log("Successful write to Firestore.");
-                                    this.props.history.push("/account");
-                                }).catch((error) => {
-                                    console.error("Error adding document: ", error);
-                                    store.addNotification({
-                                        title: "Error",
-                                        message: `Error adding document: ${error}`,
-                                        type: "danger",
-                                        insert: "top",
-                                        container: "top-center",
-                                        animationIn: ["animate__animated", "animate__fadeIn"],
-                                        animationOut: ["animate__animated", "animate__fadeOut"],
-                                        dismiss: {
-                                          duration: 5000,
-                                          onScreen: true
-                                        }
-                                      })
-                                    window.recaptchaVerifier.clear()
-                                });
+                            
                             }).catch((error) => {
                                 var errorCode = error.code;
                                 var errorMessage = error.message;
