@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReferralForm from '../forms/ReferralForm'
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Background from '../../assets/images/backgrounds/friends.jpg';
 
 export default class BonusReferrals extends Component {

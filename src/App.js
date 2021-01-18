@@ -24,6 +24,7 @@ import "./assets/css/Forms.css";
 
 // This component fixes bug where new page load would sometimes be in the middle or bottom
 import ScrollToTop from "./components/misc/ScrollToTop";
+import { HelmetProvider } from 'react-helmet-async';
 
 // For React Modals: was getting a console error: 
 // https://github.com/reactjs/react-modal/issues/576
@@ -57,21 +58,23 @@ class App extends Component {
 
   render() {
       return (
-        <Router history={history}>
-          <ScrollToTop>
-              <ReactNotification />
-              <Header user={this.state.user} />
-              { !this.state.loading && (
-                <Routes user={this.state.user} />
-              )}
-              { this.state.loading && (
-                <div className="l-container">
-                  <h2 className="wrapper">Loading...</h2> 
-                </div>
-              )}
-              <Footer user={this.state.user} />
-          </ScrollToTop>
-        </Router>
+        <HelmetProvider>
+          <Router history={history}>
+            <ScrollToTop>
+                <ReactNotification />
+                <Header user={this.state.user} />
+                { !this.state.loading && (
+                  <Routes user={this.state.user} />
+                )}
+                { this.state.loading && (
+                  <div className="l-container">
+                    <h2 className="wrapper">Loading...</h2> 
+                  </div>
+                )}
+                <Footer user={this.state.user} />
+            </ScrollToTop>
+          </Router>
+        </HelmetProvider>
     );
   }
 }

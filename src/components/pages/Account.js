@@ -3,7 +3,7 @@ import { Formik, Form, Field } from "formik";
 import { Link } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { store } from 'react-notifications-component';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import { fire, firestore } from "../../Fire.js";
 import { confirm } from "../misc/Confirmation";

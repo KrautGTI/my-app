@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import SolarQuoteForm from '../forms/SolarQuoteForm'
 import { Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Background from '../../assets/images/backgrounds/hero.png';
 
 export default class SolarQuote extends Component {

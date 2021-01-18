@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import SolarQuoteForm from '../forms/SolarQuoteForm'
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Background from '../../assets/images/backgrounds/commercial-1.jpg';
 
 export default class CommercialSolar extends Component {

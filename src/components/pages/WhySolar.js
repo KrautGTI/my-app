@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Grid, Row, Col } from 'react-flexbox-grid';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import Background from '../../assets/images/backgrounds/solar-1.jpg';
 
 export default class WhySolar extends Component {

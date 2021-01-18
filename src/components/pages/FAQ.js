@@ -6,7 +6,7 @@ import {
     AccordionItemButton,
     AccordionItemPanel,
 } from 'react-accessible-accordion';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 import 'react-accessible-accordion/dist/fancy-example.css';
 

@@ -11,7 +11,7 @@ import 'react-quill/dist/quill.snow.css';
 import Modal from 'react-modal';
 import { Col, Grid, Row } from 'react-flexbox-grid';
 import { genId } from '../../utils/misc';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { store } from 'react-notifications-component';
 
 class AdminPanel extends Component {

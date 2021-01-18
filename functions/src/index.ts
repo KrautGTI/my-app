@@ -147,9 +147,9 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
     // Increment stat for all users on system
     admin.firestore().collection("other").doc("stats").set({
         usersTotal: admin.firestore.FieldValue.increment(1)
-    }, { merge: true }).then(function() {
+    }, { merge: true }).then(() => {
         console.log("Total users successfully increment!");
-    }).catch(function(error) {
+    }).catch((error) => {
         console.error("Error incrementing Total users: ", error);
     });
 

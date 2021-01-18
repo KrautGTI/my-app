@@ -6,7 +6,7 @@ import { firebase, fire } from "../../Fire.js";
 import { logInSchema } from "../../utils/formSchemas"
 import { ForgotPassword } from '../forms/ForgotPassword.js';
 import { store } from 'react-notifications-component';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 class LogIn extends Component {
     constructor(props) {

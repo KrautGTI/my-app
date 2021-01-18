@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom";
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import ContactForm from '../forms/ContactForm';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 export default class Home extends Component {
     render() {
