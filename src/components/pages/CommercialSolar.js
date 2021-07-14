@@ -25,10 +25,7 @@ export default class CommercialSolar extends Component {
                     Power connects commercial property owners with the best commercial solar installers in the
                     industry. Our installers offer zero down, financing, and cash options for businesses that qualify.
                     We also offer Prestige Power customers a referral bonus for referring residential and
-                    commercial customers who get installed. The bonus for referral of a residential
-                    customer is $500. The bonus for referral of a commercial customer is $3,000. All bonuses are
-                    paid after the referred customer’s installation and will arrive within 2-3 weeks in the form of a
-                    check.
+                    commercial customers who get installed.
                 </p>
 
                 <h4>Benefits include:</h4>
