@@ -112,9 +112,7 @@ export const visitorSolarQuoteFormSchema = yup.object().shape({
     .string()
     .max(10, "ZIP should be less than 10 digits."),
   averageBill: yup.string(),
-  shaded: yup.string(),
   solarReasons: yup.string(),
-  proposalPref: yup.string(),
   billUrl: yup.string().url("Not a valid URL. Example: https://www.website.com"),
   password: yup
     .string()
@@ -136,8 +134,6 @@ export const userSolarQuoteFormSchema = yup.object().shape({
     .max(10, "ZIP should be less than 10 digits."),
   isCommercial: yup.string(),
   averageBill: yup.string(),
-  proposalPref: yup.string(),
-  shaded: yup.string(),
   billUrl: yup.string().url("Not a valid URL. Example: https://www.website.com"),
 })
 

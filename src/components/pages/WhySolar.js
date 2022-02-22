@@ -8,6 +8,7 @@ export default class WhySolar extends Component {
         var topBgImageStyle = {
             width: "100%",
             height: "200px",
+            marginBottom: "50px",
             backgroundImage: `url(${Background})`,
             backgroundPosition: "50% 50%", // change me around to move up and down!
             backgroundSize: "cover"
@@ -118,7 +119,7 @@ export default class WhySolar extends Component {
                         </Col>
                     </Row>
                     <Row center="xs">
-                        <Col className="s-text m-margin-t">
+                        <Col className="m-text m-margin-t">
                             <b>Disclaimer:</b>
                             <p>Each home has a unique solar potential based on kilowatt usage and the direction, pitch, and shading of the roof. Cost savings may vary.</p>
                         </Col>

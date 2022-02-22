@@ -170,7 +170,7 @@ class LogIn extends Component {
                 </div>
                 <br/>
                 <div className="center-text">
-                  <Link to="/solar-quote" className="s-padding-b">
+                  <Link to="/solar-quote" className="s-padding-b just-text-btn">
                     Don't have an account?
                   </Link>
                 </div>

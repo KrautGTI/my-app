@@ -365,6 +365,13 @@ hr {
     height: 80%
 }
 
+.accordion__heading {
+    font-size: 20px !important;
+}
+
+.accordion__panel {
+    font-size: 20px !important;
+}
 
 
 

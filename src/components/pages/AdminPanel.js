@@ -1060,7 +1060,6 @@ class AdminPanel extends Component {
                                         <th>Proposal URL</th>
                                         <th>Proposal Preference</th>
                                         <th><span className={this.state.buildingsOrder === "isCommercial" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderBuildings(e, "isCommercial")}>Commercial</span></th>
-                                        <th><span className={this.state.buildingsOrder === "shaded" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderBuildings(e, "shaded")}>Shaded</span></th>
                                         <th>Average Bill</th>
                                         <th><span className={this.state.buildingsOrder === "timestamp" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderBuildings(e, "timestamp")}>Timestamp</span></th>
                                         <th>Actions</th>
@@ -1120,9 +1119,7 @@ class AdminPanel extends Component {
                                                     <td>{building.zip}</td>
                                                     <td>{building.billUrl ? <a href={building.billUrl} target="_blank" rel="noopener noreferrer">View Bill</a> : "N/A"}</td>
                                                     <td>{building.proposalUrl ? <a href={building.proposalUrl} target="_blank" rel="noopener noreferrer">View Proposal</a> : "N/A"}</td>
-                                                    <td>{building.proposalPref}</td>
                                                     <td>{building.isCommercial}</td>
-                                                    <td>{building.shaded}</td>
                                                     <td>{building.averageBill}</td>
                                                     <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
                                                     <td>

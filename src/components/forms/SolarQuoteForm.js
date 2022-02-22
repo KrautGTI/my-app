@@ -57,7 +57,7 @@ class SolarQuoteForm extends Component {
                         assignedTo: { userId: "" },
                         timestamp: Date.now(),
                     }).then((docRef) => {
-                        if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
+                        if(values.zip || values.averageBill || this.state.fileUrl){
                             // Case: User inputted at least one of the building fields
                             firestore.collection('buildings').add({
                                 clientId: docRef.id,
@@ -65,9 +65,7 @@ class SolarQuoteForm extends Component {
                                 buildingName: values.buildingName,
                                 status: constant.PENDING,
                                 averageBill: values.averageBill,
-                                proposalPref: values.proposalPref,
                                 isCommercial: values.isCommercial,
-                                shaded: values.shaded,
                                 billUrl: this.state.fileUrl,
                                 proposalUrl: "",
                                 timestamp: Date.now(),
@@ -128,7 +126,7 @@ class SolarQuoteForm extends Component {
                     assignedTo: { userId: "" },
                     timestamp: Date.now(),
                 }).then((docRef) => {
-                    if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
+                    if(values.zip || values.averageBill || this.state.fileUrl){
                         // Case: User inputted at least one of the building fields
                         firestore.collection('buildings').add({
                             clientId: docRef.id,
@@ -136,8 +134,6 @@ class SolarQuoteForm extends Component {
                             buildingName: values.buildingName,
                             status: constant.PENDING,
                             averageBill: values.averageBill,
-                            proposalPref: values.proposalPref,
-                            shaded: values.shaded,
                             isCommercial: values.isCommercial,
                             billUrl: this.state.fileUrl,
                             proposalUrl: "",
@@ -210,17 +206,15 @@ class SolarQuoteForm extends Component {
                                   displayName: (values.firstName + " " + values.lastName)
                                 }).then(() => {
                                     console.log("Successfully added display name to Firebase. Now adding their info...");
-                                    if(values.zip || values.averageBill || values.shaded || this.state.fileUrl){
+                                    if(values.zip || values.averageBill || this.state.fileUrl){
                                         // Case: User inputted at least one of the building fields
                                         firestore.collection('buildings').add({
                                             clientId: userData.user.uid,
                                             buildingName: values.buildingName,
                                             status: constant.PENDING,
-                                            proposalPref: values.proposalPref,
                                             zip: values.zip,
                                             averageBill: values.averageBill,
                                             isCommercial: values.isCommercial,
-                                            shaded: values.shaded,
                                             billUrl: this.state.fileUrl,
                                             proposalUrl: "",
                                             timestamp: Date.now()
@@ -384,12 +378,10 @@ class SolarQuoteForm extends Component {
                 firestore.collection('buildings').add({
                     clientId: this.props.user.uid,
                     status: constant.PENDING,
-                    proposalPref: values.proposalPref,
                     zip: values.zip,
                     buildingName: values.buildingName,
                     averageBill: values.averageBill,
                     isCommercial: values.isCommercial,
-                    shaded: values.shaded,
                     billUrl: this.state.fileUrl,
                     proposalUrl: "",
                     timestamp: Date.now(),
@@ -483,9 +475,7 @@ class SolarQuoteForm extends Component {
             buildingName: "",
             zip: "",
             averageBill: "",
-            shaded: "",
             solarReasons: [],
-            proposalPref: "",
             business: "",
             isCommercial: this.props.commercialPage === true ? "yes" : "",
             password: "",
@@ -708,49 +698,8 @@ class SolarQuoteForm extends Component {
                                             ""
                                         )}
                                     </Col>
-                                    <Col xs={12} sm={6}>
-                                        <label>Is the building shaded?</label>
-                                        <br/>
-                                        <Field
-                                            component={RadioButton}
-                                            name="shaded"
-                                            id="true"
-                                            label="Yes"
-                                        />
-                                        <Field
-                                            component={RadioButton}
-                                            name="shaded"
-                                            id="false"
-                                            label="No"
-                                        />
-                                        {props.errors.shaded && props.touched.shaded ? (
-                                            <span className="red">{props.errors.shaded}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
                                 </Row>
                                 <Row className="s-margin-b">
-                                    <Col xs={12} sm={6}>
-                                        <label>How would you like to have your proposal presented when it is ready?</label>
-                                        <br/>
-                                        <Field 
-                                            component="select" 
-                                            name="proposalPref" 
-                                            value={props.values.proposalPref}
-                                            onChange={props.handleChange}
-                                            >
-                                            <option defaultValue value="">Not selected</option> 
-                                            <option value={constant.PDF}>PDF viewable via email &amp; on this site</option>
-                                            <option value={constant.PHONE}>Phone call with Prestige Power sales</option>
-                                            <option value={constant.INPERSON}>In person meeting (socially distanced!)</option>
-                                        </Field>
-                                        {props.errors.proposalPref && props.touched.proposalPref ? (
-                                            <span className="red">{props.errors.proposalPref}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
                                     <Col xs={12} sm={6} className={this.props.user ? "hide" : ""}>
                                         <label>What are your reasons for going solar?</label>
                                         <br/>
@@ -881,7 +830,7 @@ function Checkbox(props) {
     );
   }
 
-// TODO: if there are two radio button sets, with the same id's (i.e. yes and no fields like we had with Commercial Inquiry and Building Shaded), the input toggling breaks
+// TODO: if there are two radio button sets, with the same id's (i.e. yes and no fields like we had with Commercial Inquiry), the input toggling breaks
   const RadioButton = ({
     field: { name, value, onChange, onBlur },
     id,

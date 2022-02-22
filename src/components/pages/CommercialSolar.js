@@ -8,6 +8,7 @@ export default class CommercialSolar extends Component {
         var topBgImageStyle = {
             width: "100%",
             height: "200px",
+            marginBottom: "50px",
             backgroundImage: `url(${Background})`,
             backgroundPosition: "50% 50%", // change me around to move up and down!
             backgroundSize: "cover"

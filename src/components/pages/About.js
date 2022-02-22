@@ -48,10 +48,6 @@ export default class About extends Component {
                         src={require("../../assets/images/logos/calpoly.png")}
                         /> 
                 </div>
-                
-                <h2>Our Team</h2>
-                <p>Coming soon!</p>
-                
             </div>
         )
     }

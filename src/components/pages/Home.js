@@ -90,7 +90,7 @@ export default class Home extends Component {
                             </Col>
                         </Row>
                         <Row center="xs">
-                            <Col className="s-text m-margin-t">
+                            <Col className="m-text m-margin-t">
                                 <b>Disclaimer:</b>
                                 <p>Each home has a unique solar potential based on kilowatt usage and the direction, pitch, and shading of the roof. Cost savings may vary.</p>
                             </Col>

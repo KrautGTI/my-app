@@ -5,15 +5,15 @@
 	width: auto;
 	margin: auto;
 	padding: 8px 10px;
-	font-size: 14px;
+	font-size: 18px;
 	letter-spacing: .08em;
 }
 
 .btn-md {
 	width: auto;
 	margin: 30px auto 0;
-	padding: 14px 15px;
-	font-size: 16px;
+	padding: 15px 16px;
+	font-size: 18px;
 	text-align: center;
 	letter-spacing: .08em;
 }
@@ -35,6 +35,7 @@
 	font: inherit;
 	cursor: pointer;
 	outline: inherit;
+    font-size: 20px;
   }
 
 /* Global Button Styles */

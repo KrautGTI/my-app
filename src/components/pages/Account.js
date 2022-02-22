@@ -328,9 +328,6 @@ class Account extends Component {
                                         </Row>
                                         <Row>
                                             <Col xs={12} sm={4}>
-                                                <div><b>Shaded?:</b> {building.shaded || "Not provided"}</div>
-                                            </Col>
-                                            <Col xs={12} sm={4}>
                                                 <div><b>Average bill cost:</b> {building.averageBill || "Not provided"}</div>
                                             </Col>
                                             <Col xs={12} sm={4}>

@@ -100,17 +100,17 @@ Fonts: LinLibertine (Headings) & Multicolore (Subheadings) & LouisGeorgeCafe (Bo
 * Heading
 */
 h1 {
-    font-size: 3.5em !important;
+    font-size: 3.8em !important;
     font-family: "JuliusSansOne" !important;
 }
 
 h2 {
-    font-size: 2em !important;
+    font-size: 2.6em !important;
     font-family: "LouisGeorgeCafe-Bold" !important;
 }
 
 h3 {
-    font-size: 1.5em;
+    font-size: 2.2em !important;
     padding: 0px !important;
     margin: 0px !important;
     font-family: "LouisGeorgeCafe-Bold" !important;
@@ -120,18 +120,20 @@ h3 {
 
 @media screen and (max-width: 900px) {
     h1 {
-        font-size: 2em !important;
+        font-size: 2.5em !important;
     }
     h2 {
-        font-size: 1.5em !important;
+        font-size: 2em !important;
     }
     h3 {
-        font-size: 1em !important;
+        font-size: 1.5em !important;
     }
 }
 
 h4 {
     font-family: "LouisGeorgeCafe-Bold" !important;
+    
+    font-size: 2em !important;
 }
 
 h5 {
@@ -144,7 +146,7 @@ h5 {
 p {
     font-family: "LinLibertine-Regular" !important;
     line-height: 1.6;
-    font-size: 16;
+    font-size: 20px;
 }
 
 a:link {
@@ -175,7 +177,7 @@ ol,
 li {
     font-family: "LinLibertine-Regular"  !important;
     line-height: 1.6;
-    font-size: 16;
+    font-size: 20px;
 }
 
 div {
@@ -187,7 +189,7 @@ span {
 }
 
 label {
-    font-size: 18px;
+    font-size: 22px;
     font-family: "LouisGeorgeCafe-Bold";
 }
 

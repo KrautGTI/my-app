@@ -119,7 +119,7 @@ class Header extends Component {
                             activeClassName="nav-select">
                             F.A.Q
                         </NavLink>
-                        <NavLink to="/solar-quote" className="btn btn-sm animated-button doug-one">Free Solar Quote</NavLink>
+                        <NavLink to="/solar-quote" className="btn btn-sm animated-button doug-one" style={{margin: "0 15px 8px 15px"}}>Free Solar Quote</NavLink>
                         {this.props.user && (
                             <>
                             <NavLink to="/account" exact className="nav-link" activeClassName="nav-select">Account</NavLink>
