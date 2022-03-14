@@ -170,7 +170,6 @@ export const onUserCreated = functions.firestore.document('users/{userId}')
             <p><u>Email</u>: ${newValue.email}</p>
             <p><u>Phone</u>: ${newValue.phone}</p>
             <p><u>Business</u>: ${newValue.business}</p>
-            <p><u>Solar reasons</u>: ${newValue.solarReasons}</p>
         </div>
         `
         // Config it

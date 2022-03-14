@@ -916,8 +916,6 @@ class AdminPanel extends Component {
                                         <th><span className={this.state.usersOrder === "lastName" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderUsers(e, "lastName")}>Last Name</span></th>
                                         <th>Email</th>
                                         <th>Phone</th>
-                                        <th><span className={this.state.usersOrder === "acquisition" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderUsers(e, "acquisition")}>Acquisition</span></th>
-                                        <th>Solar Reasons</th>
                                         <th><span className={this.state.usersOrder === "timestamp" ? "green text-hover-yellow" : "text-hover-yellow"} onClick={(e) => this.orderUsers(e, "timestamp")}>Timestamp</span></th>
                                         <th>Assigned To</th>
                                         <th>Actions</th>
@@ -940,8 +938,6 @@ class AdminPanel extends Component {
                                                     <td>{user.lastName}</td>
                                                     <td>{user.email}</td>
                                                     <td>{user.phone}</td>
-                                                    <td>{user.acquisition}</td>
-                                                    <td>{user.solarReasons.join(", ")}</td>
                                                     <td>{dateAndTime.fullDate} @ {dateAndTime.fullTime}</td>
                                                     <td>
                                                         <Formik

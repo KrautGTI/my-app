@@ -394,7 +394,7 @@ class Account extends Component {
                                         <Col xs={12} md={6} lg={4}>
                                             <label htmlFor="email">
                                                 Email:&nbsp; 
-                                                <span className="grey s-text">*currently not changeable</span>
+                                                <span className="grey s-text">*not changeable</span>
                                                 {/* &nbsp;&nbsp;  
                                                 <Link to="/account/profile/change-email">
                                                     <span className="grey s-text">edit</span>

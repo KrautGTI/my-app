@@ -51,8 +51,6 @@ class SolarQuoteForm extends Component {
                         phone: values.phone,
                         email: values.email,
                         business: values.business,
-                        acquisition: values.acquisition,
-                        solarReasons: values.solarReasons,
                         isAdmin: false,
                         assignedTo: { userId: "" },
                         timestamp: Date.now(),
@@ -120,8 +118,6 @@ class SolarQuoteForm extends Component {
                     phone: values.phone,
                     email: values.email,
                     business: values.business,
-                    acquisition: values.acquisition,
-                    solarReasons: values.solarReasons,
                     isAdmin: false,
                     assignedTo: { userId: "" },
                     timestamp: Date.now(),
@@ -177,7 +173,21 @@ class SolarQuoteForm extends Component {
                 });
             } else if(this.state.passwordShown && values.password && values.confirmPassword) {
                 // Case: User is creating an account!
-                if(values.password === values.confirmPassword){
+                if(!values.email){
+                    store.addNotification({
+                        title: "Info",
+                        message: `To create an account you need to set the email field first.`,
+                        type: "info",
+                        insert: "top",
+                        container: "top-center",
+                        animationIn: ["animate__animated", "animate__fadeIn"],
+                        animationOut: ["animate__animated", "animate__fadeOut"],
+                        dismiss: {
+                          duration: 5000,
+                          onScreen: true
+                        }
+                      })
+                } else if(values.password === values.confirmPassword){
                     store.addNotification({
                         title: "Info",
                         message: `Please fill out the recaptcha challenge before continuing!`,
@@ -227,8 +237,6 @@ class SolarQuoteForm extends Component {
                                         phone: values.phone,
                                         email: values.email,
                                         business: values.business,
-                                        acquisition: values.acquisition,
-                                        solarReasons: values.solarReasons,
                                         isAdmin: false,
                                         assignedTo: { userId: "" },
                                         timestamp: Date.now()
@@ -471,11 +479,9 @@ class SolarQuoteForm extends Component {
             lastName: "",
             phone: "",
             email: "",
-            acquisition: "",
             buildingName: "",
             zip: "",
             averageBill: "",
-            solarReasons: [],
             business: "",
             isCommercial: this.props.commercialPage === true ? "yes" : "",
             password: "",
@@ -556,11 +562,10 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                     <Col sm={12} md={6}>
-                                        <label>Email: <span className="red">*</span></label>
+                                        <label>Email:</label>
                                         <br/>
                                         <Field
                                             type="text"
-                                            required
                                             onChange={props.handleChange}
                                             placeholder="john_doe@gmail.com"
                                             name="email"
@@ -574,7 +579,7 @@ class SolarQuoteForm extends Component {
                                     </Col>
                                 </Row>
                                 <Row className={this.props.user ? "hide" : "s-margin-b"}>
-                                    <Col xs={12} sm={6} >
+                                    <Col xs={12} sm={6} className={this.props.user || !this.props.commercialPage ? "hide" : "s-margin-b"}>
                                         <label>Business/Organization:</label>
                                         <br/>
                                         <Field
@@ -590,7 +595,7 @@ class SolarQuoteForm extends Component {
                                             ""
                                         )}
                                     </Col>
-                                    <Col xs={12} sm={6} className={props.values.business ? "" : "hide"}>
+                                    <div className={"hide"}>
                                         <label>Is this a commercial inquiry?</label>
                                         <br/>
                                         <Field
@@ -605,37 +610,7 @@ class SolarQuoteForm extends Component {
                                             id="no"
                                             label="No"
                                         />
-                                        {props.errors.isCommercial && props.touched.isCommercial ? (
-                                            <span className="red">{props.errors.isCommercial}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
-                                </Row>
-                                <Row className={this.props.user ? "hide" : "s-margin-b"}>
-                                    <Col sm={12} md={6}>
-                                        <label>How did you hear about us?: </label>
-                                        <br/>
-                                        <Field 
-                                            component="select" 
-                                            name="acquisition" 
-                                            value={props.values.acquisition}
-                                            onChange={props.handleChange}
-                                            >
-                                            <option defaultValue value="">Not selected</option> 
-                                            <option value="search">Search Engine</option>
-                                            <option value="friend">Recommended by friend, family, or colleague</option>
-                                            <option value="social">Social Media</option>
-                                            <option value="publication">Blog or publication</option>
-                                            <option value="partners">One of our partners</option>
-                                            <option value="other">Other</option>
-                                        </Field>
-                                        {props.errors.acquisition && props.touched.acquisition ? (
-                                            <span className="red">{props.errors.acquisition}</span>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </Col>
+                                    </div>
                                 </Row>
                                 <div className={this.props.user ? "hide" : ""}>
                                     <br/>
@@ -660,7 +635,7 @@ class SolarQuoteForm extends Component {
                                         )}
                                     </Col>
                                     <Col xs={12} sm={6}>
-                                        <label className="s-padding-b">ZIP Code:</label>
+                                        <label className="s-padding-b">ZIP Code: <span className="red">*</span></label>
                                         <Field
                                             type="text"
                                             onChange={props.handleChange}
@@ -697,16 +672,6 @@ class SolarQuoteForm extends Component {
                                         ) : (
                                             ""
                                         )}
-                                    </Col>
-                                </Row>
-                                <Row className="s-margin-b">
-                                    <Col xs={12} sm={6} className={this.props.user ? "hide" : ""}>
-                                        <label>What are your reasons for going solar?</label>
-                                        <br/>
-                                        <Checkbox name="solarReasons" label="Savings" value="savings" />
-                                        <Checkbox name="solarReasons" label="Tax credit" value="tax-credit" />
-                                        <Checkbox name="solarReasons" label="Environment" value="environment" />
-                                        <Checkbox name="solarReasons" label="Other" value="other" />
                                     </Col>
                                 </Row>
                                 <Row className="s-margin-b">

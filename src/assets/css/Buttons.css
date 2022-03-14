@@ -533,7 +533,7 @@ a.doug-button.doug-three:hover:after {
 
 
 /* Mobile */
-@media screen and (max-width: 901px) {
+@media screen and (max-width: 1300px) {
     a.animated-button.doug-one {
         display: block !important;
 	}
