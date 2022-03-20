@@ -1,0 +1,4 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Sitemap: https://www.goprestigepower.com/sitemap.xml
+Disallow:
